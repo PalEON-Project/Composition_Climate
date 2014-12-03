@@ -1,0 +1,22 @@
+Land use patterns and historical contingency change climate optima for key forest genera in the Northeastern United States.
+========================================================
+What is the climate space of the northeastern United States?
+
+```{r, fig.width=5}
+# Load climate data and generate the pre-sett and modern bounds:
+#  Pre-settlement climate: 1900 - 1930
+#  Modern climate: 1960 - 1990
+
+source('R/Setup_R.R')
+source('R/load_climate.R') # gives then.clim & now.clim
+source('R/load_fia.R')     # gives agg.dens
+source('R/load_ncdf.R')    # gives western and eastern
+
+```
+
+You can also embed plots, for example:
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+
