@@ -9,6 +9,7 @@ all.taxa <- all.taxa[!all.taxa%in% c('Other hardwood', 'Atlantic White Cedar',
 #  3.  Get vectors of values
 
 hellinger <- function(kernel1, kernel2){
+  #  Calculate hellinger distance (between two kernels)
   1/sqrt(2) * sqrt(sum(sqrt(kernel1) - sqrt(kernel2))^2)
 }
 
@@ -16,18 +17,25 @@ ranges <- data.frame(min = c(100, 0, 220, 155, -383),
                      max = c(879, 403, 558, 405, 27))
 
 get_dens_plss <- function(taxon, clim.var){
-  layer_ncdf <- sample(500, 1)
+  
+  #  Function resamples proportion data from the composition model for the region
+  #  and then draws from the composition model and the climate data.  This is set up
+  #  within a loop further down the code.
+  
+  layer_ncdf <- sample(500, 1)                      # there are 500 layers in the ncdf
   layer_clim <- sample(nlayers(then.rast[[1]]), 1)
   
-  taxon.vals <- ncvar_get(western, taxon, c(1,1,1), c(-1, -1, -1))
+  taxon.vals.w <- ncvar_get(western, taxon, c(1,1,1), c(-1, -1, -1))
+  #taxon.vals.e <- ncvar_get(eastern, taxon, c(1,1,1), c(-1, -1, -1))
   
-  values <- data.frame(x = western.grid$x,
-                       y = western.grid$y, 
-                       taxon = as.numeric(taxon.vals[,,layer_ncdf]))
+  values <- data.frame(x = western.grid$x, #c(western.grid$x, eastern.grid$x),
+                       y = western.grid$y, #c(western.grid$y, eastern.grid$y), 
+                       taxon = as.numeric(taxon.vals.w[,,layer_ncdf]))#as.numeric(c(taxon.vals.w[,,layer_ncdf], taxon.vals.e[,,layer_ncdf])))
   
   coordinates(values) <- ~ x + y
   proj4string(values) <- CRS('+init=epsg:3175')
   
+  #  Create the spatial points object above to extract values from the composition raster.
   good.vals <- extract(presence, values)
   
   values <- values[good.vals == 1 & !is.na(good.vals), ]
@@ -39,7 +47,8 @@ get_dens_plss <- function(taxon, clim.var){
 }
 
 get_dens_fia <- function(taxon, clim.var){
-
+  #  Similar to above, but we only have one forest layer, not 500, so
+  #  the model is a bit weaker.
   layer_clim <- sample(nlayers(now.rast[[1]]), 1)
   
   taxon.vals <- agg.dens[,taxon]
@@ -67,7 +76,7 @@ plss.tables <-   llply(all.taxa,
                         function(x){
                           lapply(1:5, function(y){
                             do.call(rbind.data.frame, 
-                              lapply(1:100, function(z)get_dens_plss(x, y)))
+                              lapply(1:100, function(z)get_dens_plss(x, y, 500)))
                           })
                         }, .progress = 'text')
 

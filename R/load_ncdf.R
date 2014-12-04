@@ -19,4 +19,3 @@ ll.ncdf <- list(long = c(ncvar_get(western, 'x'), ncvar_get(eastern, 'x')),
 
 western.grid <- expand.grid(x = ncvar_get(western, 'x'), y = rev(ncvar_get(western, 'y')))
 eastern.grid <- expand.grid(x = ncvar_get(eastern, 'x'), y = rev(ncvar_get(eastern, 'y')))
-

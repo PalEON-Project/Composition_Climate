@@ -1,6 +1,19 @@
+---
+title: "Composition-climate paper"
+author: "Simon Goring *et al*."
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+pdf_document:
+pandoc_args: "-H margins.sty"
+bibliography: composition.bib
+csl: harvard1.csl
+---
+
+
 Land use patterns and historical contingency change climate optima for key forest genera in the Northeastern United States.
 ========================================================
-What is the climate space of the northeastern United States?
+
+*Historic land use and forest change over the centuries since Euroamerican settlement have significantly changed 
 
 ```{r, fig.width=5}
 # Load climate data and generate the pre-sett and modern bounds:
