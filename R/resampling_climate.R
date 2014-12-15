@@ -28,6 +28,8 @@ get_dens_plss <- function(taxon, clim.var){
   taxon.vals.w <- ncvar_get(western, taxon, c(1,1,1), c(-1, -1, -1))
   #taxon.vals.e <- ncvar_get(eastern, taxon, c(1,1,1), c(-1, -1, -1))
   
+  #  turn everything into a data.frame & then into a SpatialPointsDataFrame
+  #  code is commented out so that when we get full FIA coverage we can do a bit more.
   values <- data.frame(x = western.grid$x, #c(western.grid$x, eastern.grid$x),
                        y = western.grid$y, #c(western.grid$y, eastern.grid$y), 
                        taxon = as.numeric(taxon.vals.w[,,layer_ncdf]))#as.numeric(c(taxon.vals.w[,,layer_ncdf], taxon.vals.e[,,layer_ncdf])))
@@ -48,7 +50,7 @@ get_dens_plss <- function(taxon, clim.var){
 
 get_dens_fia <- function(taxon, clim.var){
   #  Similar to above, but we only have one forest layer, not 500, so
-  #  the model is a bit weaker.
+  #  we only pull from climate layers:
   layer_clim <- sample(nlayers(now.rast[[1]]), 1)
   
   taxon.vals <- agg.dens[,taxon]
@@ -57,6 +59,7 @@ get_dens_fia <- function(taxon, clim.var){
                        y = xyFromCell(base.rast, agg.dens$cell)[,'y'], 
                        taxon = agg.dens[,taxon])
   
+  #  We get NA values if there is no FIA coverage
   values <- na.omit(values)
   
   coordinates(values) <- ~ x + y
@@ -72,11 +75,12 @@ get_dens_fia <- function(taxon, clim.var){
           from = ranges[clim.var,1], to = ranges[clim.var,2], n = 100)$y
 }
 
+#  This gives us 100 samples from the plss data, 
 plss.tables <-   llply(all.taxa,
                         function(x){
                           lapply(1:5, function(y){
                             do.call(rbind.data.frame, 
-                              lapply(1:100, function(z)get_dens_plss(x, y, 500)))
+                              lapply(1:100, function(z)get_dens_plss(x, y)))
                           })
                         }, .progress = 'text')
 
@@ -182,9 +186,9 @@ ggplot(optim.set, aes(taxon, optima, fill=era)) + geom_boxplot() +
         legend.text = element_text(family = 'serif', 
                                    face = 'bold', size = 18, color = 'black'),
         legend.title = element_text(family = 'serif', 
-                                    face = 'bold', size = 18, colo r = 'black'),
+                                    face = 'bold', size = 18, color = 'black'),
         strip.text =  element_text(family = 'serif', 
-                                   face = 'bold', size = 18, colo r = 'black'))
+                                   face = 'bold', size = 18, color = 'black'))
         
 
 taxon <- unique(optim.set$taxon)
@@ -203,6 +207,7 @@ rownames(optim.diff)[rownames(optim.diff) %in% "Poplar/tulip poplar"] <- 'Poplar
 
 
 library(MASS)
+library(vegan)
 MDS.plot <- metaMDS(apply(optim.diff, 2, scale)+3)
 
 mds.gg <- data.frame(x = MDS.plot$points[,1],

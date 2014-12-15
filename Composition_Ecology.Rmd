@@ -13,7 +13,9 @@ csl: harvard1.csl
 Land use patterns and historical contingency change climate optima for key forest genera in the Northeastern United States.
 ========================================================
 
-*Historic land use and forest change over the centuries since Euroamerican settlement have significantly changed 
+*Historic land use and forest change over the centuries since Euroamerican settlement have significantly changed the structure and composition of forests in the upper Midwestern United States.  The extent to which this change has affected the realized climate niche for key taxa is less well known.*
+
+*Predictions for future species range shifts are predicated largely on correlative models that relate modern species distributions to climate parameters in the modern era.  Given the extent of regional forest change and recent losses to key forest taxa including Hemlock, Elm and Chestnut it is possible that certain taxa have shiften with respect to climate change over the last century.  The additional pressure of climatically biased land use conversion for agriculture along the western and southern border of the upper Midwest means that the shift in climate space may be most pressing in a region of climate space that is critically important for understanding future species responses to climate change.*
 
 ```{r, fig.width=5}
 # Load climate data and generate the pre-sett and modern bounds:
@@ -27,9 +29,19 @@ source('R/load_ncdf.R')    # gives western and eastern
 
 ```
 
-You can also embed plots, for example:
+Introduction
+==============
+
+Climate change is rough as shit yo.
 
 ```{r fig.width=7, fig.height=6}
-plot(cars)
+
 ```
 
+Methods
+===============
+We pair pre-settlement vegetation data from the Public Land Survey System aggregated to a 64km^2^ grid [@goring2015] with annually resolved climate data for the region.  PLSS vegetation data contains no uncertainty, however it is spatially discontinuous, particularly in the south where digitization of PLSS records has occured at a slower rate.  Additionally, data in the northeastern United States [@thompson2013four] from town Proprietor Surveys is recorded arially, with no variance within township polygons.  To accomodate these different data sources a conditional autoregressive model was applied to the data, providing the ability to obtain uncertainty estimates across the domain [@paciorek2015comp].
+
+To generate the climate niches we 
+
+#  Tree size?  Segregate 
