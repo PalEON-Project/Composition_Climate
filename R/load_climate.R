@@ -42,7 +42,7 @@ right.clim <- function(x)regexpr(x, bioclim.files) > 0
 #  The result is a list of RasterBricks for each bioclim value, 
 #  representing each year (in sequence) from 1901 - 2010.
 
-if(!'then.rast.RData' %in% list.files(path='data/output')){
+if(!'then.rast.rds' %in% list.files(path='data/output')){
   then.rast <- lapply(bio.vals, function(x){
     load.stack(paste0(path.gis, '/', bioclim.files[right.clim(x)][1:30]))
   })
@@ -51,19 +51,19 @@ if(!'then.rast.RData' %in% list.files(path='data/output')){
                       function(x)resample(projectRaster(x, crs=CRS('+init=epsg:3175')), 
                                           base.rast))
 
-  save(then.rast, file = 'data/output/then.rast.RData')
+  saveRDS(then.rast, file = 'data/output/then.rast.rds')
 } else {
-  load('data/output/then.rast.RData')
+  then.rast <- readRDS('data/output/then.rast.rds')
 }
 
-if(!'now.rast.RData' %in% list.files(path='data/output')){
+if(!'now.rast.rds' %in% list.files(path='data/output')){
   now.rast <- lapply(bio.vals, function(x){
         load.stack(paste0(path.gis, '/', bioclim.files[right.clim(x)][76:101]))
         })
 
   now.rast <- lapply(now.rast, function(x)resample(projectRaster(x, crs=CRS('+init=epsg:3175')), 
                                              base.rast))
-  save(now.rast, file = 'data/output/now.rast.RData')
+  saveRDS(now.rast, file = 'data/output/now.rast.rds')
 } else {
-  load('data/output/now.rast.RData')
+  now.rast <- readRDS('data/output/now.rast.RData')
 }
