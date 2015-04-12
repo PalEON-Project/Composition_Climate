@@ -103,7 +103,7 @@ get_dens_era <- function(taxon, clim.var){
 #  This gives us 100 samples from the data for both PLSS and FIA: 
 data.tables <-   llply(all.taxa,
                         function(x){
-                          lapply(1:5, function(y){
+                          lapply(1:4, function(y){
                             do.call(rbind.data.frame, 
                               lapply(1, function(z){
                                 aa <- try(get_dens_era(x, y))
@@ -115,7 +115,7 @@ data.tables <-   llply(all.taxa,
                         }, .progress = 'text')
 
 
-data.out <- lapply(1:15, function(x)lapply(1:5, function(y){
+data.out <- lapply(1:15, function(x)lapply(1:4, function(y){
   aa <- data.tables[[x]][[y]]
   aa$taxon <- all.taxa[x]
   aa$climate <- bio.vals[y]
@@ -127,12 +127,14 @@ bb <- do.call(rbind.data.frame, aa)
 w.means <- ddply(bb, .(base, clim, taxon), summarise, 
       x = weighted.mean(climate, data, na.rm=TRUE))
 
-bb$climate <- factor(bb$climate, labels = c('Pwet', 'Pdry', 'Tdiff', 'Twarm', 'Tcold'))
+bb$climate <- factor(bb$climate, labels = c('Pann', 'Tmax', 'Tmean', 'Tcold'))
 
-diff.output <- ggplot(bb, aes(x = clim, fill = base, color = c.ref)) + 
-                      geom_density(alpha = 0.2) + 
+diff.output <- ggplot(subset(na.omit(bb), data > 0.01 & taxon %in% c('Oak', 'Basswood', 'Tamarack')), 
+                      aes(x = clim, fill = base, color = c.ref)) + 
+                      geom_density(alpha = 0.2, trim=TRUE) + 
                       facet_grid(taxon~climate, scale = 'free')
 
+ggsave(filename = '../../../Dropbox/diffoutput.tiff', plot = diff.output, width = 5, height = 15)
 #  Now we have the presence or absence of taxa at PLSS and FIA eras
 #  what are we looking for?
 #  We want to be able to predict the shape of the PDF for a modern taxon distribution
@@ -143,6 +145,21 @@ diff.output <- ggplot(bb, aes(x = clim, fill = base, color = c.ref)) +
 #    c.  FIA  at PLSS climate (the climate space currently occupied) - not used
 #    d.  FIA  at FIA  climate (modern envelope)
 #    e.  FIA  at FIA absent.  (places in the FIA where there is no PLSS veg, Land Use)
+
+climates <- c('Pann', 'Tmax', 'Tmean', 'Tcold')
+
+lapply(unique(bb$taxon), function(x){
+  lapply(1:4, function(y){
+    ranger = range(subset(bb, taxon == x & climate == climates[y])$clim)
+    
+    hellinger(density(subset(bb, 
+                             taxon == x & climate == climates[y] & base == 'FIA')$clim,
+                      na.rm=TRUE)$y,
+              density(subset(bb, 
+                             taxon == x & climate == climates[y] & base == 'PLSS')$clim,
+                      na.rm=TRUE)$y)
+  })
+}
 
 get_dens <- function(x, class, pres, clim){
   x <- na.omit(x)
@@ -155,7 +172,7 @@ get_dens <- function(x, class, pres, clim){
   dens
 }
 
-fia    <- get_dens(data.tables[[1]][[5]], class = 'FIA',  pres = pres,  clim = 'fia.clim')
+fia    <- get_dens(data.tables[[1]][[1]], class = 'FIA',  pres = pres,  clim = 'fia.clim')
 plss   <- get_dens(data.tables[[1]][[5]], 'PLSS', pres,  'plss.clim')
 plss.m <- get_dens(data.tables[[1]][[5]], 'PLSS', pres,  'fia.clim')
 land   <- get_dens(data.tables[[1]][[5]], 'FIA',  !pres, 'fia.clim')
@@ -191,10 +208,6 @@ bin.data <- function(x){
 
 plot((land$y - fia$y))
 
-#  Hemlock test:
-dens.diff <- density()
-
-
 gen.comp <- function(x, y){
   matrix(sample(nrow(plss.tables[[x]][[y]]), 
                 nrow(plss.tables[[x]][[y]]) * 2, 
@@ -202,9 +215,9 @@ gen.comp <- function(x, y){
          ncol = 2)
 }
 
-distances <- ldply(1:length(plss.tables),
+distances <- ldply(1:length(data.tables),
       function(x){ 
-        ldply(1:5, function(y, x){
+        ldply(1:4, function(y, x){
           plss <- data.frame(taxon = all.taxa[x],
                              climate = y,
                              era     = 'plss',
