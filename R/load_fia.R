@@ -6,7 +6,8 @@ fia.trans[fia.trans == ''] <- NA
 #  Load FIA composition data:
 get.fia.stack <- function(x, type){
   stack.files <- list.files(x, full = TRUE)
-  stack.fia <- stack(stack.files)
+  stack.fia <- resample(stack(stack.files), pls.rast, method = 'ngb')
+  stack.fia[is.na(getValues(pls.rast))] <- NA
   
   fia.vals <- getValues(stack.fia)
   name.end <- regexpr(paste('_', type, sep=''), colnames(fia.vals), fixed=TRUE)
@@ -48,7 +49,7 @@ re.agg <- function(x){
   x.cast$cell <- extract(setValues(base.rast, 1:ncell(base.rast)), x.cast[,c('x', 'y')])
   
   x.cast <- x.cast[!is.na(x.cast$cell),!is.na(colnames(x.cast))]
-  x.melt_2 <- melt(x.cast[ ,!colnames(x.cast)%in% c('orig', 'x', 'y')], 
+  x.melt_2 <- melt(x.cast[ ,!colnames(x.cast)%in% c('orig')], 
                    na.rm = TRUE, 
                    value.name= 'value', 
                    id = c('cell'))

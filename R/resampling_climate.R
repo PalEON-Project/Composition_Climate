@@ -1,22 +1,29 @@
-landuse <- list.files('../../../Dropbox/REU Work/Land Use/',pattern='.tif$', full.names=TRUE)
+#landuse <- list.files('../../../Dropbox/REU Work/Land Use/',pattern='.tif$', full.names=TRUE)
 
-landuse <- landuse[c(1, 4, 6, 7, 8, 9, 10, 16)]
-landuse.r <- (stack(landuse))
-landuse.r[landuse.r>100] <- NA
-landuse <- sum(landuse.r)>0
+#landuse <- landuse[c(1, 4, 6, 7, 8, 9, 10, 16)]
+# landuse.r <- (stack(landuse))
+# landuse.r[landuse.r>100] <- NA
+# landuse <- sum(landuse.r)>0
+# 
+source('R/load_fia.R')
 
 agg.dens[is.na(agg.dens)] <- 0
 agg.dens[,-1] <- agg.dens[,-1] / rowSums(agg.dens[,-1])
+
+plss.density[,4:ncol(plss.density)] <- plss.density[,4:ncol(plss.density)]/rowSums(plss.density[,4:ncol(plss.density)])
 
 all.taxa <- names(western$var)
 
 all.taxa <- all.taxa[!all.taxa%in% c('Other hardwood', 'Atlantic White Cedar',
   'Buckeye', 'Ironwood', 'Walnut', 'Black gum/sweet gum')]
 
-unit.raster <- setValues(base.rast, 1:ncell(base.rast))
-proj4string(landuse) <- '+proj=longlat +ellps=WGS84'
+colnames(plss.density) <- gsub('.', '/', colnames(plss.density), fixed=TRUE)
 
-landuse <- projectRaster(landuse, unit.raster) > 0.9
+plss.density$Poplar <- plss.density$Poplar + plss.density$'Tulip/poplar'
+colnames(plss.density)[which(colnames(plss.density) == 'Poplar')] <- "Poplar/tulip poplar"
+
+#proj4string(landuse) <- '+proj=longlat +ellps=WGS84'
+#landuse <- projectRaster(landuse, unit.raster) > 0.9
 
 #For each taxon sample:
 #  1.  The FIA data for one of the now.rast years for each of the climate variables.
@@ -28,8 +35,9 @@ hellinger <- function(kernel1, kernel2){
   1/sqrt(2) * sqrt(sum(sqrt(kernel1) - sqrt(kernel2))^2)
 }
 
-ranges <- data.frame(min = c(100, 0, 220, 155, -383),
-                     max = c(879, 403, 558, 405, 27))
+# These are the climate ranges:
+ranges <- data.frame(min = c(400,  15, 0, -30),
+                     max = c(2200, 35, 16, 2))
 
 # To do the analysis we want to get the climate layers for the past:
 get_dens_era <- function(taxon, clim.var){
@@ -46,31 +54,23 @@ get_dens_era <- function(taxon, clim.var){
   #  Each table has PLSS/pres (taxon present in cell at PLSS)
   #                 FIA/pres  (taxon present in cell at PLSS)
   #                 FIA/np    (taxon present in cell at PLSS but not in FIA)
+  #taxon.vals <- ncvar_get(western, taxon, c(1,1,1), c(-1, -1, -1))
 
-  layer_ncdf <- sample(500, 1)                      # there are 500 layers in the ncdf
-  taxon.vals <- ncvar_get(western, taxon, c(1,1,1), c(-1, -1, -1))
-
-  #  bind all the values together, with repeating x & y coordinates.
-  
-  values <- data.frame(x     = c(rep(western.grid$x, 2),
-                                 rep(xyFromCell(base.rast, agg.dens$cell)[,'x'],2),
-                                 xyFromCell(landuse, agg.dens$cell)[,'x']),
-                       y     = c(rep(western.grid$y, 2),
-                                 rep(xyFromCell(base.rast, agg.dens$cell)[,'y'],2),
-                                 xyFromCell(landuse, agg.dens$cell)[,'y']),
-                       data  = c(rep(as.numeric(taxon.vals[,,layer_ncdf]), 2),
-                                 rep(agg.dens[,taxon],2),
-                                 landuse[agg.dens$cell]),
-                       base  = c(rep('PLSS', length(western.grid$x)), 
-                                 rep('PLSS', length(western.grid$x)), 
+  #  bind all the variables together:  
+  values <- data.frame(x     = c(rep(plss.density$x, 2),
+                                 rep(xyFromCell(base.rast, agg.dens$cell)[,'x'],2)),
+                       y     = c(rep(plss.density$y, 2),
+                                 rep(xyFromCell(base.rast, agg.dens$cell)[,'y'],2)),
+                       data  = c(rep(as.numeric(plss.density[,taxon]), 2),
+                                 rep(agg.dens[,taxon],2)),
+                       base  = c(rep('PLSS', nrow(plss.density)), 
+                                 rep('PLSS', nrow(plss.density)), 
                                  rep('FIA', nrow(agg.dens)),
-                                 rep('FIA', nrow(agg.dens)),
-                                 rep('Land Use', nrow(agg.dens))),
-                       c.ref = c(rep('PLSS', length(western.grid$x)), 
-                                 rep('FIA', length(western.grid$x)), 
-                                 rep('FIA', nrow(agg.dens)),
-                                 rep('PLSS', nrow(agg.dens)),
                                  rep('FIA', nrow(agg.dens))),
+                       c.ref = c(rep('PLSS', nrow(plss.density)), 
+                                 rep('FIA', nrow(plss.density)), 
+                                 rep('FIA', nrow(agg.dens)),
+                                 rep('PLSS', nrow(agg.dens))),
                        stringsAsFactors = FALSE)
   
   coordinates(values) <- ~ x + y
@@ -79,53 +79,39 @@ get_dens_era <- function(taxon, clim.var){
   values$cell <- extract(unit.raster, values)
   values$pres <- values$data > 0.1
   
-  values <- values[values$cell %in% subset(values@data, base %in% 'PLSS')$cell,]
+  values <- values[values$cell %in% getValues(unit.raster)[!is.na(getValues(pls.rast))],]
   
-  mod_clim <- sample(nlayers(now.rast[[1]]), 1, replace = TRUE)
-  pls_clim <- sample(nlayers(then.rast[[1]]), 1, replace = TRUE)
-  
-  plss.plss.clim <- do.call(cbind.data.frame, 
-                            lapply(then.rast, function(x)extract(x[[pls_clim]], 
-                                                                 values[values$base %in% 'PLSS' & values$c.ref %in% 'PLSS',])))[,clim.var]
-  plss.fia.clim  <- do.call(cbind.data.frame, 
-                            lapply(now.rast,  function(x)extract(x[[mod_clim]], values[values$base %in% 'PLSS' & values$c.ref %in% 'FIA',])))[,clim.var]
+  plss.plss.clim <- extract(then.rast, 
+                            values[values$base %in% 'PLSS' & values$c.ref %in% 'PLSS',])[,clim.var]
+  plss.fia.clim  <- extract(now.rast, 
+                            values[values$base %in% 'PLSS' & values$c.ref %in% 'FIA',])[,clim.var]
 
-  fia.fia.clim  <- do.call(cbind.data.frame, lapply(now.rast,  function(x)extract(x[[mod_clim]], values[values$base %in% 'FIA' & values$c.ref %in% 'FIA',])))[,clim.var]
-  fia.plss.clim <- do.call(cbind.data.frame, lapply(then.rast, function(x)extract(x[[pls_clim]], values[values$base %in% 'FIA' & values$c.ref %in% 'PLSS',])))[,clim.var]
-  
-  land.clim <- do.call(cbind.data.frame, lapply(now.rast, function(x)extract(x[[mod_clim]], values[values$base %in% 'Land Use',])))[,clim.var]
+  fia.fia.clim  <- extract(now.rast, 
+                           values[values$base %in% 'FIA' & values$c.ref %in% 'FIA',])[,clim.var]
+  fia.plss.clim <- extract(then.rast, 
+                           values[values$base %in% 'FIA' & values$c.ref %in% 'PLSS',])[,clim.var]
   
   values$clim <- c(plss.plss.clim, plss.fia.clim,
-                   fia.fia.clim, fia.plss.clim,
-                   land.clim)
+                   fia.fia.clim, fia.plss.clim)
   
   values@data
 }
 
-if('data.tables.rds' %in% list.files('data/output')){
-  #  This gives us 100 samples from the data for both PLSS and FIA, binding the climate and
-  #  presence data together, the data is structured as a list of lists with length X, each
-  #  with length 5 for each of the climate variables.
-  
-  #  Some of these tables are returned as NA, these are largely datasets with very few samples.
-  data.tables <-   llply(all.taxa,
-                          function(x){
-                            lapply(1:5, function(y){
-                              do.call(rbind.data.frame, 
-                                lapply(1, function(z){
-                                  aa <- try(get_dens_era(x, y))
-                                  if(class(aa) == 'try-error'){
-                                    aa <- data.frame(data=NA, base=NA, c.ref = NA, cell=NA, pres=NA, climate = NA)
-                                  }
-                                  aa}))
-                            })
-                          }, .progress = 'text')
-  saveRDS(data.tables, file = 'data/output/data.table.rds')
-} else {
-  data.tables <- readRDS('data/output/data.table.rds')
-}
+#  This gives us samples from the data for both PLSS and FIA: 
+data.tables <-   llply(all.taxa,
+                        function(x){
+                          lapply(1:4, function(y){
+                            do.call(rbind.data.frame, 
+                              lapply(1, function(z){
+                                aa <- try(get_dens_era(x, y))
+                                if(class(aa) == 'try-error'){
+                                  aa <- data.frame(data=NA, base=NA, c.ref = NA, cell=NA, pres=NA, climate = NA)
+                                }
+                                aa}))
+                          })
+                        }, .progress = 'text')
 
-data.out <- lapply(1:15, function(x)lapply(1:5, function(y){
+data.out <- lapply(1:15, function(x)lapply(1:4, function(y){
   aa <- data.tables[[x]][[y]]
   aa$taxon <- all.taxa[x]
   aa$climate <- bio.vals[y]
@@ -253,10 +239,14 @@ plot(metaMDS(sqrt(table.now)), type = 't')
 w.means <- ddply(vegclim.table, .(base, clim, taxon), summarise, 
       x = weighted.mean(climate, data, na.rm=TRUE))
 
-ggplot(subset(vegclim.table, base %in% 'PLSS'), aes(x = clim, color = base, fill = c.ref)) + 
-  geom_density(alpha = 0.2) + 
-  facet_grid(taxon~climate, scale = 'free') + theme_bw()
+bb$climate <- factor(bb$climate, labels = c('Pann', 'Tmax', 'Tmean', 'Tcold'))
 
+diff.output <- ggplot(subset(na.omit(bb), data > 0.01 & taxon %in% c('Oak', 'Basswood', 'Tamarack')), 
+                      aes(x = clim, fill = base, color = c.ref)) + 
+                      geom_density(alpha = 0.2, trim=TRUE) + 
+                      facet_grid(taxon~climate, scale = 'free')
+
+ggsave(filename = '../../../Dropbox/diffoutput.tiff', plot = diff.output, width = 5, height = 15)
 #  Now we have the presence or absence of taxa at PLSS and FIA eras
 #  what are we looking for?
 #  We want to be able to predict the shape of the PDF for a modern taxon distribution
@@ -267,6 +257,21 @@ ggplot(subset(vegclim.table, base %in% 'PLSS'), aes(x = clim, color = base, fill
 #    c.  FIA  at PLSS climate (the climate space currently occupied) - not used
 #    d.  FIA  at FIA  climate (modern envelope)
 #    e.  FIA  at FIA absent.  (places in the FIA where there is no PLSS veg, Land Use)
+
+climates <- c('Pann', 'Tmax', 'Tmean', 'Tcold')
+
+lapply(unique(bb$taxon), function(x){
+  lapply(1:4, function(y){
+    ranger = range(subset(bb, taxon == x & climate == climates[y])$clim)
+    
+    hellinger(density(subset(bb, 
+                             taxon == x & climate == climates[y] & base == 'FIA')$clim,
+                      na.rm=TRUE)$y,
+              density(subset(bb, 
+                             taxon == x & climate == climates[y] & base == 'PLSS')$clim,
+                      na.rm=TRUE)$y)
+  })
+}
 
 get_dens <- function(x, class, pres, clim){
   x <- na.omit(x)
@@ -279,7 +284,7 @@ get_dens <- function(x, class, pres, clim){
   dens
 }
 
-fia    <- get_dens(data.tables[[1]][[5]], class = 'FIA',  pres = pres,  clim = 'fia.clim')
+fia    <- get_dens(data.tables[[1]][[1]], class = 'FIA',  pres = pres,  clim = 'fia.clim')
 plss   <- get_dens(data.tables[[1]][[5]], 'PLSS', pres,  'plss.clim')
 plss.m <- get_dens(data.tables[[1]][[5]], 'PLSS', pres,  'fia.clim')
 land   <- get_dens(data.tables[[1]][[5]], 'FIA',  !pres, 'fia.clim')
@@ -314,10 +319,6 @@ bin.data <- function(x){
 
 plot((land$y - fia$y))
 
-#  Hemlock test:
-dens.diff <- density()
-
-
 gen.comp <- function(x, y){
   matrix(sample(nrow(plss.tables[[x]][[y]]), 
                 nrow(plss.tables[[x]][[y]]) * 2, 
@@ -325,9 +326,9 @@ gen.comp <- function(x, y){
          ncol = 2)
 }
 
-distances <- ldply(1:length(plss.tables),
+distances <- ldply(1:length(data.tables),
       function(x){ 
-        ldply(1:5, function(y, x){
+        ldply(1:4, function(y, x){
           plss <- data.frame(taxon = all.taxa[x],
                              climate = y,
                              era     = 'plss',
