@@ -50,7 +50,7 @@ get_dens_era <- function(taxon, clim.var){
   layer_ncdf <- sample(500, 1)                      # there are 500 layers in the ncdf
   taxon.vals <- ncvar_get(western, taxon, c(1,1,1), c(-1, -1, -1))
 
-  #  bind all the 
+  #  bind all the values together, with repeating x & y coordinates.
   
   values <- data.frame(x     = c(rep(western.grid$x, 2),
                                  rep(xyFromCell(base.rast, agg.dens$cell)[,'x'],2),
@@ -102,20 +102,28 @@ get_dens_era <- function(taxon, clim.var){
   values@data
 }
 
-#  This gives us 100 samples from the data for both PLSS and FIA: 
-data.tables <-   llply(all.taxa,
-                        function(x){
-                          lapply(1:5, function(y){
-                            do.call(rbind.data.frame, 
-                              lapply(1, function(z){
-                                aa <- try(get_dens_era(x, y))
-                                if(class(aa) == 'try-error'){
-                                  aa <- data.frame(data=NA, base=NA, c.ref = NA, cell=NA, pres=NA, climate = NA)
-                                }
-                                aa}))
-                          })
-                        }, .progress = 'text')
-
+if('data.tables.rds' %in% list.files('data/output')){
+  #  This gives us 100 samples from the data for both PLSS and FIA, binding the climate and
+  #  presence data together, the data is structured as a list of lists with length X, each
+  #  with length 5 for each of the climate variables.
+  
+  #  Some of these tables are returned as NA, these are largely datasets with very few samples.
+  data.tables <-   llply(all.taxa,
+                          function(x){
+                            lapply(1:5, function(y){
+                              do.call(rbind.data.frame, 
+                                lapply(1, function(z){
+                                  aa <- try(get_dens_era(x, y))
+                                  if(class(aa) == 'try-error'){
+                                    aa <- data.frame(data=NA, base=NA, c.ref = NA, cell=NA, pres=NA, climate = NA)
+                                  }
+                                  aa}))
+                            })
+                          }, .progress = 'text')
+  saveRDS(data.tables, file = 'data/output/data.table.rds')
+} else {
+  data.tables <- readRDS('data/output/data.table.rds')
+}
 
 data.out <- lapply(1:15, function(x)lapply(1:5, function(y){
   aa <- data.tables[[x]][[y]]
@@ -123,15 +131,131 @@ data.out <- lapply(1:15, function(x)lapply(1:5, function(y){
   aa$climate <- bio.vals[y]
   aa}))
 
-aa <- lapply(data.out, function(x) do.call(rbind.data.frame, x))
-bb <- do.call(rbind.data.frame, aa)
+vegclim.table <- do.call(rbind.data.frame, lapply(data.out, function(x) do.call(rbind.data.frame, x)))
 
-w.means <- ddply(bb, .(base, clim, taxon), summarise, 
+if('densities.rds' %in% list.files('data/output')){
+  densities <- list()
+  
+  #  This generates a list, 5 by 15 (we invert for some reason!) with each clim x taxon
+  #  combo represented by a table 512 x 4, where the columns are the presence densities
+  #  along the climate gradient for:
+  #  pls.pls - pls veg & pls climate
+  #  pls.fia - pls veg & fia climate
+  #  fia.pls - fia veg & pls climate
+  #  fia.fia - fia veg & fia climate
+  
+  for(i in 1:length(unique(vegclim.table$climate))){
+    densities[[i]] <- list()
+    
+    cl.r <- range(subset(vegclim.table, climate == unique(vegclim.table$climate)[i])$clim, na.rm=TRUE)
+    
+    for(j in 1:length(unique(vegclim.table$taxon))){
+      densities[[i]][[j]] <- data.frame(pls.pls = density(subset(vegclim.table, climate == unique(vegclim.table$climate)[i] & 
+                                                                     taxon   == unique(vegclim.table$taxon)[j] &
+                                                                     base    %in% 'PLSS' &
+                                                                     c.ref   %in% 'PLSS')$clim,
+                                                          from = cl.r[1], to = cl.r[2], na.rm=TRUE)$y,
+                                        pls.fia = density(subset(vegclim.table, climate == unique(vegclim.table$climate)[i] & 
+                                                                   taxon   == unique(vegclim.table$taxon)[j] &
+                                                                   base    %in% 'PLSS' &
+                                                                   c.ref   %in% 'FIA')$clim,
+                                                          from = cl.r[1], to = cl.r[2], na.rm=TRUE)$y,
+                                        fia.pls = density(subset(vegclim.table, climate == unique(vegclim.table$climate)[i] & 
+                                                                   taxon   == unique(vegclim.table$taxon)[j] &
+                                                                   base    %in% 'FIA' &
+                                                                   c.ref   %in% 'PLSS')$clim,
+                                                          from = cl.r[1], to = cl.r[2], na.rm=TRUE)$y,
+                                        fia.fia = density(subset(vegclim.table, climate == unique(vegclim.table$climate)[i] & 
+                                                                   taxon   == unique(vegclim.table$taxon)[j] &
+                                                                   base    %in% 'FIA' &
+                                                                   c.ref   %in% 'FIA')$clim,
+                                                          from = cl.r[1], to = cl.r[2], na.rm=TRUE)$y)
+    }
+  }
+  saveRDS(densities, file = 'data/output/densities.rds')
+} else {
+  densities <- readRDS('data/output/densities.rds')
+}
+
+#  This next function turns the densities into Hellinger distances, in a row for each 
+#  taxon and climate variable
+#  The table indicates the distance between:
+#
+#  all       - climate of presence in PLSS and climate of presence in FIA
+#  clim.plss - climate from PLSS to FIA,  presence stays as in PLSS
+#  clim.fia  - climate from FIA  to PLSS, presence stays as in FIA
+#  lu.plss   - presence from PLSS to FIA,  climate stays PLSS
+#  lu.fia    - presence from FIA  to PLSS, climate stays FIA
+#
+
+get_dists <- function(x){
+  data.frame(all       = hellinger(x[,1], x[,4]),
+             clim.plss = hellinger(x[,1], x[,2]),
+             clim.fia  = hellinger(x[,3], x[,4]),
+             lu.plss   = hellinger(x[,1], x[,3]),
+             lu.fia    = hellinger(x[,2], x[,4]))
+}
+
+dens.dist <- lapply(densities, function(x){
+  data.frame(do.call(rbind.data.frame, lapply(x, get_dists)), row.names = all.taxa)})
+
+mantel.res <- matrix(data=NA, ncol=5, nrow=5)
+mantel.p <- matrix(data=NA, ncol=5, nrow=5)
+
+for(i in 1:4){
+  for(j in (i+1):5){
+    test <- mantel(dist(dens.dist[[i]][,-1]), dist(dens.dist[[j]][,-1]))
+    mantel.res[i,j] <- test$statistic
+    mantel.p[i,j]   <- test$signif
+  }
+}
+
+full.distances <- data.frame(do.call(rbind.data.frame,dens.dist), climate = rep(unique(vegclim.table$climate), each = 15))
+
+#  Okay, so what does this tell us:
+#  bio4 - seasonality: The climate switches are more similar than the land use switches.
+#                      Oak seems most strongly impacted by climate switch, along with tulip
+#                      poplar, Tamarack, Hemloc, Birch, beech & Pine.
+#  
+#  bio5 - max of warmest: strongest climate signal: Birch, basswood, Cedar, Poplar & Oak.
+#                         interestingly beech switches to a 'land use' type signal along
+#                         with elm, hemlock & spruce.  Pine, ash, hickory & maple are intermediate.
+#  
+#  bio6 - coldest month: Most things over by climate.  Tam, Oak, Spru, Birch, Basswood, Hem
+#                        pine, poplar.  Land use seems like maple, hickory, fir, beech
+#  bio16 - wettest mo:  pattern is very different.  Poplar, Ash & hick for lu.plss, birch, beech & hem for lu.fia
+#                       Pine for clim.plss, clim.fia has a tight conc. for Oak, Cedar & elm.
+#  bio17 - driest:      more normal. clim are together, cedar, poplar, beech, oak.  Hemlock has strong lu
+#                       signal, along with birch, spruce, pine & basswood to a lesser degree.
+
+aa <- data.frame(dens.dist[[1]][,1],dens.dist[[2]][,1],dens.dist[[3]][,1],
+                 dens.dist[[4]][,1],dens.dist[[5]][,1])
+
+#  Note:
+#  bio4 - seasonality: 
+#  bio5 - max of warmest
+#  bio6 - min coldest
+#  bio16 - precipitation of wettest
+#  bio17 - precipitation of driest
+
+ggplot(subset(full.distances, , aes(x = clim.plss, y = lu.plss,label = taxon)) + geom_text(size = 3) + 
+  facet_wrap(~climate, scale = 'free') + geom_abline(intercept = 0, slope = 1)
+
+full.distances$ratio  <- full.distances$lu.plss / full.distances$clim.plss
+
+table.now <- dcast(full.distances, taxon ~ climate, value.var='ratio')[,-1]
+rownames(table.now) <- all.taxa
+
+library(vegan)
+plot(metaMDS(sqrt(table.now)), type = 't')
+
+
+w.means <- ddply(vegclim.table, .(base, clim, taxon), summarise, 
       x = weighted.mean(climate, data, na.rm=TRUE))
 
-ggplot(bb, aes(x = clim, fill = class)) + 
+ggplot(subset(vegclim.table, base %in% 'PLSS'), aes(x = clim, color = base, fill = c.ref)) + 
   geom_density(alpha = 0.2) + 
-  facet_grid(taxon~climate, scale = 'free')
+  facet_grid(taxon~climate, scale = 'free') + theme_bw()
 
 #  Now we have the presence or absence of taxa at PLSS and FIA eras
 #  what are we looking for?
@@ -183,7 +307,6 @@ bin.data <- function(x){
   aa <- as.matrix(do.call(cbind.data.frame,
                           lapply(seq(-3, 3, by = 0.1), 
                                  function(x)do.call(rbind.data.frame,
-                                                    lapply(seq(-3, 3, by = 0.1), test.fun, b = x)))))
   colnames(aa) <- 1:ncol(aa)
   aa[aa>1] <- 1
   image(aa)

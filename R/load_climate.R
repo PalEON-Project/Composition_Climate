@@ -65,5 +65,5 @@ if(!'now.rast.rds' %in% list.files(path='data/output')){
                                              base.rast))
   saveRDS(now.rast, file = 'data/output/now.rast.rds')
 } else {
-  now.rast <- readRDS('data/output/now.rast.RData')
+  now.rast <- readRDS('data/output/now.rast.rds')
 }
