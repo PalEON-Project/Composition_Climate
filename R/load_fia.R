@@ -46,7 +46,7 @@ re.agg <- function(x){
   x.cast$x <- x$x[x.cast$orig]
   x.cast$y <- x$y[x.cast$orig]
   
-  x.cast$cell <- extract(setValues(base.rast, 1:ncell(base.rast)), x.cast[,c('x', 'y')])
+  x.cast$cell <- extract(setValues(unit.raster, 1:ncell(unit.raster)), x.cast[,c('x', 'y')])
   
   x.cast <- x.cast[!is.na(x.cast$cell),!is.na(colnames(x.cast))]
   x.melt_2 <- melt(x.cast[ ,!colnames(x.cast)%in% c('orig')], 

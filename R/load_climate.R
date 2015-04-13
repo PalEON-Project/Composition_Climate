@@ -9,3 +9,5 @@ clim.files <- list.files('data/input/climate', full.names = TRUE)
 
 now.rast <- stack(clim.files[regexpr('norm', clim.files)>0])
 then.rast <- stack(clim.files[regexpr('early', clim.files)>0])
+
+bio.vals <- c('ppt', 'tmax', 'tmean', 'tmin')
