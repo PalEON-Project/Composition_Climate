@@ -5,7 +5,7 @@ library(mgcv)
 library(reshape2)
 library(plyr)
 library(ncdf4)
-
+library(gridExtra)
 
 base.rast <- raster('data/albers/density//Abies_balsamea_density_alb.tif')
 base.rast <- setValues(base.rast, 1:ncell(base.rast))

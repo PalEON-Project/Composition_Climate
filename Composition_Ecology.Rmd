@@ -17,16 +17,15 @@ Land use patterns and historical contingency change climate optima for key fores
 
 *Predictions for future species range shifts are predicated largely on correlative models that relate modern species distributions to climate parameters in the modern era.  Given the extent of regional forest change and recent losses to key forest taxa including Hemlock, Elm and Chestnut it is possible that certain taxa have shiften with respect to climate change over the last century.  The additional pressure of climatically biased land use conversion for agriculture along the western and southern border of the upper Midwest means that the shift in climate space may be most pressing in a region of climate space that is critically important for understanding future species responses to climate change.*
 
-```{r, fig.width=5}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # Load climate data and generate the pre-sett and modern bounds:
 #  Pre-settlement climate: 1900 - 1930
 #  Modern climate: 1960 - 1990
 
 source('R/Setup_R.R')
 source('R/load_climate.R') # gives then.clim & now.clim
-source('R/load_fia.R')     # gives agg.dens
-source('R/load_ncdf.R')    # gives western and eastern
-
+source('R/load_veg.R')
+  
 ```
 
 Introduction
@@ -48,9 +47,38 @@ We also develop estimates of the modern climate space that taxa would occupy if 
 
 Results
 ---------------
-Across the region PLS cells account for X 
+The Public Lands data is spatially extensive, sampling occured across the region in a regular pattern, while the FIA is limited to regions with forest cover.  As such, the extent of points is not overlapping.  Add to this the extensive forest cover change in the region and we see significant changes in cover between FIA and PLS data.
 
+```{r loss_gain_fig, warning=FALSE, message=FALSE, echo=FALSE}
 
+source('R/figures/gain_loss_plot.R')
+
+```
+**Figure 1**.  *Gain loss and continuous presence for PLSS and FIA tree taxa.*
+
+The shifts in distribution to lead to changes in the apparent climate envelopes of the taxa, but these are dwarfed by the shifts in regional climate across the area.
+```{r densityplots, warning=FALSE, message=FALSE, echo=FALSE, fig.height = 10, fig.width=7}
+
+source('R/resampling_climate.R')
+source('R/figures//climate_boxplots.R')
+
+```
+
+Whe we examine the taxa seperately we can see that by far the majority of comparisons show greater differences due to climate change than due to shifts in distribution:
+
+```{r climate_shifts, warning=FALSE, message=FALSE, echo=FALSE}
+
+source('R/hellinger_dists.R')
+
+ggplot(all.hellinger, aes(x = fixedv_c, y = fixedc_v, color = climate)) +
+  geom_point() + geom_abline(intercept=0, slope = 1) + facet_wrap(~shift) +
+  xlab('Vegetation Fixed - Climate Shifting') +
+  ylab('Climate Fixed - Vegetation Shifting') +
+  theme_bw()
+
+```
+
+This plot makes it clear that precipitation across the region has changed significantly since the PLS era (or the early 1900s), while overall $t_{mean}$ has changed less.  Among taxa only beech, ironwood, hemlock, fir and tamarak show distributional changes larger than the effect of shifting climate.  For beech, a shift is seen in $t_{mean}$, where $t_{mean}$ for the PLS era distribution is 6.8^o^C, but is lower for the FIA distribution using PLS era climate, at $t_{mean}$ = 6.6^o^C.  This is likely due to a northward shift in beech distribution in the current FIA dataset due to the loss of southern beech forests (earlier Figure).
 
 Discussion
 ----------------
