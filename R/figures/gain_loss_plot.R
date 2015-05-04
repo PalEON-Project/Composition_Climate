@@ -23,5 +23,10 @@ loss.melt <- data.frame(xyFromCell(unit.raster, loss.melt$cell),
 
 ggplot(loss.melt, aes(x = x, y = y, fill = factor(value))) + geom_tile() +
   facet_wrap(~variable) + theme_bw() +
-  scale_fill_brewer(type='qual')
+  scale_fill_brewer(type='qual', name = 'Change State') +
+  theme(axis.text = element_blank(),
+        axis.title = element_blank(),
+        strip.text = element_text(family = 'serif', face='bold', size = 14),
+        legend.title = element_text(family = 'serif', face='bold', size = 14),
+        legend.text = element_text(family = 'serif', size = 12))
 
