@@ -9,3 +9,5 @@
 .Rproj.user
 Composition_Climate.Rproj
 *.nc
+Thumbs.db
+*.png
