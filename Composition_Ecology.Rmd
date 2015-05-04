@@ -71,7 +71,7 @@ Whe we examine the taxa seperately we can see that by far the majority of compar
 source('R/hellinger_dists.R')
 
 ggplot(all.hellinger, aes(x = fixedv_c, y = fixedc_v, color = climate)) +
-  geom_point() + geom_abline(intercept=0, slope = 1) + facet_wrap(~shift) +
+  geom_point(size = 2) + geom_abline(intercept=0, slope = 1) + facet_wrap(~shift) +
   xlab('Vegetation Fixed - Climate Shifting') +
   ylab('Climate Fixed - Vegetation Shifting') +
   theme_bw()
