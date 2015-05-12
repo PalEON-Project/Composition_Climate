@@ -95,3 +95,41 @@ regrid <- function(i, class){
 
 #  Very slow, but only needs to be done once:
 lapply(c('norm'), function(x) lapply(1:4, function(y) regrid(y, x)))
+
+
+#  We need to get a plot of each value through time for the domain:
+variables <- c('ppt', 'tmax', 'tmin', 'tmean')
+
+clim <- list()
+
+for(i in 1:4){
+  
+  setfiles <- list.files(paste0('../../GriddedClimate/prism/PRISM_',variables[i], 
+                                '_stable_4kmM2_189501_198012_bil'),full.names=TRUE)
+  setfiles <- setfiles[regexpr('.bil$', setfiles)>0]
+  
+  # This gives all monthly values, we're going to stack them and then
+  #  average all of them:
+  
+  clim[[i]] <- data.frame(param = variables[i],
+                          val =   rep(NA, length(setfiles)),
+                          year =  rep(c(1:12), 86),
+                          month = rep(1895:1980, each=12))
+  
+  for(j in 1:length(setfiles)){
+    
+    norm <- raster(setfiles[j])
+    norm <- projectRaster(crop(norm, extent(c(-99, -64, 35, 51))), paleon.grid)
+    norm[is.na(paleon.grid)] <- NA
+    clim[[i]]$val[j] <- mean(getValues(norm), na.rm=TRUE)
+  }    
+  
+}
+
+clim.year <- data.frame(ppt = as.numeric(dcast(clim[[1]], param ~ month, fun.aggregate = sum, value.var = 'val', na.rm=TRUE)[,-1]),
+                        tmx = as.numeric(dcast(clim[[2]], param ~ month, fun.aggregate = max, value.var = 'val', na.rm=TRUE)[,-1]),
+                        tmi = as.numeric(dcast(clim[[3]], param ~ month, fun.aggregate = min, value.var = 'val', na.rm=TRUE)[,-1]),
+                        tmn = as.numeric(dcast(clim[[4]], param ~ month, fun.aggregate = mean, value.var = 'val', na.rm=TRUE)[,-1]))
+
+clim.yout <- data.frame(melt(clim.year), year = 1895:1980)
+write.csv(clim.yout, 'data//input/annualclim.csv')

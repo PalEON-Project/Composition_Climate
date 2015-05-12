@@ -2,6 +2,9 @@
 agg.dens[,-1] <- agg.dens[,-1] / rowSums(agg.dens[,-1])
 pls.data[,-1] <- pls.data[,-1]/rowSums(pls.data[,-1])
 
+then.rast <- resample(then.rast, unit.raster)
+now.rast <- resample(now.rast, unit.raster)
+
 #For each taxon sample:
 #  1.  The FIA data for one of the now.rast years for each of the climate variables.
 #  2.  One of the then.rast years & one of the western layers
@@ -30,10 +33,10 @@ get_dens_era <- function(taxon, clim.var){
 
   #  bind all the variables together:  
   values <- data.frame(cell  = c(rep(pls.data$cell, 2), rep(agg.dens$cell, 2)),
-                       x     = c(rep(xyFromCell(base.rast, pls.data$cell)[,'x'],2),
-                                 rep(xyFromCell(base.rast, agg.dens$cell)[,'x'],2)),
-                       y     = c(rep(xyFromCell(base.rast, pls.data$cell)[,'y'],2),
-                                 rep(xyFromCell(base.rast, agg.dens$cell)[,'y'],2)),
+                       x     = c(rep(xyFromCell(unit.raster, pls.data$cell)[,'x'],2),
+                                 rep(xyFromCell(unit.raster, agg.dens$cell)[,'x'],2)),
+                       y     = c(rep(xyFromCell(unit.raster, pls.data$cell)[,'y'],2),
+                                 rep(xyFromCell(unit.raster, agg.dens$cell)[,'y'],2)),
                        data  = c(rep(as.numeric(pls.data[,taxon]), 2),
                                  rep(agg.dens[,taxon],2)),
                        base  = c(rep('PLSS', nrow(pls.data)), 
@@ -46,11 +49,13 @@ get_dens_era <- function(taxon, clim.var){
                                  rep('PLSS', nrow(agg.dens))),
                        stringsAsFactors = FALSE)
   
+#  The problem here is that both 
+  
   plss.plss.clim <- getValues(then.rast)[subset(values, base %in% 'PLSS' & c.ref %in% 'PLSS')$cell, clim.var]
   plss.fia.clim  <- getValues(now.rast)[subset(values, base %in% 'PLSS' & c.ref %in% 'FIA')$cell, clim.var]
   
-  fia.plss.clim  <- getValues(now.rast)[subset(values, base %in% 'FIA' & c.ref %in% 'FIA')$cell, clim.var]
-  fia.fia.clim   <- getValues(then.rast)[subset(values, base %in% 'FIA' & c.ref %in% 'PLSS')$cell ,clim.var]
+  fia.fia.clim  <- getValues(now.rast)[subset(values, base %in% 'FIA' & c.ref %in% 'FIA')$cell, clim.var]
+  fia.plss.clim   <- getValues(then.rast)[subset(values, base %in% 'FIA' & c.ref %in% 'PLSS')$cell ,clim.var]
   
   values$clim <- c(plss.plss.clim, plss.fia.clim,
                    fia.fia.clim, fia.plss.clim)

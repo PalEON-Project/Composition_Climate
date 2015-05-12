@@ -12,3 +12,8 @@ base.rast <- setValues(base.rast, 1:ncell(base.rast))
 
 pls.rast <- raster('data/input//dens_v0.9-4.tif')
 unit.raster <- setValues(pls.rast, 1:ncell(pls.rast))
+
+model.proj <- '+init=epsg:3175'
+
+usa <- readOGR('Maps/us.shp', 'us')
+canada <- readOGR('Maps/PROVINCE.SHP', 'PROVINCE')

@@ -25,6 +25,7 @@ Land use patterns and historical contingency change climate optima for key fores
 source('R/Setup_R.R')
 source('R/load_climate.R') # gives then.clim & now.clim
 source('R/load_veg.R')
+source('R/natural_earth.R')
   
 ```
 
@@ -56,27 +57,55 @@ source('R/figures/gain_loss_plot.R')
 ```
 **Figure 1**.  *Gain loss and continuous presence for PLSS and FIA tree taxa.*
 
-The shifts in distribution to lead to changes in the apparent climate envelopes of the taxa, but these are dwarfed by the shifts in regional climate across the area.
-```{r densityplots, warning=FALSE, message=FALSE, echo=FALSE, fig.height = 10, fig.width=7}
+```{r changing_climate, warning=FALSE, message=FALSE, echo=FALSE}
 
-source('R/resampling_climate.R')
-source('R/figures//climate_boxplots.R')
+source('R/figures/climate_ts.R')
 
+changes <- modern$value - past$value
 ```
 
-Whe we examine the taxa seperately we can see that by far the majority of comparisons show greater differences due to climate change than due to shifts in distribution:
+
+During this time climate has also changed.  Mean temperatures in the region show an average increase of `r round(changes[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(changes[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(changes[2], 2`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(changes[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
+
+```{r densities}
+
+source('R/resampling_climate.R')
+
+source('overlapping_distributions.R')
+
+```
+**Figure** *Changes in the overall climate space in the upper midwestern United States. The climate densities largely overlap, although it is possible to see the shifts in precipitation, mean and minium temperatures, where FIA data (pink) has higher values), while the decline in maximum temperatures is also visible, largely at the very highest values.*
+
+While these changes in climate are visible across the whole range, we would expect that species with significant shifts in distribution as a result of land use change in the post-settlement era should show changes that superceed the changes resulting from climate alone.  In particular, if the land use pressure is biased spatially or climatically then these changes should be even more dramatic.  Hellinger distance is used to understand the difference in the shape of kernel densities.  Using the distributions in climate space for each of the key taxa we can shift climate, or vegetation to understand the relative effects of land use change and climatic change across the region.
 
 ```{r climate_shifts, warning=FALSE, message=FALSE, echo=FALSE}
 
 source('R/hellinger_dists.R')
 
 ggplot(all.hellinger, aes(x = fixedv_c, y = fixedc_v, color = climate)) +
-  geom_point(size = 2) + geom_abline(intercept=0, slope = 1) + facet_wrap(~shift) +
+  geom_point(size = 2) + 
+  geom_abline(intercept=0, slope = 1) + 
+  facet_grid(shift ~ climate) +
   xlab('Vegetation Fixed - Climate Shifting') +
   ylab('Climate Fixed - Vegetation Shifting') +
-  theme_bw()
+  theme_bw() +
+  theme(axis.text = element_text(family = 'serif', size = 12),
+        axis.title = element_text(family = 'serif', face = 'bold', size = 14),
+        strip.text = element_text(family = 'serif', face='bold', size = 14),
+        legend.title = element_text(family = 'serif', face='bold', size = 14))
 
 ```
+
+The Hellinger distances reveal that 
+
+```{r densityplots, warning=FALSE, message=FALSE, echo=FALSE, fig.height = 10, fig.width=7}
+source('R/figures//climate_boxplots.R')
+
+```
+
+
+Whe we examine the taxa seperately we can see that by far the majority of comparisons show greater differences due to climate change than due to shifts in distribution:
+
 
 This plot makes it clear that precipitation across the region has changed significantly since the PLS era (or the early 1900s), while overall $t_{mean}$ has changed less.  Among taxa only beech, ironwood, hemlock, fir and tamarak show distributional changes larger than the effect of shifting climate.  For beech, a shift is seen in $t_{mean}$, where $t_{mean}$ for the PLS era distribution is 6.8^o^C, but is lower for the FIA distribution using PLS era climate, at $t_{mean}$ = 6.6^o^C.  This is likely due to a northward shift in beech distribution in the current FIA dataset due to the loss of southern beech forests (earlier Figure).
 

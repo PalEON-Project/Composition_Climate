@@ -21,12 +21,18 @@ loss.melt <- na.omit(melt(loss.gain, id = 'cell'))
 loss.melt <- data.frame(xyFromCell(unit.raster, loss.melt$cell),
                         loss.melt)
 
-ggplot(loss.melt, aes(x = x, y = y, fill = factor(value))) + geom_tile() +
-  facet_wrap(~variable) + theme_bw() +
-  scale_fill_brewer(type='qual', name = 'Change State') +
-  theme(axis.text = element_blank(),
-        axis.title = element_blank(),
-        strip.text = element_text(family = 'serif', face='bold', size = 14),
-        legend.title = element_text(family = 'serif', face='bold', size = 14),
-        legend.text = element_text(family = 'serif', size = 12))
+loss.plot <- base.map +
+    geom_tile(data = subset(loss.melt, !variable %in% 'ironwood') , aes(x = x, y = y, fill = factor(value))) +
+    facet_wrap(~variable, ncol = 5) + theme_bw() +
+    scale_fill_brewer(palette = 'RdYlGn', name = 'Change State') +
+    geom_path(data = umw.domain, aes(x = long, y = lat, group = group)) +
+    geom_path(data = can.domain, aes(x = long, y = lat, group = group)) +
+    theme(axis.text = element_blank(),
+          axis.title = element_blank(),
+          strip.text = element_text(family = 'serif', face='bold', size = 14),
+          legend.title = element_text(family = 'serif', face='bold', size = 14),
+          legend.text = element_text(family = 'serif', size = 12)) +
+  coord_equal(xlim = ext[1:2], ylim=ext[3:4])
+
+ggsave(plot = loss.plot, filename = 'figures/loss_plots.tiff', dpi = 150, width = 6, height = 4)
 
