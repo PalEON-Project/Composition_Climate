@@ -48,7 +48,19 @@ We also develop estimates of the modern climate space that taxa would occupy if 
 
 Results
 ---------------
-The Public Lands data is spatially extensive, sampling occured across the region in a regular pattern, while the FIA is limited to regions with forest cover.  As such, the extent of points is not overlapping.  Add to this the extensive forest cover change in the region and we see significant changes in cover between FIA and PLS data.
+```{r changing_climate, warning=FALSE, message=FALSE, echo=FALSE}
+
+source('R/figures/climate_ts.R')
+
+changes <- modern$value - past$value
+```
+**Figure 1**. *Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region.*
+
+The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here].
+
+Mean temperatures in the region show an average increase of `r round(changes[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(changes[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(changes[2], 2`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(changes[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
+
+The Public Lands data is spatially extensive, sampling occured across the region in a regular pattern, while the FIA is limited to regions with forest cover.  As such, the extent of points is not overlapping. Given the extensive use of FIA data in generating and estimating climate responses of tree taxa and forest types to changing climate, the use of the FIA data as an estimate for tree species distributions is acceptable fo estimating shifts in climate space, and attributing the loss or gain of climate niche space due to land use and climate variability and change during the 20^th^ century.
 
 ```{r loss_gain_fig, warning=FALSE, message=FALSE, echo=FALSE}
 
@@ -57,21 +69,14 @@ source('R/figures/gain_loss_plot.R')
 ```
 **Figure 1**.  *Gain loss and continuous presence for PLSS and FIA tree taxa.*
 
-```{r changing_climate, warning=FALSE, message=FALSE, echo=FALSE}
-
-source('R/figures/climate_ts.R')
-
-changes <- modern$value - past$value
-```
-
-
-During this time climate has also changed.  Mean temperatures in the region show an average increase of `r round(changes[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(changes[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(changes[2], 2`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(changes[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
 
 ```{r densities}
 
 source('R/resampling_climate.R')
 
-source('overlapping_distributions.R')
+source('R/figures/climate_boxplots.R')
+
+boxplot_clim
 
 ```
 **Figure** *Changes in the overall climate space in the upper midwestern United States. The climate densities largely overlap, although it is possible to see the shifts in precipitation, mean and minium temperatures, where FIA data (pink) has higher values), while the decline in maximum temperatures is also visible, largely at the very highest values.*
@@ -111,6 +116,7 @@ This plot makes it clear that precipitation across the region has changed signif
 
 Discussion
 ----------------
+
 
 Figures
 --------------

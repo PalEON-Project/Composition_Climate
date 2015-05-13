@@ -86,3 +86,13 @@ data.out <- lapply(1:15, function(x)lapply(1:4, function(y){
 
 vegclim.table <- do.call(rbind.data.frame, lapply(data.out, function(x) do.call(rbind.data.frame, x)))
 vegclim.table <- vegclim.table[!is.na(vegclim.table$data),]
+
+vegclim.table$comb <- factor(with(vegclim.table, paste0(base, c.ref)), 
+                             levels = c('PLSSPLSS','FIAFIA', 'PLSSFIA', 'FIAPLSS'),
+                             labels = c('PLS Era', 'FIA Era', 'NA1', 'NA2'))
+
+vegclim.table$taxon <- factor(vegclim.table$taxon, 
+                              levels = c('tamarack', 'pine', 'spruce', 'fir', 'hemlock', 'cedar.juniper',
+                                         'poplar', 'maple', 'birch', 'beech', 'ironwood', 'basswood', 'ash', 'elm', 'oak'),
+                              labels = c('Tamarack', 'Pine', 'Spruce', 'Fir', 'Hemlock', 'Cedar',
+                                         'Poplar', 'Maple', 'Birch', 'Beech', 'Ironwood', 'Basswood', 'Ash', 'Elm', 'Oak'))

@@ -1,24 +1,15 @@
-# plot resampling:
+# Plotting the total climate-shift for the domain.
 
-ppt.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'ppt'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-tma.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'tmax'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +            
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-tmi.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'tmin'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-tme.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'tmean'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
+boxplot_clim <- ggplot(data = subset(na.omit(vegclim.table), 
+                                     comb %in% c('FIA Era', 'PLS Era') & data>0)) +
+  geom_boxplot(aes(y = clim, x = taxon, fill = comb)) +
+  scale_fill_grey() +
+  facet_wrap(~climate, ncol = 1, scales='free_y') +
+  theme_bw() +
+  theme(axis.text = element_text(family = 'serif', face='bold', size = 12),
+        axis.title = element_blank(),
+        strip.text = element_text(family = 'serif', face='bold', size = 14),
+        legend.title = element_text(family = 'serif', face='bold', size = 14),
+        legend.text = element_text(family = 'serif', size = 12))
 
-grid.arrange(ppt.plot, tma.plot, tmi.plot, tme.plot, nrow=1, sub='')
+ggsave(plot = boxplot_clim, filename = 'figure/boxplot_clim.tiff', width = 8, height = 6, dpi = 150)

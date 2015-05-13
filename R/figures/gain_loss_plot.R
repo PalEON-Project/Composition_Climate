@@ -43,4 +43,3 @@ loss.plot <- base.map +
   coord_equal(xlim = ext[1:2], ylim=ext[3:4])
 
 ggsave(plot = loss.plot, filename = 'figures/loss_plots.tiff', dpi = 150, width = 6, height = 4)
-
