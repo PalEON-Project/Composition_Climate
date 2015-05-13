@@ -4,8 +4,8 @@ library(ggplot2)
 library(mgcv)
 library(reshape2)
 library(plyr)
-library(ncdf4)
 library(gridExtra)
+library(rgdal)
 
 base.rast <- raster('data/albers/density//Abies_balsamea_density_alb.tif')
 base.rast <- setValues(base.rast, 1:ncell(base.rast))
@@ -15,5 +15,5 @@ unit.raster <- setValues(pls.rast, 1:ncell(pls.rast))
 
 model.proj <- '+init=epsg:3175'
 
-usa <- readOGR('Maps/us.shp', 'us')
-canada <- readOGR('Maps/PROVINCE.SHP', 'PROVINCE')
+usa <- readOGR('data/input/shapes/usa/us.shp', 'us')
+canada <- readOGR('data/input/shapes/canada/PROVINCE.SHP', 'PROVINCE')
