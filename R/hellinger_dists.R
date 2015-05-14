@@ -38,7 +38,39 @@ all.hellinger <- ldply(1:length(best.taxa), function(x){
         data.frame(taxon = best.taxa[x],
                    climate = bio.vals[y],
                    full.change = full_shift,
-                   fixedv_c = c(clim_shift, lu_shift),
-                   type     = c("climate", "land use"))
+                   fixedv_c = c(clim_shift - lu_shift))
       })
     })
+
+levels(all.hellinger$climate) <- c('Annual Precipitation', 
+                                   'Maximum Temperature',
+                                   'Mean Temperature',
+                                   'Minimum Temperature')
+
+levels(all.hellinger$taxon) <- c('Beech', 'Ironwood', 'Hemlock', 'Fir', 'Cedar',
+                                 'Basswood', 'Spruce', 'Elm', 'Ash', 'Pine',
+                                 'Oak', 'Tamarack', 'Maple', 'Poplar', 'Birch')
+
+hell.plot <- ggplot(all.hellinger, aes(x = full.change, y = fixedv_c)) + 
+  geom_text(aes(label = taxon), family = 'serif', size = 4, fontface = 'italic') +
+  facet_wrap(~climate) +
+  theme_bw() +
+  scale_x_sqrt() +
+  #scale_y_sqrt() +
+  xlab('Total Change - PLS - FIA') +
+  ylab('Climate Change - Land Use Change') +
+  theme(axis.text = element_text(family = 'serif', size = 12),
+        axis.title = element_text(family = 'serif', face = 'bold', size = 14),
+        strip.text = element_text(family = 'serif', face='bold', size = 14),
+        legend.position = "none") +
+  coord_cartesian(xlim=c(0,150), ylim=c(-85, 85)) +
+  geom_abline(intercept=0, slope=0) +
+  annotate(geom = 'text', x = 7, y = 70, 
+           label='Climate Dominates', family='serif',
+           fontface = 'bold', size = 5) +
+  annotate(geom = 'text', x = 7, y = -40, 
+           label='Land Use Dominates', family='serif',
+           fontface = 'bold', size = 5)
+
+ggsave(plot = hell.plot, filename = 'figures/hellingerplot.tiff', 
+       width = 8, height = 8, dpi = 150)

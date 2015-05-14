@@ -87,29 +87,20 @@ While these changes in climate are visible across the whole range, we would expe
 
 source('R/hellinger_dists.R')
 
-ggplot(all.hellinger, aes(x = fixedv_c, y = fixedc_v, color = climate)) +
-  geom_point(size = 2) + 
-  geom_abline(intercept=0, slope = 1) + 
-  facet_grid(shift ~ climate) +
-  xlab('Vegetation Fixed - Climate Shifting') +
-  ylab('Climate Fixed - Vegetation Shifting') +
-  theme_bw() +
-  theme(axis.text = element_text(family = 'serif', size = 12),
-        axis.title = element_text(family = 'serif', face = 'bold', size = 14),
-        strip.text = element_text(family = 'serif', face='bold', size = 14),
-        legend.title = element_text(family = 'serif', face='bold', size = 14))
+hell.plot
 
 ```
 
 The Hellinger distances reveal that 
 
 ```{r densityplots, warning=FALSE, message=FALSE, echo=FALSE, fig.height = 10, fig.width=7}
-source('R/figures//climate_boxplots.R')
+
+source('R/figures//ordination_plot.R')
+ordi_plot
 
 ```
 
-
-Whe we examine the taxa seperately we can see that by far the majority of comparisons show greater differences due to climate change than due to shifts in distribution:
+When we examine the taxa seperately we can see that by far the majority of comparisons show greater differences due to climate change than due to shifts in distribution:
 
 
 This plot makes it clear that precipitation across the region has changed significantly since the PLS era (or the early 1900s), while overall $t_{mean}$ has changed less.  Among taxa only beech, ironwood, hemlock, fir and tamarak show distributional changes larger than the effect of shifting climate.  For beech, a shift is seen in $t_{mean}$, where $t_{mean}$ for the PLS era distribution is 6.8^o^C, but is lower for the FIA distribution using PLS era climate, at $t_{mean}$ = 6.6^o^C.  This is likely due to a northward shift in beech distribution in the current FIA dataset due to the loss of southern beech forests (earlier Figure).
