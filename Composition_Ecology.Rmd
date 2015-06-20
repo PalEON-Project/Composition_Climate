@@ -25,7 +25,13 @@ Land use patterns and historical contingency change climate optima for key fores
 source('R/Setup_R.R')
 source('R/load_climate.R') # gives then.clim & now.clim
 source('R/load_veg.R')
+
+pls_data <- get_pls('0.9-4')
+agg_dens <- get_fia()[,colnames(pls_data)]
+
 source('R/natural_earth.R')
+
+base_map <- natural_earth()
   
 ```
 
@@ -58,7 +64,7 @@ changes <- modern$value - past$value
 
 The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here].
 
-Mean temperatures in the region show an average increase of `r round(changes[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(changes[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(changes[2], 2`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(changes[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
+Mean temperatures in the region show an average increase of `r round(changes[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(changes[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(changes[2], 2)`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(changes[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
 
 The Public Lands data is spatially extensive, sampling occured across the region in a regular pattern, while the FIA is limited to regions with forest cover.  As such, the extent of points is not overlapping. Given the extensive use of FIA data in generating and estimating climate responses of tree taxa and forest types to changing climate, the use of the FIA data as an estimate for tree species distributions is acceptable fo estimating shifts in climate space, and attributing the loss or gain of climate niche space due to land use and climate variability and change during the 20^th^ century.
 
