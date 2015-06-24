@@ -63,7 +63,8 @@ natural_earth <- function(){
                                          NE1_HR_LC_SR_W_DR.3,
                                         1))
   
-  ggplot() + #data = rast.table, aes(x = x, y = y)) +
+  list(rast_table = rast.table, 
+       base_map = ggplot() + #data = rast.table, aes(x = x, y = y)) +
     #scale_alpha_discrete(range=c(1,0)) +
     geom_path(data=river.subset, aes(x = long, y = lat, group = group), color = 'blue', alpha = 0.1) +
     geom_polygon(data=lakes.subset, aes(x = long, y = lat, group = group), fill = '#ADD8E6') +
@@ -72,5 +73,5 @@ natural_earth <- function(){
     coord_cartesian(xlim = ext[1:2], ylim=ext[3:4]) +
     theme(axis.text.x = element_blank(),
           axis.text.y = element_blank()) +
-    xlab('') + ylab('')
+    xlab('') + ylab(''))
 }

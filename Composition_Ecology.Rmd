@@ -29,9 +29,13 @@ source('R/load_veg.R')
 pls_data <- get_pls('0.9-4')
 agg_dens <- get_fia()[,colnames(pls_data)]
 
+best.taxa <- c('beech', 'ironwood', 'hemlock', 'fir', 'cedar.juniper', 
+              'basswood', 'spruce', 'elm', 'ash', 'pine', 'oak', 
+              'tamarack', 'maple', 'poplar', 'birch')
+
 source('R/natural_earth.R')
 
-base_map <- natural_earth()
+natural <- natural_earth()
   
 ```
 
@@ -58,7 +62,10 @@ Results
 
 source('R/figures/climate_ts.R')
 
-changes <- modern$value - past$value
+climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
+
+changes <- climate_values$modern$value - climate_values$past$value
+
 ```
 **Figure 1**. *Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region.*
 
@@ -72,6 +79,8 @@ The Public Lands data is spatially extensive, sampling occured across the region
 
 source('R/figures/gain_loss_plot.R')
 
+loss_plots <- loss_plot()
+
 ```
 **Figure 1**.  *Gain loss and continuous presence for PLSS and FIA tree taxa.*
 
@@ -79,9 +88,10 @@ source('R/figures/gain_loss_plot.R')
 ```{r densities}
 
 source('R/resampling_climate.R')
+vegclim_table <- resample_climate(climate, agg_dens, pls_data)
 
 source('R/figures/climate_boxplots.R')
-
+boxplot_clim <- clim_boxplots(clim_table = vegclim_table)
 boxplot_clim
 
 ```

@@ -90,9 +90,5 @@ get_pls <- function(version){
   
   agg.dens$poplar <- agg.dens$poplar.tulip.poplar
   
-  best.taxa <- c('beech', 'ironwood', 'hemlock', 'fir', 'cedar.juniper', 
-                'basswood', 'spruce', 'elm', 'ash', 'pine', 'oak', 
-                'tamarack', 'maple', 'poplar', 'birch')
-  
   pls.data[,c('cell', best.taxa)]
 }
