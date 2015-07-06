@@ -79,11 +79,11 @@ The Public Lands data is spatially extensive, sampling occured across the region
 
 source('R/figures/gain_loss_plot.R')
 
+#  This takes a bit of time.
 loss_plots <- loss_plot()
 
 ```
 **Figure 1**.  *Gain loss and continuous presence for PLSS and FIA tree taxa.*
-
 
 ```{r densities}
 
@@ -103,24 +103,17 @@ While these changes in climate are visible across the whole range, we would expe
 
 source('R/hellinger_dists.R')
 
+#  Returns a list with the ggplot (object 1) and all.hellinger.
 hell_plot <- hellinger_plot()
 
 ```
 **Figure X**. *For each of the four variables examined we see*
 
-The Hellinger distances reveal that 
+The Hellinger distances reveal that while taxa may show the imprint of land use change on shifting climatic niches, this shift is not uniform across taxa not climatic  variables. Maximum temperature shows the greatest change attributed to land use change.  Tamarack, elm, poplar, spruce beech, cedar, and fir all show a greater influence for land use change than regional climate change.
 
-```{r densityplots, warning=FALSE, message=FALSE, echo=FALSE, fig.height = 10, fig.width=7}
+The precipitation panel (Figure X) indicates that precipitation across the region has driven change in the species climate niche for this variable.  Only spruce and poplar show a marginally greater effect of land use change than climate change, wheras taxa such as beech and hemlock show a strong climate signal.
 
-source('R/figures//ordination_plot.R')
-ordi_plot
-
-```
-
-When we examine the taxa seperately we can see that by far the majority of comparisons show greater differences due to climate change than due to shifts in distribution:
-
-
-This plot makes it clear that precipitation across the region has changed significantly since the PLS era (or the early 1900s), while overall $t_{mean}$ has changed less.  Among taxa only beech, ironwood, hemlock, fir and tamarak show distributional changes larger than the effect of shifting climate.  For beech, a shift is seen in $t_{mean}$, where $t_{mean}$ for the PLS era distribution is 6.8^o^C, but is lower for the FIA distribution using PLS era climate, at $t_{mean}$ = 6.6^o^C.  This is likely due to a northward shift in beech distribution in the current FIA dataset due to the loss of southern beech forests (earlier Figure).
+Interstingly, since the pre-settlement era maximum temperatures have declined, while minimum temperatures have increased strongly.  
 
 Discussion
 ----------------

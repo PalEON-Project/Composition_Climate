@@ -7,6 +7,7 @@ library(plyr)
 library(gridExtra)
 library(rgdal)
 library(RColorBrewer)
+library(analogue)
 
 base.rast <- raster('data/albers/density//Abies_balsamea_density_alb.tif')
 base.rast <- setValues(base.rast, 1:ncell(base.rast))

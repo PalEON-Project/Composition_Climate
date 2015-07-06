@@ -77,6 +77,9 @@ get_fia <- function(x){
   
   colnames(agg_dens) <- tolower(gsub(' |[[:punct:]]', '\\.', colnames(agg_dens)))
   colnames(agg_dens)[regexpr('poplar', colnames(agg_dens))>0] <- 'poplar'
+  
+  agg_dens[is.na(agg_dens)] <- 0
+  
   agg_dens
 }
 

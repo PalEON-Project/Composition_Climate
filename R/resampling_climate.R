@@ -1,6 +1,11 @@
+#  This code takes a climate variable and the FIA & PLS data
+#  and returns a table with the climate variable for each taxon
+#  within each cell in each of the four eras (PLS/PLS, FIA/FIA 
+#  and the cross values).
+
 resample_climate <- function(climate, agg_dens, pls_data){
-  agg_dens[,-1] <- agg_dens[,-1] / rowSums(agg_dens[,-1])
-  pls_data[,-1] <- pls_data[,-1] / rowSums(pls_data[,-1])
+  agg_dens[,-1] <- tran(agg_dens[,-1], method = 'proportion')
+  pls_data[,-1] <- tran(pls_data[,-1], method = 'proportion')
   
   then_rast <- resample(climate$then, unit.raster)
   now_rast <- resample(climate$now, unit.raster)
@@ -76,7 +81,7 @@ resample_climate <- function(climate, agg_dens, pls_data){
                                   }
                                   aa}))
                             })
-                          })
+})
   
   data.out <- lapply(1:15, function(x)lapply(1:4, function(y){
     aa <- data.tables[[x]][[y]]

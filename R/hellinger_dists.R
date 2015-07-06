@@ -78,8 +78,8 @@ hellinger_plot <- function(){
              label='Land Use Dominates', family='serif',
              fontface = 'bold', size = 5)
   
-  ggsave(plot = hell.plot, filename = 'figures/hellingerplot.tiff', 
+  ggsave(plot = hell_plot, filename = 'figures/hellingerplot.tiff', 
          width = 10, height = 8, dpi = 150)
  
-  hell_plot
+  list(hell_plot, all.hellinger)
 }
