@@ -23,15 +23,15 @@ Land use patterns and historical contingency change climate optima for key fores
 #  Modern climate: 1960 - 1990
 
 source('R/Setup_R.R')
-source('R/load_climate.R') # gives then.clim & now.clim
+source('R/load_climate.R') # gives `climate` with elements `then`, `now` and `names`
 source('R/load_veg.R')
-
-pls_data <- get_pls('0.9-4')
-agg_dens <- get_fia()[,colnames(pls_data)]
 
 best.taxa <- c('beech', 'ironwood', 'hemlock', 'fir', 'cedar.juniper', 
               'basswood', 'spruce', 'elm', 'ash', 'pine', 'oak', 
               'tamarack', 'maple', 'poplar', 'birch')
+
+pls_data <- get_pls('0.9-4')
+agg_dens <- get_fia()[,colnames(pls_data)]
 
 source('R/natural_earth.R')
 
@@ -103,9 +103,10 @@ While these changes in climate are visible across the whole range, we would expe
 
 source('R/hellinger_dists.R')
 
-hell.plot
+hell_plot <- hellinger_plot()
 
 ```
+**Figure X**. *For each of the four variables examined we see*
 
 The Hellinger distances reveal that 
 
