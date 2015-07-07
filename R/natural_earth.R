@@ -28,7 +28,7 @@ natural_earth <- function(){
     shape@data$id <- rownames(shape@data)
     
     x.f = fortify(shape, region="id")
-    x.join = join(x.f, shape@data, by="id")
+    x.join = plyr::join(x.f, shape@data, by="id")
     
     aa <- x.join[,1:2]
     coordinates(aa) <- ~ long + lat

@@ -1,0 +1,17 @@
+Value,Reassigned,Description
+0,NA, No data
+11,Water,Open water
+21,Developed,Developed: Open Space - could be undeveloped
+22,Developed,Developed: Low Intensity
+23,Developed,Developed: Medium Intensity
+24,Developed,Developed: High Intensity
+31,Forest,Barren Land (Rock/Sand/Clay)
+41,Forest,Deciduous Forest
+42,Forest,Evergreen Forest
+43,Forest,Mixed Forest
+52,Forest,Dwarf Scrub
+71,Forest,Grassland/Herbaceous
+81,Agriculture,Pasture/Hay
+82,Agriculture,Cultivated Crops
+90,Forest,Woody Wetlands
+95,Forest,Emergent Herbaceous Wetlands
