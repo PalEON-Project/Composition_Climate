@@ -123,7 +123,7 @@ loss_table[,2:3] <- tran(loss_table[,2:3], method = 'proportion')
 **Figure 2**.  *Gain loss and continuous presence for PLSS and FIA tree taxa. Continuous presence is indicated by dark green.  For most taxa it is the central parts of their distribution that show continuous presence.  Few taxa show novel presence (purple), although taxa such as poplar, ash and basswood do show gains of over 10%.  Most taxa show significant losses in distribution (orange).*
 
 **Table 1.** *Gain and loss of the various forest tree types of interest.*
-```{r, results=as.is}
+```{r, results='as.is'}
 pandoc.table(loss_table, justify = "left", style = 'simple')
 ```
 
