@@ -56,5 +56,5 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
           legend.position = "none")
     
   ggsave(clim_plot, filename = 'figures/clim_plot.tiff', width = 8, height = 6, dpi = 150)
-  list(modern = modern, past = past, climate = climate)
+  list(modern = modern, past = past, climate = climate, plot = clim_plot)
 }

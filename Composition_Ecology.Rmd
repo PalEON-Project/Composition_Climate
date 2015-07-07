@@ -3,8 +3,11 @@ title: "Composition-climate paper"
 author: "Simon Goring *et al*."
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  word_document:
+    fig_width: 6
+    fig_height: 6
   md_document:
-    variant: markdown
+    variant: markdown_github
   pdf_document:
     pandoc_args: "-V geometry:vmargin=1in -V geometry:hmargin=1in"
 pandoc_args: "-H margins.sty"
@@ -38,7 +41,7 @@ panderOptions('table.style', 'rmarkdown')
 
 *Predictions for future species range shifts are predicated largely on correlative models that relate modern species distributions to climate parameters in the modern era.  Given the extent of regional forest change and recent losses to key forest taxa including Hemlock, Elm and Chestnut it is possible that certain taxa have shiften with respect to climate change over the last century.  The additional pressure of climatically biased land use conversion for agriculture along the western and southern border of the upper Midwest means that the shift in climate space may be most pressing in a region of climate space that is critically important for understanding future species responses to climate change.*
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE, message=FALSE}
+```{r, echo = FALSE, warning = FALSE, message=FALSE, results='hide'}
 # Load climate data and generate the pre-sett and modern bounds:
 #  Pre-settlement climate: 1900 - 1930
 #  Modern climate: 1960 - 1990
@@ -65,13 +68,14 @@ Introduction
 
 Over the past 200 years centennial scale climate variability and land use change have interacted to transform the forests of the northeastern United States. There are clear indications that modern forests, as represented by the Forest and Inventory Analysis show greater homogeneity and significantly different species associations than pre-settlement forests [@goring2015preset;@schulte2007homogenization]. This shift has occured over a period during which climate has begun to show the effects of anthropogenic warming, and a period in which we have increasingly used the relationship between modern tree species distributions and climate to understand future responses of tree species and forest assemblages to climate change [@iverson2013tree;@iverson1998predicting].  One of the most significant changes to forest tree distributions in the upper midwest is the loss of extensive cover through land use change [@rhemtulla2009legacies], particularly the .  
 
-```{r}
+```{r figure1, fig.width=6, fig.height=5, echo = FALSE, warning = FALSE, message=FALSE}
 
 natural[[2]] + 
   geom_tile(data = land_use, aes(x = x, y = y, fill = class)) +
   scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#33a02c', '#377eb8'))
 
 ```
+
 **Figure 1.** *Patterns of land use change in the upper Midwestern United States. Data from the NLCD [@jin2013comprehensive].*
 
 If modern species distributions have been affected by land use change in a random fashion then we should expect little effect on the resulting predictions since, by and large, me might expect the climate envelope encompased by the species to remain largely unchanged.  In the midwestern United States we see a strong gradient of temperature and precipitation that results in two major ecotones, one from prairie/savanna to closed forest, in an approixmately west to east direction, and one from conifer dominated, sub-boreal forests to decidious forest in a north to south direction.  Goring et al [@goring2015preset] have shown that land use change has significantly changed the strength and structure of this ecotone, but did not examine how these shifts might affect the relationships between climate and distribution for individual taxa. Given that much of the land use change within the region occurs in the south, where agricultural conversion has largely eliminated open forests, we might expect to see that species with more southerly distributions would show greater impacts of land use change on their distributions in climate space, assuming no shift in regional climate.  Conversely, species in the north should show little change if we expect that pre-settlement trees show similar regeneration patterns (with respect to simple presence/absence) following widespread logging.
@@ -96,9 +100,11 @@ climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
 
 changes <- climate_values$modern$value - climate_values$past$value
 
+climate_values$plot
+
 ```
-![](figures/clim_plot.tiff)
-**Figure 1**. *Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region.*
+
+**Figure 2.**. *Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region.*
 
 The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here].
 
@@ -113,14 +119,14 @@ source('R/figures/gain_loss_plot.R')
 #  This takes a bit of time.
 loss_melt <- loss_plot()
 
-loss_table <- as.data.frame.matrix(table(loss_melt$variable, loss_melt$value))
+loss_table <- as.data.frame.matrix(table(loss_melt[[1]]$variable, loss_melt[[1]]$value))
 loss_table$Gain <- loss_table$Gain / (loss_table$Loss + loss_table$Presence)
 loss_table[,2:3] <- tran(loss_table[,2:3], method = 'proportion')
 
+loss_melt[[2]]
 ```
-![](figures/loss_plots.tiff)
 
-**Figure 2**.  *Gain loss and continuous presence for PLSS and FIA tree taxa. Continuous presence is indicated by dark green.  For most taxa it is the central parts of their distribution that show continuous presence.  Few taxa show novel presence (purple), although taxa such as poplar, ash and basswood do show gains of over 10%.  Most taxa show significant losses in distribution (orange).*
+**Figure 3.**.  *Gain loss and continuous presence for PLSS and FIA tree taxa. Continuous presence is indicated by dark green.  For most taxa it is the central parts of their distribution that show continuous presence.  Few taxa show novel presence (purple), although taxa such as poplar, ash and basswood do show gains of over 10%.  Most taxa show significant losses in distribution (orange).*
 
 **Table 1.** *Gain and loss of the various forest tree types of interest.*
 ```{r, results='as.is'}
@@ -139,7 +145,7 @@ boxplot_clim
 
 ```
 
-**Figure 3** *Changes in the overall climate space in the upper midwestern United States. The climate densities largely overlap, although it is possible to see the shifts in precipitation, mean and minium temperatures, where FIA data (pink) has higher values), while the decline in maximum temperatures is also visible, largely at the very highest values.*
+**Figure 4.** *Changes in the overall climate space in the upper midwestern United States. The climate densities largely overlap, although it is possible to see the shifts in precipitation, mean and minium temperatures, where FIA data (pink) has higher values), while the decline in maximum temperatures is also visible, largely at the very highest values.*
 
 While these changes in climate are visible across the whole range, we would expect that species with significant shifts in distribution as a result of land use change in the post-settlement era should show changes that superceed the changes resulting from climate alone.  In particular, if the land use pressure is biased spatially or climatically then these changes should be even more dramatic.  Hellinger distance is used to understand the difference in the shape of kernel densities.  Using the distributions in climate space for each of the key taxa we can shift climate, or vegetation to understand the relative effects of land use change and climatic change across the region.
 
@@ -154,7 +160,7 @@ hell_plot[[1]]
 
 ```
 
-**Figure X**. *For each of the four variables examined we see...*
+**Figure 5**. *For each of the four variables examined we see...*
 
 The Hellinger distances reveal that while taxa may show the imprint of land use change on shifting climatic niches, this shift is not uniform across taxa not climatic  variables. Maximum temperature shows the greatest change attributed to land use change.  Tamarack, elm, poplar, spruce beech, cedar, and fir all show a greater influence for land use change than regional climate change.
 

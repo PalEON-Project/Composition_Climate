@@ -83,6 +83,6 @@ loss_plot <- function(){
   ggsave(plot = short_plot, filename = 'figures/short_plots.tiff', dpi = 150, width = 6, height = 5)
   
   
-  loss_melt
+  list(loss_melt, loss_plot)
 }
 
