@@ -1,18 +1,18 @@
 ---
 title: "Composition-climate paper"
 author: "Simon Goring *et al*."
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: '`r format(Sys.time(), ''%d %B, %Y'')`'
 output:
-  word_document:
-    fig_width: 6
-    fig_height: 6
+  pdf_document:
+    pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
   md_document:
     variant: markdown_github
-  pdf_document:
-    pandoc_args: "-V geometry:vmargin=1in -V geometry:hmargin=1in"
-pandoc_args: "-H margins.sty"
-bibliography: goringetal_references.bib
+  word_document:
+    fig_height: 6
+    fig_width: 6
 csl: ecology.csl
+pandoc_args: -H margins.sty
+bibliography: goringetal_references.bib
 ---
 
 
