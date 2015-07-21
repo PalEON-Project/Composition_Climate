@@ -12,7 +12,7 @@ hellinger.mat <- function(x){
   new.climate[,-1]
 }
 
-multi.var.hellinger <-hellinger.mat(all.hellinger)
+multi.var.hellinger <- hellinger.mat(subset(all.hellinger, !taxon %in% 'Ironwood'))
 
 #  We drop beech because the change in precip is so big it blows everything up.
 multi.sqrt <- apply(multi.var.hellinger[-1,], 2, function(x) sqrt(x - min(x)+0.1))
@@ -25,6 +25,8 @@ ordi_spec <- data.frame(clim = rownames(ordination$species),
                         ordination$species)
 
 ordi.plot <- ggplot(ordi_plot, aes(x = MDS1, y = MDS2, label = taxon)) +
+  geom_hline(yintercept = 0, alpha = 0.5, linetype = 2) +
+  geom_vline(xintercept=0, alpha = 0.5, linetype = 2) +
   geom_text(family = 'serif') +
   geom_text(data = ordi_spec, aes(x = MDS1, y = MDS2, label = clim), fontface = 'italic') +
   theme_bw() +
@@ -34,4 +36,4 @@ ordi.plot <- ggplot(ordi_plot, aes(x = MDS1, y = MDS2, label = taxon)) +
     legend.position = "none") +
   coord_cartesian(xlim=c(-0.55,.55), ylim=c(-0.35, .35))
 
-ggsave(plot = ordi.plot, filename = 'figures/ordi_plot.tiff')
+ggsave(plot = ordi.plot, filename = 'figures/ordi_plot.tiff', dpi = 150, width = 8, height = 8)

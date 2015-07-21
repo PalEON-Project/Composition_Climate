@@ -1,24 +1,24 @@
-# plot resampling:
-
-ppt.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'ppt'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-tma.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'tmax'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +            
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-tmi.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'tmin'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-tme.plot <- ggplot(subset(vegclim.table, data > 0.05 & climate == 'tmean'), 
-                   aes(factor(paste0(base, ', ', c.ref)), clim)) + 
-  geom_boxplot(alpha=0.2) +
-  xlab('') + ylab('') +
-  facet_grid(taxon ~ climate, scales='free') + theme_bw()
-
-grid.arrange(ppt.plot, tma.plot, tmi.plot, tme.plot, nrow=1, sub='')
+# Plotting the total climate-shift for the domain.
+clim_boxplots <- function(clim_table = vegclim_table){
+  
+  clim_table$climate <- factor(clim_table$climate, 
+                             levels = c('tmax', 'tmean', 'tmin', 'ppt'),
+                             labels = c('T[max]', 'T[mean]', 'T[min]', 'P[ann]'))
+  
+  boxplot_clim <- ggplot(data = subset(na.omit(clim_table), 
+                                       comb %in% c('FIA Era', 'PLS Era') & data>0 &
+                                         !taxon %in% 'Ironwood')) +
+    geom_boxplot(aes(y = clim, x = taxon, fill = comb)) +
+    scale_fill_grey() +
+    facet_grid(climate~., scales='free_y', labeller = label_parsed) +
+    theme_bw() +
+    theme(axis.text = element_text(family = 'serif', face='bold', size = 12),
+          axis.title = element_blank(),
+          strip.text = element_text(family = 'serif', face='bold', size = 14),
+          legend.title = element_text(family = 'serif', face='bold', size = 14),
+          legend.text = element_text(family = 'serif', size = 12),
+          axis.text.x=element_text(angle=45, hjust = 1))
+  
+  ggsave(plot = boxplot_clim, filename = 'figures/boxplot_clim.tiff', width = 9, height = 6, dpi = 150)
+  boxplot_clim
+}
