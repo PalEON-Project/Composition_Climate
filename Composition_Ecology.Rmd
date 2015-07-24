@@ -16,7 +16,7 @@ bibliography: goringetal_references.bib
 ---
 
 
-Land use patterns and historical contingency change climate optima for key forest genera in the Northeastern United States.
+Effect of historic land use and climate change on tree-climate relationships for key forest genera in the northern United States
 ========================================================
 
 <!--
@@ -36,6 +36,18 @@ library("plyr")
 panderOptions('table.style', 'rmarkdown')
 ```
 -->
+
+Abstract
+====
+* Much of our understanding of species-cliamte relationships and functional-community relationships in forests is based off of contemporary observations.
+* Ecosystems are highly dynamic and contemporary forest have a heavy imprint of land use.  Climates also changing.  
+* Hence the question of whether species-climate relationships today are representative compared to those in past.
+* Here we assess stability of species-climate relationships. Using historic PLS data and FIA data.
+* We show that species-climate relationships have significantly shifted for many taxa.
+* Contemporary trees have shifted to cooler maximum temperatures, warmer winter temperatures, reduced seasonal temperature range, and wetter conditions.
+* Relative importance of land use and climate change varies by taxon and climate variable.  
+* Shifts in warmer temperature mainly due to land use change, etc.
+* Implications sentence or two at the end.
 
 *Historic land use and forest change over the centuries since Euroamerican settlement have significantly changed the structure and composition of forests in the upper Midwestern United States.  The extent to which this change has affected the realized climate niche for key taxa is less well known.*
 
@@ -66,17 +78,29 @@ natural <- natural_earth()
 Introduction
 ==============
 
-Over the past 200 years centennial scale climate variability and land use change have interacted to transform the forests of the northeastern United States. There are clear indications that modern forests, as represented by the Forest and Inventory Analysis show greater homogeneity and significantly different species associations than pre-settlement forests [@goring2015preset;@schulte2007homogenization]. This shift has occured over a period during which climate has begun to show the effects of anthropogenic warming, and a period in which we have increasingly used the relationship between modern tree species distributions and climate to understand future responses of tree species and forest assemblages to climate change [@iverson2013tree;@iverson1998predicting].  One of the most significant changes to forest tree distributions in the upper midwest is the loss of extensive cover through land use change [@rhemtulla2009legacies], particularly along the historical prairie and savanna margins of the region (Figure 1), where extensive land use conversion has left little natural land.
+Over the past 200 years centennial scale climate variability and land use change have interacted to transform the forests of the northeastern United States. There are clear indications that modern forests, as represented by the Forest and Inventory Analysis show greater homogeneity and significantly different species associations than pre-settlement forests [@goring2015preset;@schulte2007homogenization]. This shift has occured over a period during which climate has begun to show the effects of anthropogenic warming, and a period in which we have increasingly used the relationship between modern tree species distributions and climate to understand future responses of tree species and forest assemblages to climate change [@iverson2013tree;@iverson1998predicting].  One of the most significant changes to forest tree distributions in the upper midwest is the loss of extensive cover through land use change [@rhemtulla2009legacies], particularly along the historical prairie and savanna margins of the region (Figure 1f), where extensive land use conversion has left little natural land.
 
 ```{r figure1, fig.width=6, fig.height=5, echo = FALSE, warning = FALSE, message=FALSE}
 
-natural[[2]] + 
+land_use$class[land_use$class == 'Water'] <- NA
+
+land_use_plot <- natural[[2]] + 
   geom_tile(data = land_use, aes(x = x, y = y, fill = class)) +
-  scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#33a02c', '#377eb8'))
+  scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#33a02c'))
+
+
+source('R/figures/climate_ts.R')
+
+climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
+
+changes <- climate_values$modern$value - climate_values$past$value
+
+grid.arrange(climate_values$plot, land_use_plot, nrow=1, widths = c(3, 4))
+
 
 ```
 
-**Figure 1.** *Patterns of land use change in the upper Midwestern United States. Data from the NLCD [@jin2013comprehensive].*
+**Figure 1.** *(a-e) Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region. (f) Patterns of land use change in the upper Midwestern United States. Data from the NLCD [@jin2013comprehensive].*
 
 The interaction of land use change and climatic change has been of interest to conservation managers and scientists [e.g., @pyke2004habitat] since managed natural areas often represent a biased selection from the available environmental space [@scott2001nature].  Pyke [-@pyke2004habitat] lays out a useful framework for assessing the interaction of climate and land use change.  By deliniating three tpyes of interaction, compunding, confounding and contradicting, it is possible to understand both the nature of the interaction and the potential effect on species resiliance and response to broader regional change.
 
@@ -104,19 +128,7 @@ We also develop estimates of the modern climate space that taxa would occupy if 
 
 Results
 ---------------
-```{r changing_climate, warning=FALSE, message=FALSE, echo=FALSE}
 
-source('R/figures/climate_ts.R')
-
-climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
-
-changes <- climate_values$modern$value - climate_values$past$value
-
-climate_values$plot
-
-```
-
-**Figure 2.**. *Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region.*
 
 The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here]. **Talk about modern climate normal & historical climate normal make it clear that this is the best we can do, and that it's good.**
 
