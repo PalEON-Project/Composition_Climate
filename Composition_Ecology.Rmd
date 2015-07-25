@@ -69,6 +69,8 @@ best.taxa <- c('beech', 'ironwood', 'hemlock', 'fir', 'cedar.juniper',
 pls_data <- get_pls('0.9-4')
 agg_dens <- get_fia()[,colnames(pls_data)]
 
+land_use <- land_use[land_use$cell %in% c(pls_data$cell, agg_dens$cell),]
+
 source('R/natural_earth.R')
 
 natural <- natural_earth()
@@ -96,7 +98,6 @@ climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
 changes <- climate_values$modern$value - climate_values$past$value
 
 grid.arrange(climate_values$plot, land_use_plot, nrow=1, widths = c(3, 4))
-
 
 ```
 
