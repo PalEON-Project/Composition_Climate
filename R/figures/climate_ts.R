@@ -36,7 +36,7 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
   clim_pattern <- function(rast_in, pls_rast, year){
   
     rast_mask <- rast_in
-    rast_mask[!(1:ncell(now.rast))%in%pls_data$cell]<- NA
+    rast_mask[!(1:ncell(rast_in))%in%pls_data$cell]<- NA
   
     data.frame(variable = c('P[ann]', 'T[max]', 'T[diff]', 'T[min]'),
                value = colMeans(getValues(rast_mask), na.rm=TRUE),

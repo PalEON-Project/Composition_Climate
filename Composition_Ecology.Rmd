@@ -82,7 +82,7 @@ Introduction
 
 Over the past 200 years centennial scale climate variability and land use change have interacted to transform the forests of the northeastern United States. There are clear indications that modern forests, as represented by the Forest and Inventory Analysis show greater homogeneity and significantly different species associations than pre-settlement forests [@goring2015preset;@schulte2007homogenization]. This shift has occured over a period during which climate has begun to show the effects of anthropogenic warming, and a period in which we have increasingly used the relationship between modern tree species distributions and climate to understand future responses of tree species and forest assemblages to climate change [@iverson2013tree;@iverson1998predicting].  One of the most significant changes to forest tree distributions in the upper midwest is the loss of extensive cover through land use change [@rhemtulla2009legacies], particularly along the historical prairie and savanna margins of the region (Figure 1f), where extensive land use conversion has left little natural land.
 
-```{r figure1, fig.width=6, fig.height=5, echo = FALSE, warning = FALSE, message=FALSE}
+```{r figure1, echo = FALSE, warning = FALSE, message=FALSE, fig.width=6, fig.height=5}
 
 land_use$class[land_use$class == 'Water'] <- NA
 
@@ -95,8 +95,9 @@ source('R/figures/climate_ts.R')
 
 climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
 
-grid.arrange(climate_values$plot, land_use_plot, nrow=1, widths = c(3, 4))
+clim_change <- climate_values$modern$value - climate_values$past$value
 
+grid.arrange(climate_values$plot, land_use_plot, nrow=1, widths = c(3, 4))
 ```
 
 **Figure 1.** *(a-e) Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region. (f) Patterns of land use change in the upper Midwestern United States. Data from the NLCD [@jin2013comprehensive].*
@@ -131,7 +132,7 @@ Results
 
 The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here]. **Talk about modern climate normal & historical climate normal make it clear that this is the best we can do, and that it's good.**
 
-`r clim_change <- climate_values$modern$value - climate_values$past$value `
+
 
 Mean temperatures in the region show an average increase of `r round(clim_change[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(clim_change[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(clim_change[2], 2)`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(clim_change[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
 
