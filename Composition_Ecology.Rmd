@@ -1,7 +1,7 @@
 ---
 title: "Composition-climate paper"
 author: "Simon Goring *et al*."
-date: '`r format(Sys.time(), ''%d %B, %Y'')`'
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
     pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
   comment = " ",
   error = TRUE,
   eval = TRUE,
-  cache = TRUE,
+  cache = FALSE,
   tidy = TRUE
 
 )
@@ -95,8 +95,6 @@ source('R/figures/climate_ts.R')
 
 climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
 
-changes <- climate_values$modern$value - climate_values$past$value
-
 grid.arrange(climate_values$plot, land_use_plot, nrow=1, widths = c(3, 4))
 
 ```
@@ -117,7 +115,7 @@ We use gridded climate data products and estimates of pre-settlement vegetation 
 
 Methods
 ===============
-We pair pre-settlement vegetation data from the Public Land Survey System aggregated to a 64km^2^ grid [@goring2015preset] with annually resolved climate data for the region.  PLSS vegetation data contains no reported uncertainty, however it is spatially discontinuous, particularly in the south where digitization of PLSS records has occured at a slower rate.  Additionally, data in the northeastern United States [@thompson2013four] from town Proprietor Surveys is recorded arially, with no variance within township polygons.  To accomodate these different data sources a conditional autoregressive model was applied to the data, providing the ability to obtain uncertainty estimates across the domain [@paciorek2015comp].
+We pair pre-settlement vegetation data from the Public Land Survey System aggregated to a 64km^2^ grid [@goring2015preset] with annually resolved climate data for the region.
 
 **Paragraph about data scale between PLS and FIA**
 
@@ -133,7 +131,9 @@ Results
 
 The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here]. **Talk about modern climate normal & historical climate normal make it clear that this is the best we can do, and that it's good.**
 
-Mean temperatures in the region show an average increase of `r round(changes[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(changes[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(changes[2], 2)`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(changes[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
+`r clim_change <- climate_values$modern$value - climate_values$past$value `
+
+Mean temperatures in the region show an average increase of `r round(clim_change[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(clim_change[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(clim_change[2], 2)`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(clim_change[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
 
 The Public Lands data is spatially extensive, sampling occured across the region in a regular pattern, while the FIA is limited to regions with forest cover.  As such, the extent of points is not overlapping. Given the extensive use of FIA data in generating and estimating climate responses of tree taxa and forest types to changing climate, the use of the FIA data as an estimate for tree species distributions is acceptable fo estimating shifts in climate space, and attributing the loss or gain of climate niche space due to land use and climate variability and change during the 20^th^ century.
 

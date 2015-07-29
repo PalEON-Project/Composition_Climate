@@ -39,6 +39,7 @@ loss_plot <- function(){
   }
   
   loss_melt <- get_loss_gain(unit.raster, best.taxa, pls_data, agg_dens)
+
   loss_melt$rgb <- brewer.pal(n = 3, 'Dark2')[as.numeric(factor(loss_melt$value, 
                                                                 levels = c('Presence', 'Loss', 'Gain')))]
   
