@@ -1,7 +1,7 @@
 ---
 title: "Composition-climate paper"
 author: "Simon Goring *et al*."
-date: '`r format(Sys.time(), ''%d %B, %Y'')`'
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   pdf_document:
     pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
