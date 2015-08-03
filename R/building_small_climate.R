@@ -129,7 +129,8 @@ for(i in 1:4){
 clim.year <- data.frame(ppt = as.numeric(dcast(clim[[1]], param ~ month, fun.aggregate = sum, value.var = 'val', na.rm=TRUE)[,-1]),
                         tmx = as.numeric(dcast(clim[[2]], param ~ month, fun.aggregate = max, value.var = 'val', na.rm=TRUE)[,-1]),
                         tmi = as.numeric(dcast(clim[[3]], param ~ month, fun.aggregate = min, value.var = 'val', na.rm=TRUE)[,-1]),
-                        tmn = as.numeric(dcast(clim[[4]], param ~ month, fun.aggregate = mean, value.var = 'val', na.rm=TRUE)[,-1]))
+                        tdf = as.numeric(dcast(clim[[2]], param ~ month, fun.aggregate = max, value.var = 'val', na.rm=TRUE)[,-1]) -
+                          as.numeric(dcast(clim[[3]], param ~ month, fun.aggregate = min, value.var = 'val', na.rm=TRUE)[,-1]))
 
 clim.yout <- data.frame(melt(clim.year), year = 1895:2014)
 write.csv(clim.yout, 'data//input/annualclim.csv')

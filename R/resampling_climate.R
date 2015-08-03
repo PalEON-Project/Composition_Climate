@@ -16,8 +16,8 @@ resample_climate <- function(climate, agg_dens, pls_data){
   #  3.  Get vectors of values
   
   # These are the climate ranges:
-  ranges <- data.frame(min = c(400,  15, 0, -30),
-                       max = c(2200, 35, 16, 2))
+  ranges <- data.frame(min = c(400,  15, 24, -30),
+                       max = c(2200, 35, 53, 2))
   
   # To do the analysis we want to get the climate layers for the past:
   get_dens_era <- function(taxon, clim.var){

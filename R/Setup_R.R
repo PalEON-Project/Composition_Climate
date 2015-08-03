@@ -18,7 +18,8 @@ unit.raster <- setValues(pls.rast, 1:ncell(pls.rast))
 land_use <- raster('../../../Maps/nlcd_2011_landcover_2011_edition_2014_10_10//nlcd_cropped_repro.tif')
 
 #  We need to change the raster to a data.frame:
-land_use <- data.frame(xyFromCell(land_use, 1:ncell(land_use)),
+land_use <- data.frame(cell = extract(unit.raster, xyFromCell(land_use, 1:ncell(land_use))),
+                       xyFromCell(land_use, 1:ncell(land_use)),
                        value = getValues(land_use))
 reassign <- read.csv('data/input/landuse_reassignment.csv', stringsAsFactors=FALSE)
 land_use$class <- factor(reassign[match(land_use$value, reassign[,1]),2])
