@@ -3,13 +3,13 @@ title: "Composition-climate paper"
 author: "Simon Goring *et al*."
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
+  word_document:
+    fig_height: 6
+    fig_width: 6
   pdf_document:
     pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
   md_document:
     variant: markdown_github
-  word_document:
-    fig_height: 6
-    fig_width: 6
 csl: ecology.csl
 pandoc_args: -H margins.sty
 bibliography: goringetal_references.bib
@@ -39,10 +39,10 @@ panderOptions('table.style', 'rmarkdown')
 
 Abstract
 ====
-* Much of our understanding of species-cliamte relationships and functional-community relationships in forests is based off of contemporary observations.
-* Ecosystems are highly dynamic and contemporary forest have a heavy imprint of land use.  Climates also changing.  
-* Hence the question of whether species-climate relationships today are representative compared to those in past.
-* Here we assess stability of species-climate relationships. Using historic PLS data and FIA data.
+* Much of our understanding of species-climate relationships and functional-community relationships in forests is based on contemporary observations of tree distributions.
+* Ecosystems are highly dynamic and contemporary forest have a heavy imprint of land use, while climate changes over decadal and centennial scales.
+* Given long time-scale climate change and continued land use conversion, are species-climate relationships today representative of those in past.
+* We assess the stability of species-climate relationships using historic PLS data and FIA data.
 * We show that species-climate relationships have significantly shifted for many taxa.
 * Contemporary trees have shifted to cooler maximum temperatures, warmer winter temperatures, reduced seasonal temperature range, and wetter conditions.
 * Relative importance of land use and climate change varies by taxon and climate variable.  
@@ -86,10 +86,13 @@ Over the past 200 years centennial scale climate variability and land use change
 
 land_use$class[land_use$class == 'Water'] <- NA
 
+ext <- c(-100000, 1050000, 600000, 1600000)
+
 land_use_plot <- natural[[2]] + 
   geom_tile(data = land_use, aes(x = x, y = y, fill = class)) +
-  scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#33a02c'))
-
+  coord_equal(xlim = ext[1:2], ylim=ext[3:4]) + 
+  scale_fill_manual(values = c('#ff7f00', '#e41a1c', '#33a02c')) +
+  theme(legend.position = 'none')
 
 source('R/figures/climate_ts.R')
 
@@ -98,6 +101,7 @@ climate_values <- climate_ts(unit.raster, pls_data, climate$now, climate$then)
 clim_change <- climate_values$modern$value - climate_values$past$value
 
 grid.arrange(climate_values$plot, land_use_plot, nrow=1, widths = c(3, 4))
+
 ```
 
 **Figure 1.** *(a-e) Climate change in the Upper Midwest over the last two centuries using PRISM data and North American Drought Atlas PDSI reconstructions.  Low temperatures in the 1970s result in lower T_max_ during the modern era, but climate change has resulted in higher T_min_ values than the early-century normals, along with increasing A_ppt_.  PDSI shows strong coherence with A_ppt_ in this region. (f) Patterns of land use change in the upper Midwestern United States. Data from the NLCD [@jin2013comprehensive].*
@@ -106,7 +110,7 @@ The interaction of land use change and climatic change has been of interest to c
 
 Compounding effects occur when both climatic change and land use change are biased in the same direction, *e.g.*, warming climate is compounded by land use change that is biased towards warmer environments.  In the case of warming a species may lose climatic suitability along the warmest margins of its range at the same time as land use pressure increases, hastening decline in response to warming.  Confounding effects may cause little overall effect on species distributions since in this case the land use pressure falls within the central distribution for the environmental variable, they may increase the variability of predictive models, but do little to the overall envelope.  Contradicting effects result in a narrower climate niche for taxa, where warming forces the distribution mean higher as populations in the warmer tail of the distribution experience greater environmental pressure, and, secondarily environmentally biased land use pressure in the cooler end of the tail excludes the taxa from those regions.
 
-In the midwestern United States we see a strong gradient of temperature and precipitation that results in two major ecotones, one from prairie/savanna to closed forest, in an approixmately west to east direction, and one from conifer dominated, sub-boreal forests to decidious forest in a north to south direction.  Goring et al [@goring2015preset] have shown that land use change has significantly changed the strength and structure of this ecotone, but did not examine how these shifts might affect the relationships between climate and distribution for individual taxa. Given that much of the land use change within the region occurs in the south, where agricultural conversion has largely eliminated open forests, we might expect to see that species with more southerly distributions would show greater impacts of land use change on their distributions in climate space, assuming no shift in regional climate.  Conversely, species in the north should show little change if we expect that pre-settlement trees show similar regeneration patterns (with respect to simple presence/absence) following widespread logging. 
+In the midwestern United States we see a strong gradient of temperature and precipitation that results in two major ecotones, one from prairie/savanna to closed forest, in an approixmately west to east direction, and one from conifer dominated, sub-boreal forests to decidious forest in a north to south direction.  Goring et al. [@goring2015preset] have shown that land use change has significantly changed the strength and structure of this ecotone, and work across this regions has consistently shown a significant imprint of human land use change on this region [@rhemtulla2009legacies,@schulte2001original,@schulte2007homogenization,@radeloff2000historical]. To date researchers have not examined how these shifts might affect the relationships between climate and the distributions of individual taxa. Given that much of the land use change within the region occurs in the south, where agricultural conversion has largely eliminated open forests [@rhemtulla2009legacies], we might expect to see that species with more southerly distributions would show greater impacts of land use change on their distributions in climate space, assuming no shift in regional climate.  Conversely, species in the north should show little change if we expect that pre-settlement trees show similar regeneration patterns (with respect to simple presence/absence) following widespread logging. 
 
 Interaction between environmental gradients and land use patterns vary by region and environmental variable.  We might expect that species in the north experience a confounding land use effect with respect to temperature, but, with respect to precipitation, particularly toward the forest-prairie margin, where land use conversion continues [@wright2013recent] we would expect this effect to be compounding.  For southern tree species land use conversion is primarily, and has primarily occured along the southern margins of the region, parallel to temperature and precipitation gradients.  This should result in contradicting land use effects for all taxa with distributions in the region, resulting in narrower species distributions due to the twin effects of land use change and regional climate change.
 
@@ -116,29 +120,28 @@ We use gridded climate data products and estimates of pre-settlement vegetation 
 
 Methods
 ===============
-We pair pre-settlement vegetation data from the Public Land Survey System aggregated to a 64km^2^ grid [@goring2015preset] with annually resolved climate data for the region.
+We pair pre-settlement vegetation data from the Public Land Survey System (PLSS) aggregated to a 64 $km^{2}$ grid [@goring2015preset] with annually resolved climate data for the region.  The PLSS era data is aggregated from survey data collected on a 1 x 1 mi grid across the Upper Midwest during the PLS, from 1830 - 1904, in a time transgressive manner, from the south east to the north west.  At each survey point surveyors noted the closest two to four trees, recorded their distances to the plot center point, diameters and the azimuth to the tree.  Goring et al. [-@goring2015preset] aggregated this data to an 8 x 8 km grid to reduce local-scale variability, resulting in a gridded data product with an average of 61 plots per cell, or approximately 120 trees per cell.  When examining relationships between FIA and PLS data, Goring et al. [-@goring2015] report significant relationships within the FIA relating dissimilarity from PLSS era forests and the number of FIA plots within an 8x8km cell, however this relationship accounts for only 3% of the total change in dissimilarity, indicating statistical significance, but little ecological significance on this regional scale.
 
-**Paragraph about data scale between PLS and FIA**
+Another complication is the structure of the FIA dataset.  While the PLS data was collected across the western US on a uniform grid the FIA data is only collected from forested or partially forested landscapes [@woudenberg2010forest].  As such trees may be present in regions without permanant or temporary FIA plots, but no record of them exists within the FIA. This complicates our ability to assign 'absence' within the FIA, however the practice of using FIA data as a surrogate for presence/absence data is widespread [@iverson2013tree,@iverson1998predicting], and, at a broad scale, the presence of individual and isolated trees in unforested agricultural landscapes may be significant for adaptation, but it may also be the case that these trees remain on the landscape through anthropogenic agency, for example, as a result of irrigation or landscaping care within urban or rural locations. [needs refs].
 
-**Paragraph about FIA/PLS absence not really Absence**
+The analysis presented here follows a blocked sampling method (Figure 2). We generate probability density functions along climate gradients for actual PLSS presence, by taxon, at the settlement era and for the same PLS taxa (and point locations) in the modern era. We do the same for FIA presence, and for anthropogenic land use classes. Climate data is derived from monthly PRISM data from 1895 - 2014. A 30-year climate was generated for modern July temperature, January temperature, the continentality (difference between T_jul_ and T_jan_), and annual precipitation.
 
-The analysis follows a blocked sampling method.  We generate probability density functions for actual PLSS presence, by taxon, at the settlement era and for the same PLS taxa (and point locations) in the modern era.  We also generate climate data for the FIA presence, and we generate climate space for modern land use.  In this way we can test how much of the change in shape is the result of changing land use vs changing climate since the early part of the century.
+![model grid](figures/model_grid.png)
 
-We also develop estimates of the modern climate space that taxa would occupy if they remained in place, with only climate changing, and vice versa (need better explanation here).
+**Figure 2**. *Blocked method for analysis.  Data presented represent one of four combinations of pre-settlement vegetation (pink fill, left column) or modern vegetation (blue fill, right column) and pre-settlement climate (solid border, top row) or modern climate (dashed border, lower row).  A diagonal shift from the top left to bottom right represents the true change in forest-climate relationships.*
+
+The choice of a thirty year normal for the PLS data is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data was sampled in the early 1800s, while other come from the early 1900s [@goring2015preset, @white1983history], and for much of this time period no climatological records exist. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice.  Regional-scale reconstructions from tree-rings and from pollen-based climate reconstructions [@trouet, @mann] tell us _THIS_.
+
+By generating kernel density estimates of taxon presence along climate gradients drawn from each of the four states of climate and vegetation (Figure 2) we can use Hellinger distance to estimate the effects of changing climate (d_H_ between kernel densities in the same column of Figure 2), or the effect of changing land use (d_H_ between kernel densities in the same row of Figure 2).  In particular, the effect of changing land use and climate (d_H_ between the top left and bottom right in Figure 2) can be parsed as the sum of differences in the left hand column (testing climate change) and the top row (testing land use only).  The relative magnitudes of these differences gives us an indication of the influence of either land use or climate in driving shifts in species distributions along the climate gradients in the Upper Midwest.
 
 Results
 ---------------
-
-
-The choice of a normal for the domain is potentially problematic.  The time transgressive nature of the PLS Survey means that some of the PLS data comes from records sampled in the early 1800s, while other come from the early 1900s. Regardless, throughout this period climate variability exists (Figure 1d), and trees that were on the landscape from the 1830s to the 1880s are not expected to have been completely extirpated by annual scale climate variability in that same time period. As such the use of a 'pre-settlement' climate normal from 1895-1925 is likely a reasonable choice [ADD JULY temperatures here]. **Talk about modern climate normal & historical climate normal make it clear that this is the best we can do, and that it's good.**
-
-
 
 Mean temperatures in the region show an average increase of `r round(clim_change[3], 2)`^o^C since the 1895-1925 normal.  Annual precipitation has increased slightly (`r round(clim_change[1], 0)`mm), and maximum annual temeprature has declined slightly (`r round(clim_change[2], 2)`^o^C)).  The most significant change has been in annual minimum temperatures, which have increased by `r round(clim_change[4], 1)` since the 1895-1925 normal.  This broad scale increase in winter temperatures is widely accepted, and results in an overall shift in the winter 'climate space' for the region.
 
 The Public Lands data is spatially extensive, sampling occured across the region in a regular pattern, while the FIA is limited to regions with forest cover.  As such, the extent of points is not overlapping. Given the extensive use of FIA data in generating and estimating climate responses of tree taxa and forest types to changing climate, the use of the FIA data as an estimate for tree species distributions is acceptable fo estimating shifts in climate space, and attributing the loss or gain of climate niche space due to land use and climate variability and change during the 20^th^ century.
 
-```{r loss_gain_fig, warning=FALSE, message=FALSE, echo=FALSE}
+```{r loss_gain_fig, warning=FALSE, message=FALSE, echo=FALSE, dpi=150}
 
 source('R/figures/gain_loss_plot.R')
 
@@ -148,6 +151,8 @@ loss_melt <- loss_plot()
 loss_table <- as.data.frame.matrix(table(loss_melt[[1]]$variable, loss_melt[[1]]$value))
 loss_table$Gain <- loss_table$Gain / (loss_table$Loss + loss_table$Presence)
 loss_table[,2:3] <- tran(loss_table[,2:3], method = 'proportion')
+
+loss_table[,2:3] <- paste0(round(loss_table[,2:3]*100,1),'%')
 
 loss_melt[[2]]
 ```
@@ -160,7 +165,7 @@ pandoc.table(loss_table, justify = "left", style = 'simple')
 ```
 
 
-```{r densities, warning=FALSE, message=FALSE, echo=FALSE}
+```{r densities, warning=FALSE, message=FALSE, echo=FALSE, dpi=150}
 
 source('R/resampling_climate.R')
 vegclim_table <- resample_climate(climate, agg_dens, pls_data)
@@ -175,7 +180,7 @@ boxplot_clim
 
 While these changes in climate are visible across the whole range, we would expect that species with significant shifts in distribution as a result of land use change in the post-settlement era should show changes that superceed the changes resulting from climate alone.  In particular, if the land use pressure is biased spatially or climatically then these changes should be even more dramatic.  Hellinger distance is used to understand the difference in the shape of kernel densities.  Using the distributions in climate space for each of the key taxa we can shift climate, or vegetation to understand the relative effects of land use change and climatic change across the region.
 
-```{r climate_shifts, warning=FALSE, message=FALSE, echo=FALSE}
+```{r climate_shifts, warning=FALSE, message=FALSE, echo=FALSE, dpi=150}
 
 source('R/hellinger_dists.R')
 
