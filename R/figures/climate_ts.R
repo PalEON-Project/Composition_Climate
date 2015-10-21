@@ -50,12 +50,13 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
                              levels = c('tmx', 'tdf', 'tmi', 'ppt', 'pdsi'),
                              labels = c('T[max]', 'T[diff]', 'T[min]', 'P[ann]', 'PDSI'))
   
-  clim_plot <- ggplot(data = climate_ann, aes(x = year, y = value)) + geom_line(size = 2) +
+  clim_plot <- ggplot(data = climate_ann, aes(x = year, y = value)) + geom_line(size = 1.3) +
     geom_point(data = modern, aes(x = year, y = value), size = 4, color = 'red') +
     geom_point(data = past, aes(x = year, y = value), size = 4, color = 'red') +
     facet_grid(variable~., scales='free_y', labeller = label_parsed) +
     ylab('') +
     xlab('Year (CE)') +
+    coord_cartesian(c(1801, 2015)) +
     theme_bw() +
     theme(axis.text = element_text(family = 'serif', size = 12),
           axis.title = element_text(family = 'serif', face = 'bold', size = 14),
