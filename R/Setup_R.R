@@ -1,4 +1,5 @@
 #  Setup some data and libraries:
+library(colorspace)
 library(raster)
 library(ggplot2)
 library(mgcv)

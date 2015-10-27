@@ -43,6 +43,10 @@ loss_plot <- function(){
   loss_melt$rgb <- brewer.pal(n = 3, 'Dark2')[as.numeric(factor(loss_melt$value, 
                                                                 levels = c('Presence', 'Loss', 'Gain')))]
   
+  loss_melt$rgb[loss_melt$value == 'Gain'] <- "#FF0000"
+  loss_melt$rgb[loss_melt$value == 'Presence'] <- colorspace::hex(colorspace::RGB(0.1, 0.1, 0.1))
+  loss_melt$rgb[loss_melt$value == 'Loss'] <- colorspace::hex(colorspace::RGB(2/255,119/255,160/255))
+  
   loss_melt$variable <- factor(loss_melt$variable,
                                levels = c('tamarack', 'pine', 'spruce', 'fir', 'hemlock', 'cedar.juniper',
                                           'poplar', 'maple', 'birch', 'beech', 'ironwood', 'basswood', 'ash', 'elm', 'oak'),
@@ -51,8 +55,8 @@ loss_plot <- function(){
   
   loss_plot <- natural$base_map +
       geom_tile(data = natural$rast_table, aes(x = x, y = y, fill = rgb)) +
-      geom_tile(data = subset(loss_melt, !variable %in% 'Ironwood') , aes(x = x, y = y, fill = rgb)) +
-      facet_wrap(~variable, ncol = 5) + theme_bw() +
+      geom_tile(data = subset(loss_melt, variable %in% 'Pine') , aes(x = x, y = y, fill = rgb)) +
+      #facet_wrap(~variable, ncol = 5) + theme_bw() +
       scale_fill_identity() +
   #    geom_path(data = umw.domain, aes(x = long, y = lat, group = group)) +
   #    geom_path(data = can.domain, aes(x = long, y = lat, group = group)) +
