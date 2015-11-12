@@ -55,8 +55,8 @@ loss_plot <- function(){
   
   loss_plot <- natural$base_map +
       geom_tile(data = natural$rast_table, aes(x = x, y = y, fill = rgb)) +
-      geom_tile(data = subset(loss_melt, variable %in% 'Pine') , aes(x = x, y = y, fill = rgb)) +
-      #facet_wrap(~variable, ncol = 5) + theme_bw() +
+      geom_tile(data = loss_melt , aes(x = x, y = y, fill = rgb)) +
+      facet_wrap(~variable, ncol = 5) + theme_bw() +
       scale_fill_identity() +
   #    geom_path(data = umw.domain, aes(x = long, y = lat, group = group)) +
   #    geom_path(data = can.domain, aes(x = long, y = lat, group = group)) +
@@ -72,7 +72,7 @@ loss_plot <- function(){
   
   short_plot <- natural$base_map +
     geom_tile(data = natural$rast_table, aes(x = x, y = y, fill = rgb)) +
-    geom_tile(data = subset(loss_melt, variable %in% 'Oak') , aes(x = x, y = y, fill = rgb)) +
+    geom_tile(data = loss_melt, aes(x = x, y = y, fill = rgb)) +
     scale_fill_identity() +
     facet_wrap(~variable, ncol = 5) + theme_bw() +
     #geom_path(data = umw.domain, aes(x = long, y = lat, group = group), color = 'black') +
