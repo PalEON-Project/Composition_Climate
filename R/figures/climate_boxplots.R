@@ -9,7 +9,7 @@ clim_boxplots <- function(clim_table = vegclim_table){
                                        comb %in% c('FIA Era', 'PLS Era') & data>0 &
                                          !taxon %in% 'Ironwood')) +
     geom_boxplot(aes(y = clim, x = taxon, fill = comb)) +
-    scale_fill_grey() +
+    scale_fill_grey(name = 'Climate Era') +
     facet_grid(climate~., scales='free_y', labeller = label_parsed) +
     theme_bw() +
     theme(axis.text = element_text(family = 'serif', face='bold', size = 12),
