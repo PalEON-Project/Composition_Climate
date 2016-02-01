@@ -60,7 +60,7 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
     theme_bw() +
     theme(axis.text = element_text(family = 'serif', size = 12),
           axis.title = element_text(family = 'serif', face = 'bold', size = 14),
-          strip.text = element_text(family = 'serif', face='bold', size = 14),
+          strip.text = element_text(family = 'serif', face='bold', size = 16),
           legend.position = "none")
     
   ggsave(clim_plot, filename = 'figures/clim_plot.tiff', width = 8, height = 6, dpi = 150)

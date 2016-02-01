@@ -67,3 +67,4 @@ conf_table$mean_y <- sapply(taxa, mean_y)
 conf_table$mean_x <- sapply(taxa, mean_x)
 
 conf_table <- conf_table[order(conf_table$mean_x),]
+
