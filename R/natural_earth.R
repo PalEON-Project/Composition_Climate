@@ -13,11 +13,11 @@ natural_earth <- function(){
   
   xylimits <-  c(-200000, 1150000, 500000, 1700000)
   
-  if(model.proj == '+init=epsg:4326'){
+  if(model_proj == '+init=epsg:4326'){
     ext <- c(-98, -83, 42, 50)
   }
   
-  if(model.proj == '+init=epsg:3175'){
+  if(model_proj == '+init=epsg:3175'){
     ext <- c(-100000, 1050000, 600000, 1600000)
   }
   
@@ -33,7 +33,7 @@ natural_earth <- function(){
     aa <- x.join[,1:2]
     coordinates(aa) <- ~ long + lat
     proj4string(aa) <- CRS(proj4string(nat.earth))
-    aa <- coordinates(spTransform(aa, CRS(model.proj)))
+    aa <- coordinates(spTransform(aa, CRS(model_proj)))
     
     x.join[,1:2] <- aa
     
@@ -50,10 +50,10 @@ natural_earth <- function(){
   coast.subset <- quick.subset('data/input/NaturalEarth/Coasts/ne_10m_coastline.shp',
                                'ne_10m_coastline', ext)
   
-  umw.domain <- spTransform(usa, CRS(model.proj))
-  can.domain <- spTransform(canada, CRS(model.proj))
+  umw.domain <- spTransform(usa, CRS(model_proj))
+  can.domain <- spTransform(canada, CRS(model_proj))
   
-  nat.crop <- crop(projectRaster(nat.earth, crs = model.proj), y=extent(ext))
+  nat.crop <- crop(projectRaster(nat.earth, crs = model_proj), y=extent(ext))
   
   rast.table <- data.frame(xyFromCell(nat.crop, 1:ncell(nat.crop)),
                            getValues(nat.crop/255))

@@ -1,13 +1,13 @@
 #  Plotting for taxa that shows the change between historical and modern distributions.
 
-get_loss_gain <- function(unit.raster, best.taxa, pls_data, agg_dens){
-  loss.gain <- data.frame(cell = 1:ncell(unit.raster))
+get_loss_gain <- function(unit_raster, best.taxa, pls_data, agg_dens){
+  loss.gain <- data.frame(cell = 1:ncell(unit_raster))
   
   agg_dens[is.na(agg_dens)] <- 0
   
-  for(i in 1:length(best.taxa)){
-    loss.gain[,(i+1)] <- NA
-    colnames(loss.gain)[i+1] <- best.taxa[i]
+  for(i in 1:length(best.taxa)) {
+    loss.gain[,(i + 1)] <- NA
+    colnames(loss.gain)[i + 1] <- best.taxa[i]
     
     sub.pls <- na.omit(pls_data[pls_data[,best.taxa[i]] > 0 & !is.na(pls_data$cell),])
     sub.fia <- na.omit(agg_dens[agg_dens[,best.taxa[i]] > 0 & !is.na(agg_dens$cell),])
@@ -23,22 +23,22 @@ get_loss_gain <- function(unit.raster, best.taxa, pls_data, agg_dens){
   
   loss.melt <- na.omit(melt(loss.gain, id = 'cell'))
   
-  loss.melt <- data.frame(xyFromCell(unit.raster, loss.melt$cell),
+  loss.melt <- data.frame(xyFromCell(unit_raster, loss.melt$cell),
                           loss.melt)
   loss.melt
 }
 
 loss_plot <- function(){
   
-  if(model.proj == '+init=epsg:4326'){
+  if(model_proj == '+init=epsg:4326'){
     ext <- c(-98, -83, 42, 50)
   }
   
-  if(model.proj == '+init=epsg:3175'){
+  if(model_proj == '+init=epsg:3175'){
     ext <- c(-100000, 1050000, 600000, 1600000)
   }
   
-  loss_melt <- get_loss_gain(unit.raster, best.taxa, pls_data, agg_dens)
+  loss_melt <- get_loss_gain(unit_raster, best.taxa, pls_data, agg_dens)
 
   loss_melt$rgb <- brewer.pal(n = 3, 'Dark2')[as.numeric(factor(loss_melt$value, 
                                                                 levels = c('Presence', 'Loss', 'Gain')))]
@@ -90,4 +90,3 @@ loss_plot <- function(){
   
   list(loss_melt, loss_plot)
 }
-

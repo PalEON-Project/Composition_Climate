@@ -7,8 +7,8 @@ resample_climate <- function(climate, agg_dens, pls_data){
   agg_dens[,-1] <- tran(agg_dens[,-1], method = 'proportion')
   pls_data[,-1] <- tran(pls_data[,-1], method = 'proportion')
   
-  then_rast <- resample(climate$then, unit.raster)
-  now_rast <- resample(climate$now, unit.raster)
+  then_rast <- resample(climate$then, unit_raster)
+  now_rast <- resample(climate$now, unit_raster)
   
   #For each taxon sample:
   #  1.  The FIA data for one of the now_rast years for each of the climate variables.
@@ -38,10 +38,10 @@ resample_climate <- function(climate, agg_dens, pls_data){
   
     #  bind all the variables together:  
     values <- data.frame(cell  = c(rep(pls_data$cell, 2), rep(agg_dens$cell, 2)),
-                         x     = c(rep(xyFromCell(unit.raster, pls_data$cell)[,'x'],2),
-                                   rep(xyFromCell(unit.raster, agg_dens$cell)[,'x'],2)),
-                         y     = c(rep(xyFromCell(unit.raster, pls_data$cell)[,'y'],2),
-                                   rep(xyFromCell(unit.raster, agg_dens$cell)[,'y'],2)),
+                         x     = c(rep(xyFromCell(unit_raster, pls_data$cell)[,'x'],2),
+                                   rep(xyFromCell(unit_raster, agg_dens$cell)[,'x'],2)),
+                         y     = c(rep(xyFromCell(unit_raster, pls_data$cell)[,'y'],2),
+                                   rep(xyFromCell(unit_raster, agg_dens$cell)[,'y'],2)),
                          data  = c(rep(as.numeric(pls_data[,taxon]), 2),
                                    rep(agg_dens[,taxon],2)),
                          base  = c(rep('PLSS', nrow(pls_data)), 

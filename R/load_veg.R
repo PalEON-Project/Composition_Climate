@@ -4,13 +4,13 @@ get_fia <- function(x){
   
   #  Load FIA composition data:
   get.fia.stack <- function(x, type){
-    stack.files <- list.files(x, full = TRUE)
-    stack.fia <- resample(stack(stack.files), pls.rast, method = 'ngb')
-    stack.fia[is.na(getValues(pls.rast))] <- NA
+    stack.files <- list.files(x, full.names = TRUE)
+    stack.fia <- resample(stack(stack.files), pls_rast, method = 'ngb')
+    stack.fia[is.na(getValues(pls_rast))] <- NA
     
     fia.vals <- getValues(stack.fia)
-    name.end <- regexpr(paste('_', type, sep=''), colnames(fia.vals), fixed=TRUE)
-    colnames(fia.vals) <- gsub("_$","", substr(colnames(fia.vals), 1, name.end-1))
+    name.end <- regexpr(paste('_', type, sep = ''), colnames(fia.vals), fixed = TRUE)
+    colnames(fia.vals) <- gsub("_$","", substr(colnames(fia.vals), 1, name.end - 1))
     colnames(fia.vals) <- gsub('_', '.', colnames(fia.vals))
     
     fia.vals <- as.data.frame(fia.vals)
@@ -45,7 +45,7 @@ get_fia <- function(x){
     x.cast$x <- x$x[x.cast$orig]
     x.cast$y <- x$y[x.cast$orig]
     
-    x.cast$cell <- extract(setValues(unit.raster, 1:ncell(unit.raster)), x.cast[,c('x', 'y')])
+    x.cast$cell <- extract(setValues(unit_raster, 1:ncell(unit_raster)), x.cast[,c('x', 'y')])
     
     x.cast <- x.cast[!is.na(x.cast$cell),!is.na(colnames(x.cast))]
     x.melt_2 <- melt(x.cast[ ,!colnames(x.cast)%in% c('orig')], 
