@@ -12,16 +12,21 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
   #  Load the PDSI data for the region:
   #  download from - http://www.ncdc.noaa.gov/paleo/pdsi.html
   #  We shortcut this if the pdsi_df file exists:
-  if('pdsi_df.rds' %in% list.files('data/output/')){
+  if ('pdsi_df.rds' %in% list.files('data/output/')) {
     pdsi_df <- readRDS('data/output/pdsi_df.rds')  
-  } else{
-    pdsi_out <- function(unit.raster, pls_data){
+  } else {
+    pdsi_out <- function(unit.raster, pls_data) {
       NCDF <- stack('data/input/NADAv2-2008.nc')
-      ncdf.resamp <- resample(projectRaster(NCDF, crs = '+init=epsg:3175'), y = unit.raster)
-      pdsi <- getValues(ncdf.resamp)[pls_data$cell,]
+      
+      ncdf.resamp <- raster::resample(raster::projectRaster(NCDF, 
+                                                            crs = '+init=epsg:3175'), 
+                                      y = unit.raster)
+      
+      pdsi <- raster::getValues(ncdf.resamp)[pls_data$cell,]
+      
       pdsi_df <- data.frame(variable = 'pdsi', 
-                            value = colMeans(pdsi, na.rm=TRUE)[1:206],
-                            year = 2006:1801)
+                            value    = colMeans(pdsi, na.rm = TRUE)[1:206],
+                            year     = 2006:1801)
       pdsi_df
     }
     
@@ -36,11 +41,11 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
   clim_pattern <- function(rast_in, pls_rast, year){
   
     rast_mask <- rast_in
-    rast_mask[!(1:ncell(rast_in))%in%pls_data$cell]<- NA
+    rast_mask[!(1:ncell(rast_in)) %in% pls_data$cell] <- NA
   
     data.frame(variable = c('P[ann]', 'T[max]', 'T[diff]', 'T[min]'),
-               value = colMeans(getValues(rast_mask), na.rm=TRUE),
-               year = year)
+               value    = colMeans(getValues(rast_mask), na.rm = TRUE),
+               year     = year)
   }
   
   modern <- clim_pattern(now_rast, pls_rast, 1995)
@@ -51,16 +56,16 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
                              labels = c('T[max]', 'T[diff]', 'T[min]', 'P[ann]', 'PDSI'))
   
   clim_plot <- ggplot(data = climate_ann, aes(x = year, y = value)) + geom_line(size = 1.3) +
-    geom_point(data = modern, aes(x = year, y = value), size = 4, color = 'red') +
-    geom_point(data = past, aes(x = year, y = value), size = 4, color = 'red') +
-    facet_grid(variable~., scales='free_y', labeller = label_parsed) +
+    geom_vline(data = modern, aes(xintercept = year), size = 4, color = 'red') +
+    geom_vline(data = past,   aes(xintercept = year), size = 4, color = 'red') +
+    facet_grid(variable~.,    scales = 'free_y', labeller = label_parsed) +
     ylab('') +
     xlab('Year (CE)') +
     coord_cartesian(c(1801, 2015)) +
     theme_bw() +
     theme(axis.text = element_text(family = 'serif', size = 12),
           axis.title = element_text(family = 'serif', face = 'bold', size = 14),
-          strip.text = element_text(family = 'serif', face='bold', size = 16),
+          strip.text = element_text(family = 'serif', face = 'bold', size = 16),
           legend.position = "none")
     
   ggsave(clim_plot, filename = 'figures/clim_plot.tiff', width = 8, height = 6, dpi = 150)
