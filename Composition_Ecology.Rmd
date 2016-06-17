@@ -1,13 +1,13 @@
 ---
+bibliography: goringetal_references.bib
+csl: ecology.csl
 output:
   word_document: null
   pdf_document:
     pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
   md_document:
     variant: markdown_github
-csl: ecology.csl
 pandoc_args: -H margins.sty
-bibliography: goringetal_references.bib
 ---
 
 <!--
