@@ -1,5 +1,10 @@
 #  Setup some data and libraries:
+#install.packages(c('colorspace', 'raster', 'ggplot2', 'mgcv', 'reshape2', 'plyr', 
+#                   'gridExtra', 'rgdal', 'RColorBrewer', 'analogue', 'maptools',
+#                   'captioner'))
+
 library(colorspace)
+library(captioner)
 library(raster)
 library(ggplot2)
 library(mgcv)
@@ -10,6 +15,9 @@ library(rgdal)
 library(RColorBrewer)
 library(analogue)
 library(maptools)
+
+fig_nums <- captioner(prefix = "Figure")
+tab_nums <- captioner(prefix = "Table")
 
 base_rast <- raster("data/albers/density//Abies_balsamea_density_alb.tif")
 base_rast <- setValues(base_rast, 1:ncell(base_rast))
