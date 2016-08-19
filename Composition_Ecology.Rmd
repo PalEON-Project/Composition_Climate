@@ -2,7 +2,8 @@
 bibliography: goringetal_references.bib
 csl: ecology.csl
 output:
-  word_document: null
+  word_document: 
+    reference_docx: word_template.docx  
   pdf_document:
     pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
   md_document:
@@ -36,36 +37,34 @@ grDevices::ps.options(fonts = 'serif')
 ```
 -->
 
-# Effect of historic land-use and climate change on tree-climate relationships in the northern United States
+# Effect of historic land-use, pathogens and climate change on tree-climate relationships in the northern United States
 
 **Statement of Authorship**
 
-* Simon J Goring: Conceived paper, performed analysis, developed figures and wrote the paper
-* John "Jack" W Williams: Wrote the paper
+* Simon J Goring: Co-conceived paper, performed analysis, developed figures and co-wrote the paper
+* John "Jack" W Williams: Co-conceived paper, and co-wrote the paper
 
 **Data Accessibility**
 
-* All data for this manuscript, along with code and version-control is available at http://github.com/SimonGoring/CompositionClimate.  In addition, an archived copy of the published version is available with the following DOI.
+* All data for this manuscript, along with code and version-control are available at http://github.com/SimonGoring/CompositionClimate.  In addition, an archived copy of the submitted version is available with the following DOI: XXXX
 
 **Authors**
 
 * Simon J Goring
   * Department of Geography, University of Wisconsin, Madison, 550 N Park St, Madison WI 53706
-* Jack W Williams
+* John W Williams
   * Department of Geography, University of Wisconsin, Madison, 550 N Park St, Madison WI 53706
   * Center for Climatic Research, University of Wisconsin, Madison, 1225 W Dayton St, Madison WI 53706
 
 **Keywords**
 
-* climate change, land use, historical ecology, realized niche, anthropocene, public land survey, forest inventory and analysis
+* Anthropocene, climate change, climate disequillibrium, forest inventory and analysis (FIA), fundamental niche, historical ecology, land use, niche shift, Public Land Survey System, realized niche
 
 **Running Title**
 
-* Land use change forces climate shifts in trees
+* Causes of recent climate shifts in trees
 
-**Article Type**
-
-* Letters
+**Article Type**: Letters
 
 **Number of Words**
 
@@ -74,17 +73,19 @@ grDevices::ps.options(fonts = 'serif')
 
 **Number of References**
 
-**Number of Figures**
+**Number of Figures, Tables & Text Boxes**: 6 (4 figures, 2 tables)
 
 **Corresponding Author**
 
 * Simon J Goring
-  * Department of Geography, University of Wisconsin, Madison, 550 N Park St, Madison WI 53706
+  * Department of Geography, University of Wisconsin, Madison, 550 N Park St, Madison WI 53706, goring@wisc.edu
 
 
 # Abstract
 
-Forest inventory data are essential for understanding tree species distributions along environmental gradients, and for projecting forest responses to climate change.  However, the stability and representativeness of contemporary tree-climate distributions is poorly understood.  Here we show that historic land use and climate change over the last two centuries have significantly altered tree-climate relationships, using contemporary and historical data for climates and 15 common tree genera in the northern US. Realized niches have shifted towards cooler maximum temperatures, higher minimum temperatures, and higher rainfall. A new attribution method indicates that both historic climate change and land use produced these shifts, with the relative importance varying among genera and climate variables.  The most common climate/land-use interaction is compounding, in which historic land-use exacerbates climatic shifts toward warmer and wetter distributions across the historical period. Compounding interactions are critical because they suggest that contemporary-based models of species distributions may underestimate species resilience to climate change.
+(143 words)
+
+Contemporary forest inventory data are widely used to understand environmental controls on tree species distributions and to project forest responses to climate change, but the stability and representativeness of contemporary tree-climate distributions is poorly understood. Here we show that tree-climate relationships for 15 common tree genera in the northern US have significantly altered over the last two centuries due to historic land use, pathogen outbreaks, and climate change. Realized niches have shifted towards higher minimum temperatures, cooler maximum temperatures, and higher rainfall. A new attribution method implicates both historic climate change and land use in these shifts, with the relative importance varying among genera and climate variables. Most climate/land-use interactions are compounding, in which historic land-use exacerbates climatic shifts toward warmer or wetter distributions. The prevalence of compounding interactions imply that contemporary-based models of species distributions may underestimate species resilience to climate change.
 
 /pagebreak
 
