@@ -25,9 +25,7 @@ base_rast <- setValues(base_rast, 1:ncell(base_rast))
 pls_rast <- raster("data/input//dens_v0.9-4.tif")
 unit_raster <- setValues(pls_rast, 1:ncell(pls_rast))
 
-land_use <- raster(paste0("../../../Maps/",
-                          "nlcd_2011_landcover_2011_edition",
-                          "_2014_10_10//nlcd_cropped_repro.tif"))
+land_use <- raster("data/input/nlcd_cropped_repro.tif")
 
 #  We need to change the raster to a data.frame:
 land_use <- data.frame(cell = extract(unit_raster,
