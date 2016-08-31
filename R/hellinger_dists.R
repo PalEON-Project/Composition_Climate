@@ -63,8 +63,8 @@ hellinger_plot <- function(){
     theme_bw() +
     scale_x_sqrt() +
     #scale_y_sqrt() +
-    xlab('Total Change - PLS - FIA') +
-    ylab('Climate Change - Land Use Change') +
+    xlab('Total Change - PLS - FIA - d_{tot}') +
+    ylab('Climate Change - Land Use Change - d_{c} - d_{v}') +
     theme(axis.text = element_text(family = 'serif', size = 12),
           axis.title = element_text(family = 'serif', face = 'bold', size = 14),
           strip.text = element_text(family = 'serif', face='bold', size = 14),

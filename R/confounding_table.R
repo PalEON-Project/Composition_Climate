@@ -38,15 +38,15 @@ checker <- function(x) {
   if (p.adjust(as.numeric(x[4]), method = "bonferroni", n = 120) < 0.05 & 
       p.adjust(as.numeric(x[6]), method = "bonferroni", n = 120) < 0.05) {
     if ((as.numeric(x[3]) * as.numeric(x[5])) > 0) {
-      return('+')
+      return('■')
     } else {
-      return('-')
+      return('•')
     }
   } else {
     if (as.numeric(x[4]) > (0.05 / 120)) {
       return('n/a')
     } else {
-      return('.')
+      return('-')
     }
   }
 }
@@ -70,9 +70,9 @@ conf_table$mean_x <- sapply(taxa, mean_x)
 conf_table <- conf_table[,1:5]
 
 conf_cor <- conf_table[,2:5]
-conf_cor[conf_cor == '+'] <- 1
-conf_cor[conf_cor == '.'] <- 0
-conf_cor[conf_cor == '-'] <- -1
+conf_cor[conf_cor == '■'] <- 1
+conf_cor[conf_cor == '-'] <- 0
+conf_cor[conf_cor == '•'] <- -1
 
 rownames(conf_cor) <- conf_table[,1]
 cluster <- hclust(dist(conf_cor))
