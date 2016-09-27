@@ -9,6 +9,11 @@ library(rgeos)
 #  Here we are using the 10m data.
 
 natural_earth <- function(){
+  
+  if(!"NaturalEarth" %in% list.files('data/input', include.dirs = TRUE)){
+    stop("NaturalEarth is needed to fully render this Rmd.  Please download - `ne_10m_coastline.zip`, `ne_10m_lakes`, `NE1_HR_LC_SR_W_DR` and `ne_10m_rivers_lake_centerlines`.")
+  }
+  
   nat.earth <- crop(stack('data/input/NaturalEarth/BaseRaster/NE1_HR_LC_SR_W_DR.tif'), y=extent(c(-98-1, -83+1, 42-1, 50+1)))
   
   xylimits <-  c(-200000, 1150000, 500000, 1700000)
