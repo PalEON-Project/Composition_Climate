@@ -4,8 +4,8 @@
 
 ## Contributors
 
-* Simon Goring
-* Jack Williams
+* [Simon Goring](http://github.com/SimonGoring)
+* [Jack Williams](http://github.com/IceAgeEcologist)
 
 ## About
 
@@ -39,5 +39,3 @@ If you use this repository and notice any other files missing, or if you notice 
 ## Contributions
 
 This paper has been submitted to *Ecology Letters*.  We welcome future contributions, and any corrections or omissions that may be required to improve this paper, however, by the standards of scientific authorship we cannot add authors to the paper at this time.
-
-![](figures/Fig_1_Composite.png)
