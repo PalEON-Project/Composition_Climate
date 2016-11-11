@@ -81,6 +81,8 @@ hellinger_plot <- function(){
   
   ggsave(plot = hell_plot, filename = 'figures/hellingerplot.pdf', 
          width = 6.7, height = 6, dpi = 300)
- 
+  ggsave(plot = hell_plot, filename = 'Final_Figures/hellingerplot.pdf', 
+         width = 6.7, height = 6, dpi = 300)
+  
   list(hell_plot, all.hellinger)
 }
