@@ -15,23 +15,41 @@ Reviewer 1 was generally positive.  I have pulled out the specific comment from 
 
 > Title: Here and throughout, replace “historic” with “historical” as the former refers to an exceptional event in the past while the latter refers to something in the past.
 
+We have changed all occurrences of *historic* to *historical*.  (commit: 4cf75f8b)
+
 > Line 143-144: Shouldn’t miles be replaced with SI? I realize that the miles are in reference to the historical context of the PLS, but it might be good to keep things consistent throughout.
+
+We have changed to *km*, retaining the reported miles in parentheses. 
 
 > Lines 174-176: This is a key point, but expanding a bit would be helpful. For example, did the paper in review examine issues of detectability? I realize this is addressed in the discussion, but a bit more detail would be good here.
 
+This paper is now accepted.  
+
 > Line 179: Which PRISM data are the authors using, AN or LT. The LT data, for which one has to pay, uses only longer weather station records, which tends toward more reliable temporal trends. This seems like it would be important for the current study. Additionally, it would be good for the authors to at least acknowledge that increasingly sparse data early in the PRSIM record (i.e., late 19th and early 20th centuries) could contribute to greater uncertainties in historical vs. contemporary records. This might make historical climate relationships more difficult to identify.
+
+We use the PRISM LT data.  This has been clarified in the paper.  
 
 > Line 195: Since the author’s use the abbreviation “PDF”, it would improve clarity to refer to “univariate probability density functions”.
 
+Changed.
+
 > Line 207: Here and in a few other places, d_l is used, but later d_v is used. Please make symbology consistent throughout the paper.
+
+We have changed this sentence in particular to read: *The difference between the PLSS and modern tree distributions ($d_{V}$) when overlaid on historical climate ($V_{H}C_{H}$ versus $V_{M}C_{H}$) is attributed largely to land use change, as described above, given the widespread post-settlement disturbance in the upper Midwest* and changed other references to $d_{l}$ to $d_{v}$.
 
 > Lines 217-218: I found the labeling of lack of significance in “either or both changes” as confounding to be hard to connect with the definition provided at Line 93. For example, Fagus shows a strong overall change in distribution relative to precipitation, but is classes as confounding. Presumably, this is a situation where climate was important, but history was not. I suppose a bit more clarification regarding what is meant by confounding and why grouping taxa where neither climate nor history has an effect with taxa where only one has an effect is necessary.
 
 > Lines 231-232: Looking at the maps, it seems that this statement is limited by the fact that the current study does not incorporate the northern range limit for many species. Can the authors address this limitation at some point?
 
+We have added the paragraph:  *For all species, the range within the Upper Midwest represents an incomplete sample of the species range, however, the prairie-forest boundary along the western margin represents a southern and western range limit for many species, and represents a climatic space that is warmer and drier than elsewhere in the region.* to indicate this limitation.
+
 > Lines 337-351: The authors discuss agriculture, but not timber harvesting and changes in fire regime in terms of the land-use drivers. It seems that the latter two are potentially important for some of the regional patterns. Additionally, I wonder if some of this could be discussed by looking at gains and losses relative to NLCD land-use layers. Perhaps that was in the supplement and I missed it.
 
+We have added the sentence: *While fire and logging have played a role in changing distribution patterns in the north and northeast, they have not resulted in the exclusion or extirpation of taxa from the northern climate space, with the exception of* Tsuga.
+
 > Figure 5: The x – axis needs more tick marks and numbers. At first, my mind assumed a linear scale, which would imply negative distances, but then I thought maybe this was some sort of log scale, which would make more sense with a distance metric. Some additional clarity is needed.
+
+
 
 > Table 1: Some of the taxa are listed with their scientific names and others by common names. Replace common names with scientific names
 
@@ -40,43 +58,70 @@ Reviewer 1 was generally positive.  I have pulled out the specific comment from 
 
 Referee 2 was more critical of the paper than Reviewer 1.
 
-> I think the paper does not adequately point out the limitations of the data sets used for the analyses and that the authors overstate the likely differences in realized niches between the historic and current time periods.  
+> I think the paper does not adequately point out the limitations of the data sets used for the analyses and that the authors overstate the likely differences in realized niches between the historic and current time periods.
+
+<!-- need to add a paragraph & add the curve from John's figure. -->
 
 > The paper would be strengthened by stating more strongly the limitations of the methods and that the results may be over estimates and that data are not currently available to more accurately estimate the effect.  
 
-> Moreover, other data sets should be called upon to try to corroborate the range shifts and changes in climate tree relationships that emerge from the analyses.  Also the ecological mechanisms that might underlay the effects of land use and climate on tree species distributions should be more fully discussed.
+
+
+> Moreover, other data sets should be called upon to try to corroborate the range shifts and changes in climate-tree relationships that emerge from the analyses.  Also the ecological mechanisms that might underlay the effects of land use and climate on tree species distributions should be more fully discussed.
+
+<!-- Pollen data, Jeannine & others. add in John's paper we can point to long term ecological datasets -->
 
 More specific comments are below.
 
 Line reference
-2  “north-central” US would be more accurate? Also change this throughout the ms.
+> 2  "north-central" US would be more accurate? Also change this throughout the ms.
 
-175-176 While that study found little effect of the differences between the PLS and FIA data sets, be sure to cover fully the potential effect of these differences on results of this study.  One has to presume that the differences in realized niches between historic and present would be substantially smaller if FIA was sampling low density and widespread occurrence of species as did the PLS.
+We have replaced instances of "northern" with north-central.
 
-181-182 Provide evidence that these climate variables have been shown to be strong correlates of tree species presence in previous species distribution modeling studies.  It is important to do your analysis on climate variables that are known to be ecologically relevant to tree niche dimensions.
+> 175-176 While that study found little effect of the differences between the PLS and FIA data sets, be sure to cover fully the potential effect of these differences on results of this study.  One has to presume that the differences in realized niches between historic and present would be substantially smaller if FIA was sampling low density and widespread occurrence of species as did the PLS.
 
-183-185   First, it is a serious stretch to use 1895-1919 climate to represent tree/climate relationships during 1830-1910.  The verbal statement (without statistical analysis) that the dendro-based PDSI did not change over that period is not very convincing.  Moreover, the analysis specifically should be done on the climate predictors used in the niche modeling.  Also, evaluate to what extent does this PDSI index represent trends in Tmin and the other predictors used?
+<!-- The challenge is double edged. Area lost (definite) vs. frequency of occurrence.  Also most of the tree species are common, frequency in the area lost, vs frequency in the core. Add to supplemental information. -->
 
-Another issue is lack of discussion about the time period when the forests sampled by FIA got established. It is typical in SDM studies to test the strength of models from different time periods in tree SDM work and select the time period that is most strongly associated with species presence.  In the western US, we found 1950-1980 to produce stronger models than 1980-2010.
+> 181-182 Provide evidence that these climate variables have been shown to be strong correlates of tree species presence in previous species distribution modeling studies.  It is important to do your analysis on climate variables that are known to be ecologically relevant to tree niche dimensions.
 
-A third issue is the role of climate variability over the 1895 to 2014 time period.  Decadal oscillations are common in this period in many parts of the US.  Trees are likely integrating over 2 or more of these climate cycles.  SDMs should be done to best represent the climate and variability that selected for tree presence when the trees were measured.  Your analysis would be strengthened with statistical analysis of climate patters from 1895 to present for your predictor variables and an analysis of which time period produces the best SDMs.
+We have added the sentences: *These climate variables were chosen because of their relative importance as demonstrated in prior research [@iverson1998predicting] and their use in past climate reconstruction [@maiorano2013building].  Recent statistical advances have opened the possibility of obtaining temperature and precipitation estimates from historical observations as early as the 1830s [@tiptoninreview], however the behaviour of uncertainties for derived variables such as potential evapo-transpiration, which ranked highly in previous work [@iverson1998predicting] are not currently known.*
 
-195             It is important to discuss why univariate climate tree presence functions are relevant to the climate factors that strongly influence tree species presence or absence.  SDM modeling typically shows that a particular combination of climate and habitat factors is much more strongly associate with tree presence and any random climate variable.  Your analysis would be stronger to do model selection for best multivariate SDM functions and then compare these functions between historic and present.
+> 183-185   First, it is a serious stretch to use 1895-1919 climate to represent tree/climate relationships during 1830-1910.  The verbal statement (without statistical analysis) that the dendro-based PDSI did not change over that period is not very convincing.  Moreover, the analysis specifically should be done on the climate predictors used in the niche modeling.  Also, evaluate to what extent does this PDSI index represent trends in Tmin and the other predictors used?
 
-211-218 The analyses should control for spatial autocorrelation, simple t tests would seem to have an inflated sample size due not including spatial autocorrelation in the model.
+> Another issue is lack of discussion about the time period when the forests sampled by FIA got established. It is typical in SDM studies to test the strength of models from different time periods in tree SDM work and select the time period that is most strongly associated with species presence.  In the western US, we found 1950-1980 to produce stronger models than 1980-2010.
 
-226-230 and Figure 1.  Statistical analysis should be done of the climate trends, showing a least a trend line and a 95% confidence interval.  A moving window regression might better show breakpoints in the trend line.  This is needed because the data show high interannual variability and it is not obvious by eyeing these graphics for which variables trends exist or not. Also, say in the legend what the red dots are.
+<!-- We could play with SDMs and run them back and forth with windows. -->
 
-231-239 I find the maps of range loss in Fig 3 to be stunningly large.  I am not sure anything in the literature would document such large losses in tree species presence from land use or 100 yrs of climate change.  It would seem important to use other data sets to validate these estimates of range loss.  Are the patterns in these maps real or mostly due to the differences among the PLS and FIA data sets?  If real, what are the mechanisms of local extinction?
+> A third issue is the role of climate variability over the 1895 to 2014 time period.  Decadal oscillations are common in this period in many parts of the US.  Trees are likely integrating over 2 or more of these climate cycles.  SDMs should be done to best represent the climate and variability that selected for tree presence when the trees were measured.  Your analysis would be strengthened with statistical analysis of climate patters from 1895 to present for your predictor variables and an analysis of which time period produces the best SDMs.
 
-347-350 Is it accurate to infer that ag has “largely eliminated open forests…” which does not sample low density forests? It seems likely that most of these tree species are present in at least low densities in the areas where your maps show they are not present.
+<!-- We intentionally spaced the records. Species distribution models are not part of this discussion, we recognize that different time periods might affect this. -->
 
-Figure 2 b-e    The axes should be labeled and units indicated.  Consider reformatting these figures.  The current versions make visual separation of the lines hard to detect.
+> 195 It is important to discuss why univariate climate tree presence functions are relevant to the climate factors that strongly influence tree species presence or absence.  SDM modeling typically shows that a particular combination of climate and habitat factors is much more strongly associate with tree presence and any random climate variable.  Your analysis would be stronger to do model selection for best multivariate SDM functions and then compare these functions between historic and present.
 
-Lines 361-364.  The topic of this sentence should be elaborated upon to more fully point out the limitations of the study and appropriate inference. Say how much the estimates of forest loss and niche shifts may be overestimated.
+<!-- We are not building predictive models, with SDMs you get the blend, but it may not be clear which elements are directly impacting the model response. -->
 
-365-370 These sentences are a bit of bait and switch.  Yes, readers will agree that SDM based on FIA may not fully represent the realized niche of tree species.  However, some of your argument hinges on the magnitude of the error that is made by using FIA.  I think your paper way over states that error.  The paper would have more impact if you were careful to emphasize the limitations of the data sets for this analysis and say that the degree to which FIA leads to SDM error is not knowable with available data sets.
+> 211-218 The analyses should control for spatial autocorrelation, simple t-tests would seem to have an inflated sample size due not including spatial autocorrelation in the model.
 
+<!-- I will look into this. -->
+
+> 226-230 and Figure 1.  Statistical analysis should be done of the climate trends, showing a least a trend line and a 95% confidence interval.  A moving window regression might better show breakpoints in the trend line.  This is needed because the data show high interannual variability and it is not obvious by eyeing these graphics for which variables trends exist or not. Also, say in the legend what the red dots are.
+
+<!-- This is what Jack & I talked about, adding the moving window -->
+
+> 231-239 I find the maps of range loss in Fig 3 to be stunningly large.  I am not sure anything in the literature would document such large losses in tree species presence from land use or 100 yrs of climate change.  It would seem important to use other data sets to validate these estimates of range loss.  Are the patterns in these maps real or mostly due to the differences among the PLS and FIA data sets?  If real, what are the mechanisms of local extinction?
+
+<!-- This partly a function of undersampling by the FIA structure (?) We need to clarify this. We add a supplemental version with "only FIA & PLSS overlap" -->
+
+> 347-350 Is it accurate to infer that ag has “largely eliminated open forests” which does not sample low density forests? It seems likely that most of these tree species are present in at least low densities in the areas where your maps show they are not present.
+
+<!-- Point to the LC survey, loss accoring to Rhemtulla, and the maintenance in anthropic biomes. -->
+
+> Figure 2 b-e, The axes should be labeled and units indicated.  Consider reformatting these figures. The current versions make visual separation of the lines hard to detect.
+
+> Lines 361-364.  The topic of this sentence should be elaborated upon to more fully point out the limitations of the study and appropriate inference. Say how much the estimates of forest loss and niche shifts may be overestimated.
+
+> 365-370 These sentences are a bit of bait and switch.  Yes, readers will agree that SDM based on FIA may not fully represent the realized niche of tree species.  However, some of your argument hinges on the magnitude of the error that is made by using FIA.  I think your paper way over states that error.  The paper would have more impact if you were careful to emphasize the limitations of the data sets for this analysis and say that the degree to which FIA leads to SDM error is not knowable with available data sets.
+
+<!-- this repeats ome of the other comments -->
 
 ## Referee 3
 
@@ -85,36 +130,61 @@ Referee 3 was most critical of the paper.
 > Firstly, its rigor and clarity do not meet the standards for Ecology Letters. For example,
 
 > Title: The authors used the upper Midwestern United States throughout the manuscript. But why the authors used the northern United States in the title?
-This study equally emphasized the distribution changes for 15 common tree genera over the last two centuries and the effects of climate change and land use change on these changes. Was it better to say “the effects of historical land use and climate change on species distribution changes” in the tittle?
+
+We have changed this throughout the paper.
+
+> This study equally emphasized the distribution changes for 15 common tree genera over the last two centuries and the effects of climate change and land use change on these changes. Was it better to say “the effects of historical land use and climate change on species distribution changes” in the tittle?
+
+We believe the title should stand as is.  We are not interested in the changes in spatial distributions, except inasmuch as they affect the climate-space occupied by the tree species, thus the "tree-climate relationship".
 
 > Abstract: P2-L34-37, forest inventory data cannot be used to project forest responses to climate change. Rather, forest inventory data were used in models to make projections. It was distribution-climate relationships. In my opinion, this study was not about the stability and representativeness of distribution-climate. This study was to build up or extend the distribution-climate relationships.
 
+We appreciate the opinion of the reviewer in this context.  We have tried to use these datasets to show this -  <!-- point to Jack & David's paper. -->
+
 > 3) One of the objectives in this manuscript was to investigate the effects of climate change, land use change, and pathogen outbreaks on distribution changes (L125-126). However, the pathogen outbreaks were nearly ignored in the title and methods, results, and discussion sections.
+
+We will reframe "land use" to vegetation change, and then explain in the introduction how these all fold in.
 
 > Most importantly, the way that the authors included the effects of land use change in data analyses (let’s forget pathogen outbreaks for now) was not justified. Thus, I was not convinced the data analyses were robust to answer the question about the effects of climate change, land use change, and pathogen outbreaks on distribution changes. Although the authors argued the land use effects were represented as the difference between VHCH, VMCH. Why? 
 
 > Firstly, it is not possible to get the distribution data under VMCH. Secondly, the distribution changes over the last two centuries were caused by many factors including land use change, disturbances (e.g., pathogen outbreaks, fire, harvest), and endogenous succession processes. Why the difference VH and VM could represent the land use change effects? This was too arbitrary. A stronger rationale is needed.
 
+We believe that our argument is valid, but may have been unclear in the framing.  First, we believe that attributing the distributional changes from VH to VM to land use is justified, although, as noted above, we will change this to "vegetation change".  Shulte et al (2007) and Rhemtulla et al (2009) have used similar language to explain the set of changes associated with EuroAmerican settlement. Initial clearance for agricultural and urban development was contemporaneous with massive logging operations, and, in the late 1800s, widespread fire originiating from human sources.  Given this, and the fact that very little "old growth" forest remains, modern forests are indellibly imprinted with the signal of human land use, whether agricultural conversion or timbering.  The IPCC considers forestry to be a component of land use.  The Peshtigo firestorm, the Michigan fires of 1871 and 1881 were driven by slash buildup following logging.
+
 > The authors should use present tense not past tense in the methods and results sections.
 
 > The results section was not well organized. Subtitles should be used to describe the overall distribution changes, shifts along climate change, the relative importance, and interactions. The four paragraphs of interaction subsection in the results section were not concise and like bullets.
 
+
+
 > Secondly, the materials and method section was vague and not logically articulated.
-1)      July temperature (Tmax) was the minimum, maximum, or mean temperature in July?
+1) July temperature (Tmax) was the minimum, maximum, or mean temperature in July?
 January temperature (Tmin) was the minimum, maximum, or mean temperature in January?
-Annual temperature range (Tdiff) was the difference between the minimum and maximum temperature over the year?
-Annual precipitation (Pann) was the minimum, maximum, or mean precipitation across over the year?
-2)      More detailed information in the materials and method section was needed to show how the authors analyzed the overall distribution changes, climate change effects, and the relative importance of land use and climate change. It should not be only in the figure titles. For example:
-The authors used gain, loss, and continuous persistence to demonstrate the distribution changes over the last two centuries in Figure 3. However, this approach was not described in the materials and method section but was only in the title of Figure 3.
+Annual temperature range (Tdiff) was the difference between the minimum and maximum temperature over the year? Annual precipitation (Pann) was the minimum, maximum, or mean precipitation across over the year?
+
+> 2)  More detailed information in the materials and method section was needed to show how the authors analyzed the overall distribution changes, climate change effects, and the relative importance of land use and climate change. It should not be only in the figure titles. For example:
+
+> The authors used gain, loss, and continuous persistence to demonstrate the distribution changes over the last two centuries in Figure 3. However, this approach was not described in the materials and method section but was only in the title of Figure 3.
 The authors used the box-and-whisker plots to demonstrate the distribution changes along Tmax, Tmin, and Pann. Likewise, this approach was not described in the materials and method section but was only in the title of Figure 4.
-The approach used in Figure 5 was not described in the materials and method section but was only in the title of Figure 5. More detailed information should be given to better analyze the relative importance of land use change and climate change effects.
+
+> The approach used in Figure 5 was not described in the materials and method section but was only in the title of Figure 5. More detailed information should be given to better analyze the relative importance of land use change and climate change effects.
 More detailed information about the univariate density functions (PDFs) and Hellinger distances was needed to better describe the approach.
-3)      Again, how the effects land use and exotic pathogens were included in the analyses?
-4)      The 2×2 factorial design with pre-settlement and modern vegetation and climates (VHCH, VHCM,VMCH,VMCM) was very confusing (Figure 2a). The historical distribution data for VHCH scenario were derived from PLS and the contemporary distribution data for VMCM were derived from US FIA data. Then, what were the data for VHCM and VMCH scenarios. It was impossible to get the data for VHCM and VMCH scenarios, right? If my understanding was wrong, then the more detailed information was needed to better describe the factorial design and data used for each scenario.
-5)      About the t-tests to assess the interaction effects between land use and climate change (e.g., compounding, confounding, counteracting), what the responsible variables were used for the comparisons between the VHCH and VHCM, VHCH and VMCH. More detailed information was needed to better describe these tests.
+
+> 3) Again, how the effects land use and exotic pathogens were included in the analyses?
+
+> 4) The 2×2 factorial design with pre-settlement and modern vegetation and climates (VHCH, VHCM,VMCH,VMCM) was very confusing (Figure 2a). The historical distribution data for VHCH scenario were derived from PLS and the contemporary distribution data for VMCM were derived from US FIA data. Then, what were the data for VHCM and VMCH scenarios. It was impossible to get the data for VHCM and VMCH scenarios, right? If my understanding was wrong, then the more detailed information was needed to better describe the factorial design and data used for each scenario.
+
+<!-- Clarify this in the review -->
+
+> 5) About the t-tests to assess the interaction effects between land use and climate change (e.g., compounding, confounding, counteracting), what the responsible variables were used for the comparisons between the VHCH and VHCM, VHCH and VMCH. More detailed information was needed to better describe these tests.
+
+<!-- catch them up? but also make sure it's clarified better. -->
 
 > Thirdly, the discussion section was not well written. Many contents in the discussion section ventured beyond the domain of the results. I suggest that the authors should set the results in a broader context and logically discuss the implications for distribution-climate relationships, distribution modeling, historical database, and management.
 > 1) L316-L322 were not the findings of this study. How were these points related to the findings? They read like introduction and should not be in discussion section.
+
+<!-- This is just reframing & revisiting the argument. -->
+
 > 2) Likewise, L323-l336 how were these points related to your findings? It stood alone now.
 > 3) L337-l351 should be better related to your findings. The first and second points stood alone now.
 > 4) L352-L360 here, the authors finally mentioned the pathogen outbreaks effects. However, the pathogen outbreaks effect were not included in the data analyses. This seems just speculation.
