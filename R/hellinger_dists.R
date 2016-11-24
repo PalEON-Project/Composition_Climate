@@ -62,7 +62,8 @@ hellinger_plot <- function(){
               family = 'serif', size = 4, fontface = 'italic') +
     facet_wrap(~climate) +
     theme_bw() +
-    scale_x_sqrt() +
+    scale_x_log10(breaks = c(2, 10, 25, 50, 125), minor_breaks = NULL) +
+    scale_y_continuous(minor_breaks = NULL) +
     xlab(expression("Total Change"*" - "*PLS*" - "*FIA*" - "*d[tot])) +
     ylab(expression('Climate Change - Land Use Change - '*d[c]*' - '*d[v])) +
     theme(axis.text = element_text(family = 'serif', size = 12),
@@ -70,7 +71,7 @@ hellinger_plot <- function(){
           strip.text = element_text(family = 'serif', face = 'bold', size = 12),
           legend.position = "none",
           plot.margin = grid::unit(c(10,10,10,10), "mm")) +
-    coord_cartesian(xlim = c(0,125), ylim = c(-65, 85)) +
+    coord_cartesian(xlim = c(1,125), ylim = c(-65, 85)) +
     geom_abline(intercept = 0, slope = 0, alpha = 0.5) +
     annotate(geom = 'text', x = 7, y = 70, 
              label = 'Climate Dominates', family = 'serif',

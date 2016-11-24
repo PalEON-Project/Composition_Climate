@@ -49,10 +49,11 @@ We have added the sentence: *While fire and logging have played a role in changi
 
 > Figure 5: The x – axis needs more tick marks and numbers. At first, my mind assumed a linear scale, which would imply negative distances, but then I thought maybe this was some sort of log scale, which would make more sense with a distance metric. Some additional clarity is needed.
 
-
+We have changed the x axis to a log10 scale and added more tick marks to the x-axis to make it clear that it is non-linear.
 
 > Table 1: Some of the taxa are listed with their scientific names and others by common names. Replace common names with scientific names
 
+I have corrected the names so that only scientific names are displayed.
 
 ## Referee: 2
 
@@ -162,13 +163,17 @@ We believe that our argument is valid, but may have been unclear in the framing.
 January temperature (Tmin) was the minimum, maximum, or mean temperature in January?
 Annual temperature range (Tdiff) was the difference between the minimum and maximum temperature over the year? Annual precipitation (Pann) was the minimum, maximum, or mean precipitation across over the year?
 
+We have clarified these variables: "*Estimates for mean daily July temperature ($T_{max}$), mean daily January temperature ($T_{min}$), annual temperature range ($T_{diff}$: $T_{max}$ - $T_{min}$), and annually summed daily precipitation ($P_{ann}$) . . .*"
+
 > 2)  More detailed information in the materials and method section was needed to show how the authors analyzed the overall distribution changes, climate change effects, and the relative importance of land use and climate change. It should not be only in the figure titles. For example:
 
 > The authors used gain, loss, and continuous persistence to demonstrate the distribution changes over the last two centuries in Figure 3. However, this approach was not described in the materials and method section but was only in the title of Figure 3.
-The authors used the box-and-whisker plots to demonstrate the distribution changes along Tmax, Tmin, and Pann. Likewise, this approach was not described in the materials and method section but was only in the title of Figure 4.
+
+> The authors used the box-and-whisker plots to demonstrate the distribution changes along Tmax, Tmin, and Pann. Likewise, this approach was not described in the materials and method section but was only in the title of Figure 4.
 
 > The approach used in Figure 5 was not described in the materials and method section but was only in the title of Figure 5. More detailed information should be given to better analyze the relative importance of land use change and climate change effects.
-More detailed information about the univariate density functions (PDFs) and Hellinger distances was needed to better describe the approach.
+
+> More detailed information about the univariate density functions (PDFs) and Hellinger distances was needed to better describe the approach.
 
 > 3) Again, how the effects land use and exotic pathogens were included in the analyses?
 

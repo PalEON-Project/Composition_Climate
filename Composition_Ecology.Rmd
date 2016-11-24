@@ -165,7 +165,7 @@ For all species, the range within the Upper Midwest represents an incomplete sam
 
 ## Historical and Modern Climate Data
 
-Historical and modern climate data are derived from monthly PRISM LT data for 1895 to 2014 CE [@prism2004]. The PRISM climate variables are available at 800m resolution and have been interpolated from station locations using elevation, aspect and other data.  Estimates for July temperature ($T_{max}$), January temperature ($T_{min}$), annual temperature range ($T_{diff}$), and annual precipitation ($P_{ann}$) were resampled to the 8 x 8km grid used for PLS and FIA data. These climate variables were chosen because of their relative importance as demonstrated in prior research [@iverson1998predicting] and their use in past climate reconstruction [@maiorano2013building].  Recent statistical advances have opened the possibility of obtaining temperature and precipitation estimates from historical observations as early as the 1830s [@tiptoninreview], however the behaviour of uncertainties for derived variables such as potential evapo-transpiration, which ranked highly in previous work [@iverson1998predicting] are not currently known.
+Historical and modern climate data are derived from monthly PRISM LT data for 1895 to 2014 CE [@prism2004]. The PRISM climate variables are available at 800m resolution and have been interpolated from station locations using elevation, aspect and other data.  Estimates for mean daily July temperature ($T_{max}$), mean daily January temperature ($T_{min}$), annual temperature range ($T_{diff}$: $T_{max}$ - $T_{min}$), and annually summed daily precipitation ($P_{ann}$) were resampled to the 8 x 8km grid used for PLS and FIA data. These climate variables were chosen because of their relative importance as demonstrated in prior research [@iverson1998predicting] and their use in past climate reconstruction [@maiorano2013building].  Recent statistical advances have opened the possibility of obtaining temperature and precipitation estimates from historical observations as early as the 1830s [@tiptoninreview], however the behaviour of uncertainties for derived variables such as potential evapo-transpiration, which ranked highly in previous work [@iverson1998predicting] are not currently known.
 
 Two periods were selected for calculation of climate normals: 1895 to 1919 for the historical period and 1990 - 2014 for the modern period.  There is an unavoidable temporal mismatch between the historical climate data and the PLS survey period, on the order of 50 to 70 years; few meteorological records exist in this region prior to 1895 CE, and no gridded dataset exists at high spatio-temporal resolution for this time period.  The effects of temporal mismatch should be minor given that Northern Hemisphere temperature trends were generally small during the 19^th^ century [@mann2009global].  To check whether an 1895 to 1919 CE climate normal is a reasonable surrogate for pre-settlement climates we compare the instrumental record against dendroclimatic reconstructions of the Palmer Drought Severity Index [@heim2002review] (`r fig_nums("land_use_clim", display = "cite")`).
 
@@ -223,7 +223,14 @@ For most tree genera, historical range losses dominate over range gains and are 
 
 ```{r table1, results="asis", echo=FALSE, eval=TRUE}
 
-pander::pandoc.table(loss_table, justify = "left", style = "rmarkdown")
+sci_names <- c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
+               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus", 
+               "Ostrya/Carpinus", "Tilia", "Fraxinus", "Ulmus", "Quercus")
+
+rownames(loss_table) <- paste0("*", sci_names, "*")
+
+pander::pandoc.table(loss_table, justify = "left", style = "rmarkdown",
+                     emphasize.rownames = FALSE)
 ```
 
 
