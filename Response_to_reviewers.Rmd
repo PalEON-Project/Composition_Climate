@@ -110,19 +110,25 @@ In the results we note:
 
 > Another issue is lack of discussion about the time period when the forests sampled by FIA got established. It is typical in SDM studies to test the strength of models from different time periods in tree SDM work and select the time period that is most strongly associated with species presence.  In the western US, we found 1950-1980 to produce stronger models than 1980-2010.
 
-We note that this is not an excersise in creating SDMs, a point we will return to later, but take the point of the association between vegetation and climate varies between establishment and long term survival of forest stocks.  This is a well established phenomena, and we appreciate the reviewer for pointing this out.  In examining the normals for the region, beginning with a normal ending 1980, gives a total range of 0.35^o^C for $T_{max}$, 0.84^o^C for $T_{min}$, 1.15^o^C for $T_{diff}$ and 20mm for $P_{ann}$.  These estimates are all lower that the variance within any one of the normals (1.5^o^C, 3.0^o^C, 3.1^o^C and 78mm) respectively.  Given the variability within windows, and the relatively young age of most stands in WI, MN and MI (FIA data shows mean ages of 52, 56 and 49 years respectively), we believe that the choice of normal is acceptable.
+We note that this is not an excersise in creating SDMs, a point we will return to later, but take the point of the association between vegetation and climate varies between establishment and long term survival of forest stocks, we believe that our contribution further underscores this point. The normals for the region, beginning with a normal ending 1980 and continuing to a normal ending 2014, give a total range of 0.35^o^C for $T_{max}$, 0.84^o^C for $T_{min}$, 1.15^o^C for $T_{diff}$ and 20mm for $P_{ann}$.  These estimates are all lower that the variance within any one of the normals (1.5^o^C, 3.0^o^C, 3.1^o^C and 78mm) respectively, but, as pointed out in Baker *et al*. (2016; doi:10.1111/gcb.13273) uncertainty in the underlying estimates are often overlooked.  Given the variability within windows, and the relatively young age of most stands in WI, MN and MI (FIA data shows mean ages of 52, 56 and 49 years respectively), we believe that the choice of normal is acceptable.  Having said that, we examined the importance using both shifts in PLS era, and shifts in the modern climate normal.  The largest effect is in $t_{max}$, since the most recent normals all show a significant increase in $t_{max}$.
+
+![](figures/corrected_all.png)
+
+
 
 > A third issue is the role of climate variability over the 1895 to 2014 time period.  Decadal oscillations are common in this period in many parts of the US.  Trees are likely integrating over 2 or more of these climate cycles.  SDMs should be done to best represent the climate and variability that selected for tree presence when the trees were measured.  Your analysis would be strengthened with statistical analysis of climate patters from 1895 to present for your predictor variables and an analysis of which time period produces the best SDMs.
 
-<!-- We intentionally spaced the records. Species distribution models are not part of this discussion, we recognize that different time periods might affect this. -->
+I believe that this is addressed in the response to the prior comment.
 
 > 195 It is important to discuss why univariate climate tree presence functions are relevant to the climate factors that strongly influence tree species presence or absence.  SDM modeling typically shows that a particular combination of climate and habitat factors is much more strongly associate with tree presence and any random climate variable.  Your analysis would be stronger to do model selection for best multivariate SDM functions and then compare these functions between historic and present.
 
-<!-- We are not building predictive models, with SDMs you get the blend, but it may not be clear which elements are directly impacting the model response. -->
+We apreciate this point and thank the reviewer for bringing it up.  The challenge in this case is that a multivariate SDM blends the climate variables. Further, a multi-model SDM approach might weight climate variables differently across models, through time, making sensitivity analysis for the impact of each climate variable challenging.  We point out that this analysis is not intended to focus on the construction of SDMs, but rather to show the relationship between land use and the individual climate variables, through the distribution of tree species.  Thus, disentagling land use and climate shifts on a set of multivariate combination of variables from each time slice becomes extremely challenging, and, is effectively a separate paper.
+
+What this paper intends to point to is that land use is impacting climate variables differentially across species as a result of land use, and that this may have implications for SDM construction.  Shifts in the strength of SDMs between time scales and potential utility of climate variables in SDM construction is a separate analysis and paper.
 
 > 211-218 The analyses should control for spatial autocorrelation, simple t-tests would seem to have an inflated sample size due not including spatial autocorrelation in the model.
 
-<!-- I will look into this. -->
+We have included spatial autocorrelation in the t-tests using the `SpatialPack` function`modified.ttest`.  We use confidence intervals based on the raw t.test scores, but report significance based on the modified.ttest calculation.
 
 > 226-230 and Figure 1.  Statistical analysis should be done of the climate trends, showing a least a trend line and a 95% confidence interval.  A moving window regression might better show breakpoints in the trend line.  This is needed because the data show high interannual variability and it is not obvious by eyeing these graphics for which variables trends exist or not. Also, say in the legend what the red dots are.
 

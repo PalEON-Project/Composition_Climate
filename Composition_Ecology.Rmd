@@ -258,9 +258,6 @@ topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tdiff"] <- topveg$clim[to
 allveg$clim[allveg$c.ref == "FIA"] <- topveg$clim[topveg$c.ref == "FIA"]
 allveg$clim[allveg$c.ref == "PLSS"] <- newveg$clim[newveg$c.ref == "PLSS"]
 
-
-
-
 boxplot_clim <- clim_boxplots(clim_table = allveg,
                               filename = "boxplot_corrected_all")
 
@@ -302,7 +299,7 @@ hell_plot <- hellinger_plot()
 
 Both the total shift in realized tree-climate distributions and the attribution of these changes to historical land use or climate change varies strongly among taxa and among climate variables (`r fig_nums("hellPlot", display = "cite")`). Shifts in realized climate distributions over the last 100 to 150 years are largest for *Ulmus* ($T_{min}$, $T_{max}$), *Larix* ($T_{max}$), *Tsuga* ($T_{max}$ and $P_{ann}$), and *Fagus* ($P_{ann}$).   Attribution analyses based on $d$ (`r fig_nums("hellPlot", display = "cite")`) reveal that while the imprint of historical land use on shifting climatic niches is important for many taxa, this shift is not uniform across taxa. The climatic signal is strongest for $P_{ann}$, with regional changes in $P_{ann}$ being largely responsible for shifting climate niches, while only *Populus* and *Picea* have seen climate niche shifts due to land-use that are larger than climate shifts. The greatest land use signal across taxa is found in $T_{max}$ (`r fig_nums("hellPlot", display = "cite")`), with effects particularly strong for *Larix*, *Ulmus*, and *Fagus* (all taxa lie below the equality line for $d_{c} - d_{v}$). The large shift in the distribution of *Tsuga* relative to $T_{max}$, conversely, appears to be mainly attributable to historical climate change. For $T_{min}$ (`r fig_nums("hellPlot", display = "cite")`), shifting distributions of *Ulmus* and *Thuja*/*Juniperus* can be mainly attributed to land use change, while *Larix* and *Betula* have large shifts that are equally attributable to historical climate change and land use, and the niche shifts for *Quercus*, *Fraxinus*, *Picea*, *Acer*, and *Tilia* are attributable to changing climate.
 
-`r tab_nums("compTable", "Compounding ($\\Box$), confounding (-) and counteracting ($\\bigcirc$) relationships between land-use and climate change.  When the land-use/climate interaction was regressed against spatial vaariables (latitude, longitude) no significant relationship was found.")`
+`r tab_nums("compTable", "Compounding ($\\Box$), confounding (-) and counteracting ($\\bigcirc$) relationships between land-use and climate change.  When the land-use/climate interaction was regressed against spatial variables (latitude, longitude) no significant relationship was found.")`
 
 ```{r tests, warning=FALSE, message=FALSE, echo=FALSE, results="asis", eval=TRUE}
 source("R/confounding_table.R")
