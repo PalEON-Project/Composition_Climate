@@ -159,7 +159,7 @@ Estimates of settlement-era forest composition and tree distribution are based o
 
 Modern forest data are from the US FIA program, which provides detailed inventories of contemporary tree distributions, for all regions with >10% forest cover [@woudenberg2010forest]. The FIA uses a nationally standardized sampling procedure that has evolved over time.  In the Phase 2/3 system, beginning in 1998, each plot consists of four, 7.32m radius, circular sub-plots which are sampled intensively [@woudenberg2010forest].
 
-Comparisons between historical and modern vegetation must address differences in sampling design between the PLS and FIA datasets [@goring2016preset;@kronenfeld2014validating;@kronenfeld2010influence]. Here, the primary solution for maximizing comparability is via aggregation, both spatially, by aggregating records from both datasets to a common scale (8x8 km), and taxonomically by aggregating taxa to the level of genera. Nonetheless, differences persist.  The FIA contains fewer plots per 8 km cell, with more trees per plot than the PLS data and FIA observations are collected only from forested or partially forested landscapes [@woudenberg2010forest], causing many tree taxa to have smaller spatial extents in the FIA than in the PLS datasets. Scattered trees may be present in regions without permanent or temporary FIA plots, complicating the ability to assign 'absence' within the FIA. However, the practice of using FIA data as a surrogate for tree distribution data is widespread [@iverson2013tree;@iverson1998predicting], so these complications are general. In prior comparative analyses of the PLS and FIA data, Goring et al. [-@goring2016preset] tested the effect of differential sampling design on the mapped patterns of novel and disappearing forests, and found little effect.
+Comparisons between historical and modern vegetation must address differences in sampling design between the PLS and FIA datasets [@goring2016preset;@kronenfeld2014validating;@kronenfeld2010influence]. Here, the primary solution for maximizing comparability is via aggregation, both spatially, by aggregating records from both datasets to a common scale (8x8 km), and taxonomically by aggregating taxa to the level of genera. Nonetheless, differences persist.  The FIA contains fewer plots per 8 km cell, with more trees per plot than the PLS data and FIA observations are collected only from forested or partially forested landscapes [@woudenberg2010forest], causing many tree taxa to have smaller spatial extents in the FIA than in the PLS datasets. Scattered trees may be present in regions without permanent or temporary FIA plots, complicating the ability to assign 'absence' within the FIA. However, the practice of using FIA data as a surrogate for tree distribution data is widespread [@iverson2013tree;@iverson1998predicting], so these complications are general. In prior comparative analyses of the PLS and FIA data, Goring et al. [-@goring2016preset] tested the effect of differential sampling design on the mapped patterns of novel and disappearing forests, and found little effect. FIA sampling represents a system with the potential for high heterogeneity within cells because of intensive sampling at the plot level, and, with one to few plots within an 8 x 8km grid cell, high between cell heterogeneity [@goring2016preset]. PLS sampling is likely to have low heterogeneity within and between cells because of the uniform spatial distribution, and the high number of points within cells [@goring2016preset].  Detectability at the plot level for FIA data is likely to be higher than for the PLS, however, given the variable radius of PLS plots, detectability of trees at forest margins is likely to be higher in the PLS, and PLS sample plots are likely to sample higher landscape heterogeneity within a given cell because of their uniform distribution across the landscape.
 
 For all species, the range within the Upper Midwest represents an incomplete sample of the species range, however, the prairie-forest boundary along the western margin represents a southern and western range limit for many species, and represents a climatic space that is warmer and drier than elsewhere in the region.
 
@@ -167,7 +167,7 @@ For all species, the range within the Upper Midwest represents an incomplete sam
 
 Historical and modern climate data are derived from monthly PRISM LT data for 1895 to 2014 CE [@prism2004]. The PRISM climate variables are available at 800m resolution and have been interpolated from station locations using elevation, aspect and other data.  Estimates for mean daily July temperature ($T_{max}$), mean daily January temperature ($T_{min}$), annual temperature range ($T_{diff}$: $T_{max}$ - $T_{min}$), and annually summed daily precipitation ($P_{ann}$) were resampled to the 8 x 8km grid used for PLS and FIA data. These climate variables were chosen because of their relative importance as demonstrated in prior research [@iverson1998predicting] and their use in past climate reconstruction [@maiorano2013building].  Recent statistical advances have opened the possibility of obtaining temperature and precipitation estimates from historical observations as early as the 1830s [@tiptoninreview], however the behaviour of uncertainties for derived variables such as potential evapo-transpiration, which ranked highly in previous work [@iverson1998predicting] are not currently known.
 
-Two periods were selected for calculation of climate normals: 1895 to 1919 for the historical period and 1990 - 2014 for the modern period.  There is an unavoidable temporal mismatch between the historical climate data and the PLS survey period, on the order of 50 to 70 years; few meteorological records exist in this region prior to 1895 CE, and no gridded dataset exists at high spatio-temporal resolution for this time period.  The effects of temporal mismatch should be minor given that Northern Hemisphere temperature trends were generally small during the 19^th^ century [@mann2009global].  To check whether an 1895 to 1919 CE climate normal is a reasonable surrogate for pre-settlement climates we compare the instrumental record against dendroclimatic reconstructions of the Palmer Drought Severity Index [@heim2002review] (`r fig_nums("land_use_clim", display = "cite")`).
+Two periods were selected for calculation of climate normals: 1895 to 1919 for the historical period and 1990 - 2014 for the modern period.  There is an unavoidable temporal mismatch between the historical climate data and the PLS survey period, on the order of 50 to 70 years; few meteorological records exist in this region prior to 1895 CE, and no gridded dataset exists at high spatio-temporal resolution for this time period for all climate variables.  The effects of temporal mismatch should be minor given that Northern Hemisphere temperature trends were generally small during the 19^th^ century [@mann2009global].  To check whether an 1895 to 1919 CE climate normal is a reasonable surrogate for pre-settlement climates we compare the instrumental record against dendroclimatic reconstructions of the Palmer Drought Severity Index [@heim2002review] (`r fig_nums("land_use_clim", display = "cite")`), and test July temperature reconstructions from observer data against our $T_{max}$ (Supplement 1).  Baker et al. [-@baker1985minnesota] show long term increases in mean annual temperature at Ft. Snelling and other spatially proximate records, while corrected estimates from Fort Leavenworth in Kansas [@burnette2010daily] show increasing temperatures in all seasons, with faster increases during winter (0.10^o^C decade^-1^) than during summer (0.07^o^C decade^-1^).  This implies that historical estimates may be biased by +0.35^o^C for $t_{max}$, by +0.5^o^C for $t_{min}$ and +0.15^o^C for $t_{diff}$.
 
 ## Shifts in Species Distributions in Climate Space
 
@@ -185,7 +185,7 @@ All analysis uses R [@Team2014], RMarkdown [@rmarkdown2016] and R packages `colo
 
 # Results
 
-Regionally, $T_{min}$ increased `r round(clim_change[4], 1)`^o^C since the 1895-1924 normal (`r fig_nums("land_use_clim", display = "cite")`), $T_{max}$ changed by `r round(clim_change[2], 1)`^o^C, while $T_{diff}$ changed by `r round(clim_change[3], 1)`^o^C. Regionally, $P_{ann}$ has increased by `r round(clim_change[1], 1)`mm.  The Palmer Drought Severity Index is closely coherent with $P_{ann}$ trends from 1895 onward and indicates no major climatic trends between 1800 and 1900 (`r fig_nums("land_use_clim", display = "cite")`e), suggesting that early 20^th^ century climates are a reasonable proxy for mid-19^th^ century climates.
+Regionally, $T_{min}$ increased `r round(clim_change[4], 1)`^o^C since the 1895-1924 normal (`r fig_nums("land_use_clim", display = "cite")`), $T_{max}$ changed by `r round(clim_change[2], 1)`^o^C, while $T_{diff}$ changed by `r round(clim_change[3], 1)`^o^C. Regionally, $P_{ann}$ has increased by `r round(clim_change[1], 1)`mm.  The Palmer Drought Severity Index is closely coherent with $P_{ann}$ trends from 1895 onward and indicates no major climatic trends between 1800 and 1900 (`r fig_nums("land_use_clim", display = "cite")`e), suggesting that early 20^th^ century climates are a reasonable proxy for mid-19^th^ century climates.  When long term records [@burnette2010daily; @baker1985minnesota] are considered, $\Delta t_{min}$ increases to approximately `r round(clim_change[4], 1) + 0.5`^o^C, $\Delta t_{max}$ to `r round(clim_change[2], 1) + 0.35`^o^C and $\Delta t_{diff}$ to `r round(clim_change[2], 1) - 0.15`^o^C.
 
 ```{r loss_gain_fig, warning=FALSE, message=FALSE, echo=FALSE, dpi=150}
 
@@ -239,7 +239,40 @@ source("R/resampling_climate.R")
 vegclim_table <- resample_climate(climate, agg_dens, pls_data)
 
 source("R/figures/climate_boxplots.R")
-boxplot_clim <- clim_boxplots(clim_table = vegclim_table)
+boxplot_clim <- clim_boxplots(clim_table = vegclim_table, 
+                              filename = 'boxplot_clim')
+
+# Do it with the correction for early historical:
+newveg <- vegclim_table
+topveg <- vegclim_table
+allveg <- vegclim_table
+
+newveg$clim[newveg$c.ref == "PLSS" & newveg$climate == "tmax"] <- newveg$clim[newveg$c.ref == "PLSS" & newveg$climate == "tmax"] - 0.35
+newveg$clim[newveg$c.ref == "PLSS" & newveg$climate == "tmin"] <- newveg$clim[newveg$c.ref == "PLSS" & newveg$climate == "tmin"] - 0.5
+newveg$clim[newveg$c.ref == "PLSS" & newveg$climate == "tdiff"] <- newveg$clim[newveg$c.ref == "PLSS" & newveg$climate == "tdiff"] + 0.15
+
+topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tmax"] <- topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tmax"] + 0.84
+topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tmin"] <- topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tmin"] - 0.84
+topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tdiff"] <- topveg$clim[topveg$c.ref == "FIA" & topveg$climate == "tdiff"] + 1.15
+
+allveg$clim[allveg$c.ref == "FIA"] <- topveg$clim[topveg$c.ref == "FIA"]
+allveg$clim[allveg$c.ref == "PLSS"] <- newveg$clim[newveg$c.ref == "PLSS"]
+
+
+
+
+boxplot_clim <- clim_boxplots(clim_table = allveg,
+                              filename = "boxplot_corrected_all")
+
+boxplot_clim <- clim_boxplots(clim_table = newveg,
+                              filename = "boxplot_corrected_pls")
+
+boxplot_clim <- clim_boxplots(clim_table = topveg,
+                              filename = "boxplot_corrected_fia")
+
+boxplot_clim <- clim_boxplots(clim_table = vegclim_table,
+                              filename = "boxplot_original")
+
 
 ```
 
@@ -277,10 +310,10 @@ source("R/confounding_table.R")
 rownames(conf_table) <- NULL
 
 pander::pandoc.table(conf_table, justify = "left", style = "rmarkdown")
-
+knitr::kable(conf_table_corr)
 ```
 
-The majority of climate - land-use interactions are compounding (n = 30) or confounding (n = 28), while few (n = 2) show counteracting effects (`r tab_nums("compTable", display = "cite")`).  Compounding interactions, where both climate and land use shifts push species distributions in the same direction along the climate gradient, are particularly strong for $T_{max}$ (`r tab_nums("compTable", display = "cite")`), and are consistent with the observed trend of cooling $T_{max}$ (`r fig_nums("land_use_clim", display = "cite")`, `r fig_nums("boxplots", display = "cite")`) and losses concentrated in the southern portions of most species ranges (`r fig_nums("gain_loss", display = "cite")`); both tend to shift tree-climate distributions to cooler portions of climate space. Compounding interactions are also strong for $P_{ann}$ and are caused by both land use and climate change shifting species to a wetter portion of climate space than they occupied historically.  These analyses are insensitive to the type of correction applied to the *p*-value, although running the analysis without a correction factor reduces the counts of insignificant (confounding) relationships and increases the number of  counteracting and compounding interactions.  Patterns of interaction, by species, for $P_{ann}$ and $T_{diff}$ are significantly correlated (${\chi^{2}}_{4}$ = 15.22), but are not significantly correlated for other climate variables.
+The majority of climate - land-use interactions are compounding (n = 30) or confounding (n = 28), while few (n = 2) show counteracting effects (`r tab_nums("compTable", display = "cite")`).  Compounding interactions, where both climate and land use shifts push species distributions in the same direction along the climate gradient, are particularly strong for $T_{max}$ (`r tab_nums("compTable", display = "cite")`), and are consistent with the observed trend of cooling $T_{max}$ (`r fig_nums("land_use_clim", display = "cite")`, `r fig_nums("boxplots", display = "cite")`) and losses concentrated in the southern portions of most species ranges (`r fig_nums("gain_loss", display = "cite")`); both tend to shift tree-climate distributions to cooler portions of climate space. Compounding interactions are also strong for $P_{ann}$ and are caused by both land use and climate change shifting species to a wetter portion of climate space than they occupied historically.  These analyses are insensitive to the type of correction applied to the *p*-value, although running the analysis without a correction factor reduces the counts of insignificant (confounding) relationships and increases the number of  counteracting and compounding interactions.  Patterns of interaction, by species, for $P_{ann}$ and $T_{diff}$ are significantly correlated (${\chi^{2}}_{4}$ = 15.22), but are not significantly correlated for other climate variables.  Analysis included in the supplemental material indicates that a shift to an earlier baseline (using the estimated change rate from [@burnette2010daily] in Manhattan, Kansas) results in no change in this pattern (see "R/confounding_table.R" in S1).
 
 Counteracting interactions, where climate shifts and land use shifts show opposite signs relative to baseline climate, effectively narrowing the realized climatic niche from both directions, exist only for *Ulmus* ($T_{max}$) and *Larix* ($T_{min}$).
 

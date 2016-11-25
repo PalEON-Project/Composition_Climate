@@ -23,11 +23,13 @@ We have changed to *km*, retaining the reported miles in parentheses.
 
 > Lines 174-176: This is a key point, but expanding a bit would be helpful. For example, did the paper in review examine issues of detectability? I realize this is addressed in the discussion, but a bit more detail would be good here.
 
-This paper is now accepted.  
+This Goring et al. paper is now accepted.  We have added the following paragraph:
+
+*FIA sampling represents a system with the potential for high heterogeneity within cells because of intensive sampling at the plot level, and, with one to few plots within an 8 x 8km grid cell, high between cell heterogeneity [@goring2016preset]. PLS sampling is likely to have low heterogeneity within and between cells because of the uniform spatial distribution, and the high number of points within cells [@goring2016preset].  Detectability at the plot level for FIA data is likely to be higher than for the PLS, however, given the variable radius of PLS plots, detectability of trees at forest margins is likely to be higher in the PLS, and PLS sample plots are likely to sample higher landscape heterogeneity within a given cell because of their uniform distribution across the landscape.*
 
 > Line 179: Which PRISM data are the authors using, AN or LT. The LT data, for which one has to pay, uses only longer weather station records, which tends toward more reliable temporal trends. This seems like it would be important for the current study. Additionally, it would be good for the authors to at least acknowledge that increasingly sparse data early in the PRSIM record (i.e., late 19th and early 20th centuries) could contribute to greater uncertainties in historical vs. contemporary records. This might make historical climate relationships more difficult to identify.
 
-We use the PRISM LT data.  This has been clarified in the paper.  
+We use the PRISM LT data.  This has been clarified in the paper.
 
 > Line 195: Since the author’s use the abbreviation “PDF”, it would improve clarity to refer to “univariate probability density functions”.
 
@@ -88,9 +90,27 @@ We have added the sentences: *These climate variables were chosen because of the
 
 > 183-185   First, it is a serious stretch to use 1895-1919 climate to represent tree/climate relationships during 1830-1910.  The verbal statement (without statistical analysis) that the dendro-based PDSI did not change over that period is not very convincing.  Moreover, the analysis specifically should be done on the climate predictors used in the niche modeling.  Also, evaluate to what extent does this PDSI index represent trends in Tmin and the other predictors used?
 
+We have added context to this choice and the implications.  Using long term records reported in Baker et al (1985) and Burnett et al. (2010) we indicate that the long term trend is overall warming in the region.  We had previously used PDSI since this was the only available long term record we had access to.  This change resulted in the inclusion of the folowing senteces in the Methods:
+
+*Baker et al. (1985) show long term increases in mean annual temperature at Ft. Snelling and other spatially proximate records, while corrected estimates from Fort Leavenworth in Kansas Burnette et al. (2010) show increasing temperatures in all seasons, with faster increases during winter (0.10oC decade-1) than during summer (0.07oC decade-1).  This implies that historical estimates may be biased by +0.35oC for $t_{max}$, by +0.5oC for $t_{min}$ and +0.15oC for $t_{diff}$.*
+
+and in the Results:
+
+*When long term records (Burnette et al., 2010; Baker et al., 1985) are considered, $\Delta t_{min}$ increases to approximately `r round(clim_change[4], 1) + 0.5`^o^C, $\Delta t_{max}$ to `r round(clim_change[2], 1) + 0.35`^o^C and $\Delta t_{diff}$ to `r round(clim_change[2], 1) - 0.15`^o^C.*
+
+Interestingly, these shifts do not result in significant changes to the overall climate envelope for the tree species (compare the paper figure with the figure below), indicating the influence of land use is much larger than for climate for most taxa.
+
+![](figures/boxplot_corrected.png)
+
+In addition, the change, while large, remains small enough that the shifts related to land use remain larger than changes due to climate, and the directionality of all changes remains constant.  We have added the code into the supplemental material.
+
+In the results we note:
+
+*Analysis included in the supplemental material indicates that a shift to an earlier baseline (using the estimated change rate from [@burnette2010daily] in Manhattan, Kansas) results in no change in this pattern (see "R/confounding_table.R" in S1).*
+
 > Another issue is lack of discussion about the time period when the forests sampled by FIA got established. It is typical in SDM studies to test the strength of models from different time periods in tree SDM work and select the time period that is most strongly associated with species presence.  In the western US, we found 1950-1980 to produce stronger models than 1980-2010.
 
-<!-- We could play with SDMs and run them back and forth with windows. -->
+We note that this is not an excersise in creating SDMs, a point we will return to later, but take the point of the association between vegetation and climate varies between establishment and long term survival of forest stocks.  This is a well established phenomena, and we appreciate the reviewer for pointing this out.  In examining the normals for the region, beginning with a normal ending 1980, gives a total range of 0.35^o^C for $T_{max}$, 0.84^o^C for $T_{min}$, 1.15^o^C for $T_{diff}$ and 20mm for $P_{ann}$.  These estimates are all lower that the variance within any one of the normals (1.5^o^C, 3.0^o^C, 3.1^o^C and 78mm) respectively.  Given the variability within windows, and the relatively young age of most stands in WI, MN and MI (FIA data shows mean ages of 52, 56 and 49 years respectively), we believe that the choice of normal is acceptable.
 
 > A third issue is the role of climate variability over the 1895 to 2014 time period.  Decadal oscillations are common in this period in many parts of the US.  Trees are likely integrating over 2 or more of these climate cycles.  SDMs should be done to best represent the climate and variability that selected for tree presence when the trees were measured.  Your analysis would be strengthened with statistical analysis of climate patters from 1895 to present for your predictor variables and an analysis of which time period produces the best SDMs.
 

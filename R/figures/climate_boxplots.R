@@ -1,5 +1,5 @@
 # Plotting the total climate-shift for the domain.
-clim_boxplots <- function(clim_table = vegclim_table){
+clim_boxplots <- function(clim_table = vegclim_table, filename){
   
   clim_table$taxon <- mapvalues(clim_table$taxon, from = levels(clim_table$taxon),
                                 to = c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
@@ -25,7 +25,7 @@ clim_boxplots <- function(clim_table = vegclim_table){
           axis.text.x = element_text(angle = 45, hjust = 1, face = 'bold.italic'),
           plot.margin = grid::unit(c(10,10,10,10), "mm"))
   
-  ggsave(plot = boxplot_clim, filename = 'figures/boxplot_clim.pdf', width = 6.7, height = 4.5)
-  ggsave(plot = boxplot_clim, filename = 'Final_Figures/boxplot_clim.pdf', width = 6.7, height = 4.5)
+  ggsave(plot = boxplot_clim, filename = paste0('figures/',filename,'.png'), width = 6.7, height = 4.5)
+  ggsave(plot = boxplot_clim, filename = paste0('Final_Figures/',filename,'.pdf'), width = 6.7, height = 4.5)
   boxplot_clim
 }

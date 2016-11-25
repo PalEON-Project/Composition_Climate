@@ -13,12 +13,12 @@
 taxa <- unique(vegclim_table$taxon)
 clim_var <- unique(vegclim_table$climate)
 
-conf_test <- function(taxa, clim_var) {
-  clim = t.test(subset(vegclim_table, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'PLSS' & data > 0)$clim,
-         subset(vegclim_table, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'FIA' & data > 0)$clim)
+conf_test <- function(taxa, clim_var, climtable) {
+  clim = t.test(subset(climtable, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'PLSS' & data > 0)$clim,
+         subset(climtable, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'FIA' & data > 0)$clim)
 
-  lu   = t.test(subset(vegclim_table, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'PLSS' & data > 0)$clim,
-         subset(vegclim_table, taxon == taxa & climate == clim_var & base == 'FIA' & c.ref == 'PLSS' & data > 0)$clim)
+  lu   = t.test(subset(climtable, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'PLSS' & data > 0)$clim,
+         subset(climtable, taxon == taxa & climate == clim_var & base == 'FIA' & c.ref == 'PLSS' & data > 0)$clim)
 
   # We want to return the t-test p value & estimate
   data.frame(taxa = taxa, clim = clim_var,
@@ -29,7 +29,11 @@ conf_test <- function(taxa, clim_var) {
 
 tests <- do.call(rbind.data.frame,
         lapply(taxa, function(x) {
-  do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y)}))}))
+          do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = vegclim_table)}))}))
+
+tests_corrected <- do.call(rbind.data.frame,
+                           lapply(taxa, function(x) {
+                             do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = newveg)}))}))
 
 checker <- function(x) {
   # x will be the row:
@@ -54,18 +58,22 @@ checker <- function(x) {
 tests$result <- apply(tests, 1, checker)
 conf_table <- dcast(tests, taxa ~ clim, value.var = 'result')
 
+tests_corrected$result <- apply(tests_corrected, 1, checker)
+conf_table_corr <- dcast(tests_corrected, taxa ~ clim, value.var = 'result')
+
+
 conf_table <- conf_table[match(taxa, conf_table$taxa),]
 
-mean_y <- function(taxa) {
-  mean(subset(vegclim_table, taxon == taxa & base == 'PLSS' & data > 0)$y)
+mean_y <- function(taxa, climtable) {
+  mean(subset(climtable, taxon == taxa & base == 'PLSS' & data > 0)$y)
 }
 
-mean_x <- function(taxa) {
-  mean(subset(vegclim_table, taxon == taxa & base == 'PLSS' & data > 0)$x)
+mean_x <- function(taxa, climtable) {
+  mean(subset(climtable, taxon == taxa & base == 'PLSS' & data > 0)$x)
 }
 
-conf_table$mean_y <- sapply(taxa, mean_y)
-conf_table$mean_x <- sapply(taxa, mean_x)
+conf_table$mean_y <- sapply(taxa, mean_y, climtable = vegclim_table)
+conf_table$mean_x <- sapply(taxa, mean_x, climtable = vegclim_table)
 
 conf_table <- conf_table[,1:5]
 
