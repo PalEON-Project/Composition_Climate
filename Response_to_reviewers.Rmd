@@ -162,7 +162,9 @@ As above, we believe that these patterns are real.  We extend this point however
 
 > Figure 2 b-e, The axes should be labeled and units indicated.  Consider reformatting these figures. The current versions make visual separation of the lines hard to detect.
 
-Working on this. . .
+We have updated this figure to make the comparison clearer.
+
+![](figures/figure_two.png)
 
 > Lines 361-364.  The topic of this sentence should be elaborated upon to more fully point out the limitations of the study and appropriate inference. Say how much the estimates of forest loss and niche shifts may be overestimated.
 
