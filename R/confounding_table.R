@@ -14,16 +14,72 @@ taxa <- unique(vegclim_table$taxon)
 clim_var <- unique(vegclim_table$climate)
 
 conf_test <- function(taxa, clim_var, climtable) {
-  clim = t.test(subset(climtable, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'PLSS' & data > 0)$clim,
-         subset(climtable, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'FIA' & data > 0)$clim)
 
-  lu   = t.test(subset(climtable, taxon == taxa & climate == clim_var & base == 'PLSS' & c.ref == 'PLSS' & data > 0)$clim,
-         subset(climtable, taxon == taxa & climate == clim_var & base == 'FIA' & c.ref == 'PLSS' & data > 0)$clim)
-
+  require(dplyr)
+  require(SpatialPack)
+  
+  coords <- climtable %>% select(cell, x, y) %>% distinct
+  
+  # Get all values, join to coords so we have the same number of cells across all datasets
+  # then make sure we have only distinct sets.
+  
+  VHCH <- climtable %>% filter(c.ref == "PLSS" & 
+                               climate == clim_var & 
+                               taxon == taxa &
+                               base == "PLSS") %>% 
+    select(cell, x, y, clim, data) %>% 
+    left_join(coords, .)
+  
+  VHCH$clim[VHCH$data == 0] <- NA
+  
+  VHCM <- climtable %>% filter(c.ref == "FIA" & 
+                                 climate == clim_var & 
+                                 taxon == taxa &
+                                 base == "PLSS") %>% 
+    select(cell, x, y, clim, data) %>% 
+    left_join(coords, .) %>% distinct(cell, .keep_all = TRUE)
+  
+  VHCM$clim[VHCM$data == 0] <- NA
+  
+  VMCH <- climtable %>% filter(c.ref == "PLSS" & 
+                                 climate == clim_var & 
+                                 taxon == taxa &
+                                 base == "FIA") %>% 
+    select(cell, x, y, clim) %>% 
+    left_join(coords, .) %>% distinct(cell, .keep_all = TRUE)
+  
+  VMCH$clim[VMCH$data == 0] <- NA
+  
+  all_cell <- coords$cell[coords$cell %in% VHCH$cell &
+                           coords$cell %in% VHCM$cell &
+                           coords$cell %in% VMCH$cell]
+  
+  # Get the t estimates, we're going to use the re-calculated df from the
+  # modified t-test, which is pairwise (we don't want it pairwise).
+  clim_t  <- t.test((VHCH %>% filter(cell %in% all_cell))$clim, 
+                    (VHCM %>% filter(cell %in% all_cell))$clim)
+  
+  lu_t    <- t.test((VHCH %>% filter(cell %in% all_cell))$clim, 
+                    (VMCH %>% filter(cell %in% all_cell))$clim)
+  
+  clim_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
+                            (VHCM %>% filter(cell %in% all_cell))$clim, 
+                            coords = (coords %>% filter(cell %in% all_cell))[,-1])
+  
+  clim_df <- summary(clim_mt)$dof
+  
+  lu_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
+                            (VMCH %>% filter(cell %in% all_cell))$clim, 
+                            coords = (coords %>% filter(cell %in% all_cell))[,-1])
+  
+  lu_df <- summary(lu_mt)$dof
+  
   # We want to return the t-test p value & estimate
   data.frame(taxa = taxa, clim = clim_var,
-             clim_est = diff(clim$estimate), clim_p = clim$p.value,
-             lu_est   = diff(lu$estimate),   lu_p   = lu$p.value)
+             clim_est = diff(clim_t$estimate), 
+             clim_p = 2 * pt(abs(clim_t$statistic), clim_df, lower.tail = FALSE),
+             lu_est = diff(lu_t$estimate),   
+             lu_p   = 2 * pt(abs(lu_t$statistic),     lu_df, lower.tail = FALSE))
   
 }
 
@@ -31,60 +87,65 @@ tests <- do.call(rbind.data.frame,
         lapply(taxa, function(x) {
           do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = vegclim_table)}))}))
 
-tests_corrected <- do.call(rbind.data.frame,
+tests_pls <- do.call(rbind.data.frame,
                            lapply(taxa, function(x) {
                              do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = newveg)}))}))
 
+tests_fia <- do.call(rbind.data.frame,
+                           lapply(taxa, function(x) {
+                             do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = topveg)}))}))
+
+tests_all <- do.call(rbind.data.frame,
+                     lapply(taxa, function(x) {
+                       do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = allveg)}))}))
+
 checker <- function(x) {
   # x will be the row:
-  # compounding:
-  # both ps are sig & both ests are in the same direction:
+
+  
   if (p.adjust(as.numeric(x[4]), method = "bonferroni", n = 120) < 0.05 & 
       p.adjust(as.numeric(x[6]), method = "bonferroni", n = 120) < 0.05) {
+    
+    # both p values are significant:
     if ((as.numeric(x[3]) * as.numeric(x[5])) > 0) {
-      return('$\\Box$')
+      # A simple test to see if they're both positive
+      return(ifelse(as.numeric(x[3]) > 0, '$\\Box$ ($+_c$, $+_v$)', '$\\Box$ ($-_c$,$-_v$)'))
+      
     } else {
-      return('$\\bigcirc$')
+      # They are in different directions:
+      return(ifelse(as.numeric(x[3]) > 0, '$\\bigcirc$ ($+_c$,$-_v$)', '$\\bigcirc$ ($-_c$,$+_v$)'))
     }
+    
   } else {
-    if (as.numeric(x[4]) > (0.05 / 120)) {
-      return('n/a')
+    # If one or the either is not significant:
+    if (as.numeric(x[4]) > (0.05 / 120) & as.numeric(x[6]) > (0.05 / 120)) {
+      # If neither element shows significant change
+      return('n/a ($._c$, $._v$)')
     } else {
-      return('-')
+      if (as.numeric(x[4]) > (0.05 / 120)) {
+        # If climate change is significant, but the land use change is not significant.
+        if (as.numeric(x[3]) > 0) {
+          return('n/a ($+_c$, $._v$)')
+        } else {
+          return('n/a ($-_c$, $._v$)')
+        }
+      } else {
+        if (as.numeric(x[5]) > 0) {
+          return('n/a ($._c$, $+_v$)')
+        } else {
+          return('n/a ($._c$, $-_v$)')
+        }
+      }
     }
   }
 }
 
-tests$result <- apply(tests, 1, checker)
-conf_table <- dcast(tests, taxa ~ clim, value.var = 'result')
-
-tests_corrected$result <- apply(tests_corrected, 1, checker)
-conf_table_corr <- dcast(tests_corrected, taxa ~ clim, value.var = 'result')
-
-
-conf_table <- conf_table[match(taxa, conf_table$taxa),]
-
-mean_y <- function(taxa, climtable) {
-  mean(subset(climtable, taxon == taxa & base == 'PLSS' & data > 0)$y)
+get_conf <- function(x) {
+  x$result <- apply(x, 1, checker)
+  dcast(x, taxa ~ clim, value.var = 'result')
 }
 
-mean_x <- function(taxa, climtable) {
-  mean(subset(climtable, taxon == taxa & base == 'PLSS' & data > 0)$x)
-}
-
-conf_table$mean_y <- sapply(taxa, mean_y, climtable = vegclim_table)
-conf_table$mean_x <- sapply(taxa, mean_x, climtable = vegclim_table)
-
-conf_table <- conf_table[,1:5]
-
-conf_cor <- conf_table[,2:5]
-conf_cor[conf_cor == '$\\Box$'] <- 1
-conf_cor[conf_cor == '-'] <- 0
-conf_cor[conf_cor == '$\\bigcirc$'] <- -1
-
-rownames(conf_cor) <- conf_table[,1]
-cluster <- hclust(dist(conf_cor))
-
-# Sort the table by similarity:
-conf_table <- conf_table[cluster$order, ]
-rownames(conf_table) <- NULL
+conf_table <- get_conf(tests)
+conf_pls   <- get_conf(tests_pls)
+conf_fia   <- get_conf(tests_fia)
+conf_all   <- get_conf(tests_all)
