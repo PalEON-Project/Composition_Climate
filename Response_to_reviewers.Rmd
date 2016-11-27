@@ -2,7 +2,16 @@
 title: "Response to Reviewers"
 author: "Simon Goring"
 date: "November 11, 2016"
-output: word_document
+bibliography: goringetal_references.bib
+csl: ecology.csl
+output:
+  word_document: 
+    reference_docx: word_template.docx  
+  pdf_document:
+    pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
+  md_document:
+    variant: markdown_github
+pandoc_args: -H margins.sty
 ---
 
 # Response to Reviewers
@@ -19,17 +28,17 @@ We have changed all occurrences of *historic* to *historical*.  (commit: 4cf75f8
 
 > Line 143-144: Shouldn’t miles be replaced with SI? I realize that the miles are in reference to the historical context of the PLS, but it might be good to keep things consistent throughout.
 
-We have changed to *km*, retaining the reported miles in parentheses. 
+We have changed to *km*, retaining the reported miles in parentheses.
 
 > Lines 174-176: This is a key point, but expanding a bit would be helpful. For example, did the paper in review examine issues of detectability? I realize this is addressed in the discussion, but a bit more detail would be good here.
 
 This Goring et al. paper is now accepted.  We have added the following paragraph:
 
-*FIA sampling represents a system with the potential for high heterogeneity within cells because of intensive sampling at the plot level, and, with one to few plots within an 8 x 8km grid cell, high between cell heterogeneity [@goring2016preset]. PLS sampling is likely to have low heterogeneity within and between cells because of the uniform spatial distribution, and the high number of points within cells [@goring2016preset].  Detectability at the plot level for FIA data is likely to be higher than for the PLS, however, given the variable radius of PLS plots, detectability of trees at forest margins is likely to be higher in the PLS, and PLS sample plots are likely to sample higher landscape heterogeneity within a given cell because of their uniform distribution across the landscape.*
+*FIA sampling represents a system with the potential for high heterogeneity within cells because of intensive sampling at the plot level, and, with one to few plots within an 8 x 8km grid cell, high between cell heterogeneity [@goring2016preset]. PLS sampling is likely to have low heterogeneity within and between cells because of the uniform spatial distribution, and the high number of points within cells [@goring2016preset].  Detectability at the plot level for FIA data is likely to be higher than for the PLS, however, given the variable radius of PLS plots, detectability of trees at forest margins is likely to be higher in the PLS, and PLS sample plots are likely to sample higher landscape heterogeneity within a given cell because of their uniform distribution across the landscape.  We have selected the 15 most common tree species in the region . . . *
 
 > Line 179: Which PRISM data are the authors using, AN or LT. The LT data, for which one has to pay, uses only longer weather station records, which tends toward more reliable temporal trends. This seems like it would be important for the current study. Additionally, it would be good for the authors to at least acknowledge that increasingly sparse data early in the PRSIM record (i.e., late 19th and early 20th centuries) could contribute to greater uncertainties in historical vs. contemporary records. This might make historical climate relationships more difficult to identify.
 
-We use the PRISM LT data.  This has been clarified in the paper.
+We use the PRISM LT data.  This has been clarified in the paper.  NEED TO ADD DATA SPARSENESS.
 
 > Line 195: Since the author’s use the abbreviation “PDF”, it would improve clarity to refer to “univariate probability density functions”.
 
@@ -37,9 +46,11 @@ Changed.
 
 > Line 207: Here and in a few other places, d_l is used, but later d_v is used. Please make symbology consistent throughout the paper.
 
-We have changed this sentence in particular to read: *The difference between the PLSS and modern tree distributions ($d_{V}$) when overlaid on historical climate ($V_{H}C_{H}$ versus $V_{M}C_{H}$) is attributed largely to land use change, as described above, given the widespread post-settlement disturbance in the upper Midwest* and changed other references to $d_{l}$ to $d_{v}$.
+We have changed this sentence in particular to read: "*The difference between the PLSS and modern tree distributions ($d_{V}$) when overlaid on historical climate ($V_{H}C_{H}$ versus $V_{M}C_{H}$) is attributed largely to land use change, as described above, given the widespread post-settlement disturbance in the upper Midwest*"" and changed other references to $d_{l}$ to $d_{v}$.
 
 > Lines 217-218: I found the labeling of lack of significance in “either or both changes” as confounding to be hard to connect with the definition provided at Line 93. For example, Fagus shows a strong overall change in distribution relative to precipitation, but is classes as confounding. Presumably, this is a situation where climate was important, but history was not. I suppose a bit more clarification regarding what is meant by confounding and why grouping taxa where neither climate nor history has an effect with taxa where only one has an effect is necessary.
+
+We've changed the table to make things more clear.
 
 > Lines 231-232: Looking at the maps, it seems that this statement is limited by the fact that the current study does not incorporate the northern range limit for many species. Can the authors address this limitation at some point?
 
@@ -53,6 +64,8 @@ We have added the sentence: *While fire and logging have played a role in changi
 
 We have changed the x axis to a log10 scale and added more tick marks to the x-axis to make it clear that it is non-linear.
 
+![](figures/hellingerplot.png)
+
 > Table 1: Some of the taxa are listed with their scientific names and others by common names. Replace common names with scientific names
 
 I have corrected the names so that only scientific names are displayed.
@@ -63,30 +76,27 @@ Referee 2 was more critical of the paper than Reviewer 1.
 
 > I think the paper does not adequately point out the limitations of the data sets used for the analyses and that the authors overstate the likely differences in realized niches between the historic and current time periods.
 
-<!-- need to add a paragraph & add the curve from John's figure. -->
-
-> The paper would be strengthened by stating more strongly the limitations of the methods and that the results may be over estimates and that data are not currently available to more accurately estimate the effect.  
-
-
+> The paper would be strengthened by stating more strongly the limitations of the methods and that the results may be over estimates and that data are not currently available to more accurately estimate the effect.
 
 > Moreover, other data sets should be called upon to try to corroborate the range shifts and changes in climate-tree relationships that emerge from the analyses.  Also the ecological mechanisms that might underlay the effects of land use and climate on tree species distributions should be more fully discussed.
 
-<!-- Pollen data, Jeannine & others. add in John's paper we can point to long term ecological datasets -->
+We thank the reviewer for these comments.  We believe that we now more fully address the limitations -- We have added references to long term weather records and used their early 19th century estimates as the basis for some sensitivity analysis (see below), we have used a moving window to examine the effect of 21st century climate change on the choice of the modern climate normal.  We have also strengthed the section that indicates prior support for widespread land use change, and its impacts on tree species distributions in the region.  Lastly, in the **Discussion** we have reitterated what we believe are some of the limitations of the current study.
 
-More specific comments are below.
+### More specific comments
 
-Line reference
 > 2  "north-central" US would be more accurate? Also change this throughout the ms.
 
 We have replaced instances of "northern" with north-central.
 
 > 175-176 While that study found little effect of the differences between the PLS and FIA data sets, be sure to cover fully the potential effect of these differences on results of this study.  One has to presume that the differences in realized niches between historic and present would be substantially smaller if FIA was sampling low density and widespread occurrence of species as did the PLS.
 
-<!-- The challenge is double edged. Area lost (definite) vs. frequency of occurrence.  Also most of the tree species are common, frequency in the area lost, vs frequency in the core. Add to supplemental information. -->
+
 
 > 181-182 Provide evidence that these climate variables have been shown to be strong correlates of tree species presence in previous species distribution modeling studies.  It is important to do your analysis on climate variables that are known to be ecologically relevant to tree niche dimensions.
 
 We have added the sentences: *These climate variables were chosen because of their relative importance as demonstrated in prior research [@iverson1998predicting] and their use in past climate reconstruction [@maiorano2013building].  Recent statistical advances have opened the possibility of obtaining temperature and precipitation estimates from historical observations as early as the 1830s [@tiptoninreview], however the behaviour of uncertainties for derived variables such as potential evapo-transpiration, which ranked highly in previous work [@iverson1998predicting] are not currently known.*
+
+Add Woodward - moisture availability - 
 
 > 183-185   First, it is a serious stretch to use 1895-1919 climate to represent tree/climate relationships during 1830-1910.  The verbal statement (without statistical analysis) that the dendro-based PDSI did not change over that period is not very convincing.  Moreover, the analysis specifically should be done on the climate predictors used in the niche modeling.  Also, evaluate to what extent does this PDSI index represent trends in Tmin and the other predictors used?
 
@@ -98,9 +108,9 @@ and in the Results:
 
 *When long term records (Burnette et al., 2010; Baker et al., 1985) are considered, $\Delta t_{min}$ increases to approximately `r round(clim_change[4], 1) + 0.5`^o^C, $\Delta t_{max}$ to `r round(clim_change[2], 1) + 0.35`^o^C and $\Delta t_{diff}$ to `r round(clim_change[2], 1) - 0.15`^o^C.*
 
-Interestingly, these shifts do not result in significant changes to the overall climate envelope for the tree species (compare the paper figure with the figure below), indicating the influence of land use is much larger than for climate for most taxa.
+Interestingly, these shifts in PLS baseline climate do not result in significant changes to the overall climate envelope for the tree species (compare the paper figure with the figure below), indicating the influence of land use is much larger than for climate for most taxa, and supercedes the shifts from the early 19th to the early 20th century.
 
-![](figures/boxplot_corrected.png)
+![](figures/boxplot_corrected_pls.png)
 
 In addition, the change, while large, remains small enough that the shifts related to land use remain larger than changes due to climate, and the directionality of all changes remains constant.  We have added the code into the supplemental material.
 
@@ -110,11 +120,13 @@ In the results we note:
 
 > Another issue is lack of discussion about the time period when the forests sampled by FIA got established. It is typical in SDM studies to test the strength of models from different time periods in tree SDM work and select the time period that is most strongly associated with species presence.  In the western US, we found 1950-1980 to produce stronger models than 1980-2010.
 
-We note that this is not an excersise in creating SDMs, a point we will return to later, but take the point of the association between vegetation and climate varies between establishment and long term survival of forest stocks, we believe that our contribution further underscores this point. The normals for the region, beginning with a normal ending 1980 and continuing to a normal ending 2014, give a total range of 0.35^o^C for $T_{max}$, 0.84^o^C for $T_{min}$, 1.15^o^C for $T_{diff}$ and 20mm for $P_{ann}$.  These estimates are all lower that the variance within any one of the normals (1.5^o^C, 3.0^o^C, 3.1^o^C and 78mm) respectively, but, as pointed out in Baker *et al*. (2016; doi:10.1111/gcb.13273) uncertainty in the underlying estimates are often overlooked.  Given the variability within windows, and the relatively young age of most stands in WI, MN and MI (FIA data shows mean ages of 52, 56 and 49 years respectively), we believe that the choice of normal is acceptable.  Having said that, we examined the importance using both shifts in PLS era, and shifts in the modern climate normal.  The largest effect is in $t_{max}$, since the most recent normals all show a significant increase in $t_{max}$.
+We note that this is not an excersise in creating SDMs, a point we will return to later, but take the point of the association between vegetation and climate varies between establishment and long term survival of forest stocks, we believe that our contribution further underscores this point. 
 
-![](figures/corrected_all.png)
+The normals for the region, beginning with a normal ending 1980 and continuing to a normal ending 2014, give a total range of 0.35^o^C for $T_{max}$, 0.84^o^C for $T_{min}$, 1.15^o^C for $T_{diff}$ and 20mm for $P_{ann}$.  These estimates are all lower that the variance within any one of the normals (1.5^o^C, 3.0^o^C, 3.1^o^C and 78mm) respectively, but, as pointed out in Baker *et al*. (2016; doi:10.1111/gcb.13273) uncertainty in the underlying estimates are often overlooked.  Given the variability within windows, and the relatively young age of most stands in WI, MN and MI (FIA data shows mean ages of 52, 56 and 49 years respectively), we believe that the choice of normal is acceptable.  Having said that, we examined the importance using both shifts in PLS era, and shifts in the modern climate normal.  The largest effect is in $t_{max}$, since the most recent normals all show a significant increase in $t_{max}$.
 
+We have added the sentence: *"Recent climate change"*
 
+![](figures/boxplot_corrected_all.png)
 
 > A third issue is the role of climate variability over the 1895 to 2014 time period.  Decadal oscillations are common in this period in many parts of the US.  Trees are likely integrating over 2 or more of these climate cycles.  SDMs should be done to best represent the climate and variability that selected for tree presence when the trees were measured.  Your analysis would be strengthened with statistical analysis of climate patters from 1895 to present for your predictor variables and an analysis of which time period produces the best SDMs.
 
@@ -122,33 +134,47 @@ I believe that this is addressed in the response to the prior comment.
 
 > 195 It is important to discuss why univariate climate tree presence functions are relevant to the climate factors that strongly influence tree species presence or absence.  SDM modeling typically shows that a particular combination of climate and habitat factors is much more strongly associate with tree presence and any random climate variable.  Your analysis would be stronger to do model selection for best multivariate SDM functions and then compare these functions between historic and present.
 
-We apreciate this point and thank the reviewer for bringing it up.  The challenge in this case is that a multivariate SDM blends the climate variables. Further, a multi-model SDM approach might weight climate variables differently across models, through time, making sensitivity analysis for the impact of each climate variable challenging.  We point out that this analysis is not intended to focus on the construction of SDMs, but rather to show the relationship between land use and the individual climate variables, through the distribution of tree species.  Thus, disentagling land use and climate shifts on a set of multivariate combination of variables from each time slice becomes extremely challenging, and, is effectively a separate paper.
+We apreciate this point and thank the reviewer for bringing it up.  The challenge in this case is that a multivariate SDM blends the climate variables. Further, a multi-model SDM approach might weight climate variables differently across models, through time, making sensitivity analysis for the impact of each climate variable challenging.
+
+We point out that this analysis is not intended to focus on the construction of SDMs, but rather to show the relationship between land use and the individual climate variables, through the distribution of tree species.  Thus, disentagling land use and climate shifts on a set of multivariate combination of variables from each time slice becomes extremely challenging, and, is effectively a separate paper.
 
 What this paper intends to point to is that land use is impacting climate variables differentially across species as a result of land use, and that this may have implications for SDM construction.  Shifts in the strength of SDMs between time scales and potential utility of climate variables in SDM construction is a separate analysis and paper.
 
 > 211-218 The analyses should control for spatial autocorrelation, simple t-tests would seem to have an inflated sample size due not including spatial autocorrelation in the model.
 
-We have included spatial autocorrelation in the t-tests using the `SpatialPack` function`modified.ttest`.  We use confidence intervals based on the raw t.test scores, but report significance based on the modified.ttest calculation.
+We have included spatial autocorrelation in the t-tests using the `SpatialPack` function`modified.ttest`.  Unfortunately, the `modified.ttest` only performs a pairwise t-test, which is inappropriate in this situation since we would not be able to assess the $V_{H}C_{H}$ - $V_{M}C_{H}$ comparison since only the overlapping points would be included and we would assess zero change.
+
+The `modified.ttest` calculates a t value, but also calculates a modified $df$ that takes into account spatial autocorrelation based on Moran's I for each of the two spatial processes.  To then produce a difference of the means that is not pairwise, we obtain the corrected $df$ from `modified.ttest`, and recalculate the $p$-value for the t-test using the t estimate from the t.test.  This is all coded in the `confounding_table.R` file.
 
 > 226-230 and Figure 1.  Statistical analysis should be done of the climate trends, showing a least a trend line and a 95% confidence interval.  A moving window regression might better show breakpoints in the trend line.  This is needed because the data show high interannual variability and it is not obvious by eyeing these graphics for which variables trends exist or not. Also, say in the legend what the red dots are.
 
-<!-- This is what Jack & I talked about, adding the moving window -->
+We have added a LOESS curve onto Figure 1, representing a span of 20 years, along with the SE fit.  We have added light shading over the normal boxes to highlight the normal period.  As indicated above, we have provided a more detailled analysis of the choice of normal periods and described the effect of the choice on outcomes.
 
 > 231-239 I find the maps of range loss in Fig 3 to be stunningly large.  I am not sure anything in the literature would document such large losses in tree species presence from land use or 100 yrs of climate change.  It would seem important to use other data sets to validate these estimates of range loss.  Are the patterns in these maps real or mostly due to the differences among the PLS and FIA data sets?  If real, what are the mechanisms of local extinction?
 
-<!-- This partly a function of undersampling by the FIA structure (?) We need to clarify this. We add a supplemental version with "only FIA & PLSS overlap" -->
+I have added an explicit statement to quantify losses in the paragraph beginning at **l**104.  There is strong support for extensive loss of coverage since the PLSS for certain species, and expansion for others, all referenced in this paragraph. These patterns are well supported in the literature. Rhemtulla et al (2007) cite estimates of land use conversion up to 79% for southern deciduous savanna, and Rhemtulla et al (2009) show that losses in oak-hickory forest complexes surpass 5,000,000 ha.  As noted in the new sentences: "*Rhemtulla et al. [-@rhemtulla2009historical] estimate that *Pinus strobus* and *Tsuga canadensis* now occupy only 4% of their original coverage in Wisconsin. Wildland ecosystems have been converted to agricultural and urban land use [@rhemtulla2009historical], particularly in historical prairie and savanna ecosystems (Figure Xf), where 79% of deciduous savanna was converted to cropland [@rhemtulla2007regional].*"
+
+Given the extensive support for broad scale land use change, and the associated impacts of fire & logging, we believe that these patterns are real.
 
 > 347-350 Is it accurate to infer that ag has “largely eliminated open forests” which does not sample low density forests? It seems likely that most of these tree species are present in at least low densities in the areas where your maps show they are not present.
 
-<!-- Point to the LC survey, loss accoring to Rhemtulla, and the maintenance in anthropic biomes. -->
+As above, we believe that these patterns are real.  We extend this point however beginning at **l**371, where we discuss the potential use of isolated trees or trees unsampled in the FIA data.
 
 > Figure 2 b-e, The axes should be labeled and units indicated.  Consider reformatting these figures. The current versions make visual separation of the lines hard to detect.
 
+Working on this. . .
+
 > Lines 361-364.  The topic of this sentence should be elaborated upon to more fully point out the limitations of the study and appropriate inference. Say how much the estimates of forest loss and niche shifts may be overestimated.
+
+See the following note.
 
 > 365-370 These sentences are a bit of bait and switch.  Yes, readers will agree that SDM based on FIA may not fully represent the realized niche of tree species.  However, some of your argument hinges on the magnitude of the error that is made by using FIA.  I think your paper way over states that error.  The paper would have more impact if you were careful to emphasize the limitations of the data sets for this analysis and say that the degree to which FIA leads to SDM error is not knowable with available data sets.
 
-<!-- this repeats ome of the other comments -->
+I believe the reviewer possibly overstates the case for limitations.  There is strong support for changes since EuroAmerican settlement, both in vegetation-climate relationships, in the spatial extent of vegetation cover, and in pollen-vegetation relationships in the region, indicating a long-term shift in vegetation representation in climate space.  However, we have qualified the statements made in this section, and added a short paragraph pointing to the potential effects of the choice of climate normal as well.
+
+*Some of these apparent shifts in climate niches may be due to differences in sampling design rather than to actual shifts in species distributions. In particular, the FIA dataset may be underrepresenting tree distributions in unforested or semi-forested regions. If so, estimates of forest loss (`r fig_nums('gain_loss', display='cite')`) and niche shifts (Figures 4 & 5) may be overestimated, in particular along the warmest and driest region of the tree distributions in the Midwest. Regardless of cause, the differences between the PLS and FIA tree distributions are important for distributional modeling because FIA data provides the most detailed and most widely used source of tree distributional data over the entire contiguous United States [@wang2016landscape;@nieto2015close;@bell2014early]. Hence, any incompleteness in the representation of realized climate niches based on FIA data that are affecting this study should also affect ecological assessments that are based on FIA data. As improvements in remote sensing and statistical reconstructions of past forested landscapes improve it may become possible to fully explore this issue, but at present the extent of the problem is unclear, although this contribution points to possible effects of incomplete sampling.*
+
+*Artifacts of the choice of climate normal (1995 - 2014) for the modern data mean an exaggerated effect for $t_{max}$, however, supplemental analysis shows that the patterns of change for the other variables, $t_{min}$, $t_{diff}$ and $p_{ann}$ remain robust. Analysis using pollen-based climate reconstruction shows significant shifts in pollen-climate relationships [@jacques2008pre] following Euro-American settlement in the region providing further support that modern vegetaton-climate relationships have changed since settlement.*
 
 ## Referee 3
 
@@ -166,19 +192,32 @@ We believe the title should stand as is.  We are not interested in the changes i
 
 > Abstract: P2-L34-37, forest inventory data cannot be used to project forest responses to climate change. Rather, forest inventory data were used in models to make projections. It was distribution-climate relationships. In my opinion, this study was not about the stability and representativeness of distribution-climate. This study was to build up or extend the distribution-climate relationships.
 
-We appreciate the opinion of the reviewer in this context.  We have tried to use these datasets to show this -  <!-- point to Jack & David's paper. -->
+We appreciate the opinion of the reviewer in this context. We address the first point by changing the introductory sentence to:
+
+*Contemporary forest inventory data are widely used to understand environmental controls on tree species distributions and to construct models to project forest responses to climate change, but the stability and representativeness of contemporary tree-climate distributions is poorly understood* 
+
+We believe that the issue of stability or extending the dist-clim relationship is a matter of opinion.  The paper shows that, for many taxa, land use following EuroAmerican settlement in the north-central US limits the representitiveness of modern inventory-based distribution models.  We do believe that these historical datases can be used to extend distribution-climate relationships.  The exlicit tests in this paper focus on shifts in climate-distribution relationships and the attribution for these shifts, thus, the stabilty of the relationships.
 
 > 3) One of the objectives in this manuscript was to investigate the effects of climate change, land use change, and pathogen outbreaks on distribution changes (L125-126). However, the pathogen outbreaks were nearly ignored in the title and methods, results, and discussion sections.
 
-We will reframe "land use" to vegetation change, and then explain in the introduction how these all fold in.
+We agree.  The impact of pathogen outbreaks are significant for *Ulmus*, and (outside the current range) for *Castanea*, however, given the current data sources, they are difficult to properly assess.  We have reduced their importance in the manuscript, but continue to acknowledge them as a factor in changing distributions.
+
 
 > Most importantly, the way that the authors included the effects of land use change in data analyses (let’s forget pathogen outbreaks for now) was not justified. Thus, I was not convinced the data analyses were robust to answer the question about the effects of climate change, land use change, and pathogen outbreaks on distribution changes. Although the authors argued the land use effects were represented as the difference between VHCH, VMCH. Why? 
 
+Previous authors have clearly indicated that EuroAmerican settlement in the north-central United States can be almost entirely attributed to human agency.  In responding to Reviewer 2 we make the same point, and make this point below.  EuroAmerican Settlement is associated with a suite of land use changes, including logging, associated slash fires, and large scale conversion of forested landscape to agriculture.  Thus, VH, from the PLSS forest survey (ignoring climate data for now), represents forest structure and distribution in the absence of settlement impacts.  VM represents a modern landscape, sampled over the last decade as part of the FIA program.  Distribution loss is almost entirely attributable to anthropogenic agency, either loss of forested land (oak-hickory forest lost 5x10^6^ ha of coverage since settlement due to agricultural conversion, as pointed out in the response to Reviewer 2), thus we feel confident in ascribing change from VC -> VM to land use.  We believe that changes in the introduction and discussion, strengthening the argument for widespread vegetation change help resolve this issue.
+
+To further clarify, we have modified the explanation of Figure 2 to read, in part:
+
+*The difference between the PLSS and modern tree distributions ($d_{v}$) is attributed largely to land use change, and we will refer to it as such throughout. As described above, widespread post-settlement disturbance in the upper Midwest included conversion to agriculture, logging and widespread fire in the late 19th century, largely attributed to slash burning and logging. When the vegetation change is overlaid on historical climate ($V_{H}C_{H}$ versus $V_{M}C_{H}$; modeled by a shift along the top row of Figure 2a) we show the change in vegetation attributed to land use change, or, more precicely, the land use change associated with EuroAmerican settlement.*
+
 > Firstly, it is not possible to get the distribution data under VMCH. Secondly, the distribution changes over the last two centuries were caused by many factors including land use change, disturbances (e.g., pathogen outbreaks, fire, harvest), and endogenous succession processes. Why the difference VH and VM could represent the land use change effects? This was too arbitrary. A stronger rationale is needed.
 
-We believe that our argument is valid, but may have been unclear in the framing.  First, we believe that attributing the distributional changes from VH to VM to land use is justified, although, as noted above, we will change this to "vegetation change".  Shulte et al (2007) and Rhemtulla et al (2009) have used similar language to explain the set of changes associated with EuroAmerican settlement. Initial clearance for agricultural and urban development was contemporaneous with massive logging operations, and, in the late 1800s, widespread fire originiating from human sources.  Given this, and the fact that very little "old growth" forest remains, modern forests are indellibly imprinted with the signal of human land use, whether agricultural conversion or timbering.  The IPCC considers forestry to be a component of land use.  The Peshtigo firestorm, the Michigan fires of 1871 and 1881 were driven by slash buildup following logging.
+We believe that our argument is valid, but may have been unclear in the framing.  First, we believe that attributing the distributional changes from VH to VM to land use is justified.  Shulte et al (2007) and Rhemtulla et al (2009) have used similar language to explain the set of changes associated with EuroAmerican settlement. Initial clearance for agricultural and urban development was contemporaneous with massive logging operations, and, in the late 1800s, widespread fire originiating from human sources.  Given this, and the fact that very little "old growth" forest remains, modern forests are indellibly imprinted with the signal of human land use, whether agricultural conversion or timbering.  The IPCC considers forestry to be a component of land use.  The Peshtigo firestorm, the Michigan fires of 1871 and 1881 were driven by slash buildup following logging.  While sucession processes occurred since clearance and settlement, these were directly affected by the initial land clearance.  For example, Rhemtulla et al. (2009) indicate that the loss of hemlock was caused both by logging, and recruitment failure as the result of the loss of seed source because of the extensive logging, thus both cause & effect are rooted in EuroAmerican settlement.
 
 > The authors should use present tense not past tense in the methods and results sections.
+
+
 
 > The results section was not well organized. Subtitles should be used to describe the overall distribution changes, shifts along climate change, the relative importance, and interactions. The four paragraphs of interaction subsection in the results section were not concise and like bullets.
 
@@ -195,17 +234,41 @@ We have clarified these variables: "*Estimates for mean daily July temperature (
 
 > The authors used gain, loss, and continuous persistence to demonstrate the distribution changes over the last two centuries in Figure 3. However, this approach was not described in the materials and method section but was only in the title of Figure 3.
 
+We have added the following sentence to the Methods:
+
+*In mapping tree distributions in the Upper Midwest we consider three classes: "gain", where a tree species was present within a grid cell in the FIA, but absent in the PLS; "loss", where a tree was present in a grid cell during the PLS but absent in the FIA; and "continuous presence", where a tree was present within a grid cell in both FIA and PLS eras.*
+
 > The authors used the box-and-whisker plots to demonstrate the distribution changes along Tmax, Tmin, and Pann. Likewise, this approach was not described in the materials and method section but was only in the title of Figure 4.
+
+
 
 > The approach used in Figure 5 was not described in the materials and method section but was only in the title of Figure 5. More detailed information should be given to better analyze the relative importance of land use change and climate change effects.
 
+
+
 > More detailed information about the univariate density functions (PDFs) and Hellinger distances was needed to better describe the approach.
+
+We have modified the sentence discussing the density functions to read:
+
+*Distributions of tree genera within climate space are described as univariate probability density functions (PDFs) for the pre-settlement and modern eras, estimated using an unweighted Gaussian kernel density estimator, using R's `density` function.*
+
+We have added the equation for the Hellinger distance:
+
+
+*Hellinger distance for two discrete probability distributions is defined as:*
+
+H(P, Q) = \frac{1}{\sqrt{2}} \; \sqrt{\sum_{i=1}^k (\sqrt{p_i} - \sqrt{q_i})^2}
+
+*where $P$ and $Q$ are the distributions, with a common discrete index $i$.*
+
 
 > 3) Again, how the effects land use and exotic pathogens were included in the analyses?
 
 > 4) The 2×2 factorial design with pre-settlement and modern vegetation and climates (VHCH, VHCM,VMCH,VMCM) was very confusing (Figure 2a). The historical distribution data for VHCH scenario were derived from PLS and the contemporary distribution data for VMCM were derived from US FIA data. Then, what were the data for VHCM and VMCH scenarios. It was impossible to get the data for VHCM and VMCH scenarios, right? If my understanding was wrong, then the more detailed information was needed to better describe the factorial design and data used for each scenario.
 
-<!-- Clarify this in the review -->
+We have attempted to clarify this description by re-writing this paragraph:
+
+*The total shift ($d_{tot}$) is calculated as the Hellinger distance between $V_{M}C_{M}$ and $V_{H}C_{H}$ (`r fig_nums("fourPanel", display = "cite")`a: top left to bottom right). These conditions are observed or recorded in data.  The conditions $V_{M}C_{H}$ and $V_{H}C_{M}$ are synthetic, generated by superimposing historical climate patterns on modern vegetation distributions and by superimposing modern climate on historical distributions.  The effect of climate change on shifting species PDFs is described as $d_{c}$, the difference between PDFs using the early climate normals ($C_{H}$) and modern climate normals ($C_{M}$) overlaid on PLS vegetation (e.g., $V_{H}C_{H}$ versus $V_{H}C_{M}$; `r fig_nums("fourPanel", display = "cite")`a; left column). We interpret PDF changes estimated from vegetation change ($V_{H}$ to {$V_{M}$) superimposed on  historical climate (*e.g.*, $V_{H}C_{H}$ versus $V_{M}C_{H}$; modeled by a shift along the top row of Figure 2a) to indicate change in vegetation attributed to land use change, or, more precicely, the land use change associated with EuroAmerican settlement.  We describe the Hellinger distance between $V_{H}C_{H}$ and $V_{M}C_{H}$ as $d_{v}$.*
 
 > 5) About the t-tests to assess the interaction effects between land use and climate change (e.g., compounding, confounding, counteracting), what the responsible variables were used for the comparisons between the VHCH and VHCM, VHCH and VMCH. More detailed information was needed to better describe these tests.
 
@@ -217,18 +280,36 @@ We have clarified these variables: "*Estimates for mean daily July temperature (
 <!-- This is just reframing & revisiting the argument. -->
 
 > 2) Likewise, L323-l336 how were these points related to your findings? It stood alone now.
+
+This paragraph is intended to provide stronger links to other mechanisms by which species may not be in equilibrium with occupied climate space.  We believe that the final sentence of the paragraph is sufficient as is.
+
 > 3) L337-l351 should be better related to your findings. The first and second points stood alone now.
+
+We have added a reference back to figure 1 which shows current land use in the region, clearly indicating the 
+
 > 4) L352-L360 here, the authors finally mentioned the pathogen outbreaks effects. However, the pathogen outbreaks effect were not included in the data analyses. This seems just speculation.
 
-Specific comments:
+## Specific comments:
 
 > 1) P2-L36, change “is poorly understood” to “are poorly understood”.
+
+The sentence refers to the "stability and representativeness", which is singular.
+
 > 2) P2-L41, change “implicates” to “implicated”.
+
+The new attribution index is within the current paper, we believe that the present tense is valid.
+
 > 3) P2-L43, change “are compounding” and “reinforces” to “were compounding” and “reinforced”.
+
+Again, this is presnt tense as it refers to the current study.
+
 > 4) The figures were not well made. The axis titles in Figure 1 were two small. The four lines in the Figure 2 b-e were difficult to read. The genera names in Figure 5 were too crowd and hard to tell. It may be better to use shorter names instead.
+
+
+
 > 5) All figure titles were too long. Many of these contents were approach and should be put in methods section.
 
-Overall, this is an interesting topic. Especially, the interaction between land use change and climate change on distribution changes is the most interesting part, because the overall distribution changes have been extensively studied. However, its rigor and clarity (especially methods and discussion sections) do not meet the standard for Ecology Letters. I do not think it warrants publication in its present form.
+> Overall, this is an interesting topic. Especially, the interaction between land use change and climate change on distribution changes is the most interesting part, because the overall distribution changes have been extensively studied. However, its rigor and clarity (especially methods and discussion sections) do not meet the standard for Ecology Letters. I do not think it warrants publication in its present form.
 
 ******************************************
 Editor
