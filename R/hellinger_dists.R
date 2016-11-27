@@ -11,9 +11,11 @@ hellinger <- function(clim1, clim2){
   clim.range <- range(c(clim1, clim2), na.rm = TRUE)
   
   kernel1 <- scale(density(clim1, na.rm = TRUE, 
-                     from = clim.range[1], to = clim.range[2])$y)
+                     from = clim.range[1], 
+                     to = clim.range[2], bw = "SJ")$y)
   kernel2 <- scale(density(clim2, na.rm = TRUE, 
-                     from = clim.range[1], to = clim.range[2])$y)
+                     from = clim.range[1], 
+                     to = clim.range[2], bw = "SJ")$y)
   
   #  Calculate hellinger distance (between two kernels)
   1/sqrt(2) * sqrt(sum(sqrt(kernel1 - min(kernel1)) - sqrt(kernel2 - min(kernel2))) ^ 2)
@@ -31,18 +33,21 @@ hellinger_plot <- function(){
   
   all.hellinger <- ldply(1:length(best.taxa), function(x){
         ldply(1:4, function(y){
-          data.subset <- vegclim_table[vegclim_table$taxon %in% best.taxa[x] & 
-                                         vegclim_table$climate %in% climate$name[y] & 
-                                         vegclim_table$data > 0,]
           
-          full_shift <- hellinger(subset(data.subset, base == 'PLSS' & c.ref == 'PLSS')$clim,
-                                 subset(data.subset, base == 'FIA' & c.ref == 'FIA')$clim)
+          tree     <- best.taxa[x]
+          clim_var <- climate$name[y]
           
-          clim_shift <- hellinger(subset(data.subset, base == 'PLSS' & c.ref == 'PLSS')$clim,
-                                 subset(data.subset, base == 'PLSS' & c.ref == 'FIA')$clim)
+          data.subset <- vegclim_table %>% filter(taxon == tree & climate %in% clim_var & data > 0)
           
-          lu_shift   <- hellinger(subset(data.subset, base == 'FIA' & c.ref == 'FIA')$clim,
-                                 subset(data.subset, base == 'PLSS' & c.ref == 'FIA')$clim)
+          VHCH <- data.subset %>% filter(base == 'PLSS' & c.ref == 'PLSS') %>% select(clim) %>% unlist
+          VHCM <- data.subset %>% filter(base == 'PLSS' & c.ref == 'FIA') %>% select(clim) %>% unlist
+          VMCM <- data.subset %>% filter(base == 'FIA' & c.ref == 'FIA') %>% select(clim) %>% unlist
+          
+          full_shift <- hellinger(VHCH, VMCM)
+          
+          clim_shift <- hellinger(VHCH, VHCM)
+          
+          lu_shift   <- hellinger(VMCM, VHCM)
           
           data.frame(taxon = best.taxa[x],
                      climate = climate$name[y],
@@ -80,7 +85,7 @@ hellinger_plot <- function(){
              label = 'Land Use Dominates', family = 'serif',
              fontface = 'bold', size = 3)
   
-  ggsave(plot = hell_plot, filename = 'figures/hellingerplot.pdf', 
+  ggsave(plot = hell_plot, filename = 'figures/hellingerplot.png', 
          width = 6.7, height = 6, dpi = 300)
   ggsave(plot = hell_plot, filename = 'Final_Figures/hellingerplot.pdf', 
          width = 6.7, height = 6, dpi = 300)
