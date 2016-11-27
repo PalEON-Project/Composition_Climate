@@ -1,5 +1,8 @@
 climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
-    climate_ann <- read.csv('data/input/annualclim.csv')[,-1]
+  
+  require(dplyr)  
+  
+  climate_ann <- read.csv('data/input/annualclim.csv')[,-1]
   
     #  This is the code used to change t_mean to t_diff:
 #     climate_ann$value[climate_ann$variable == 'tmn'] <- 
@@ -55,9 +58,15 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
                              levels = c('tmx', 'tdf', 'tmi', 'ppt', 'pdsi'),
                              labels = c('T[max]', 'T[diff]', 'T[min]', 'P[ann]', 'PDSI'))
   
-  clim_plot <- ggplot(data = climate_ann, aes(x = year, y = value)) + geom_line(size = 1.3) +
-    geom_vline(data = modern, aes(xintercept = year), size = 4, color = 'red') +
-    geom_vline(data = past,   aes(xintercept = year), size = 4, color = 'red') +
+  ranges <- climate_ann %>% 
+    group_by(variable) %>% 
+    summarise(max = max(value), min = min(value))
+  
+  
+  clim_plot <- ggplot(data = climate_ann) + 
+    geom_line(data = climate_ann, aes(x = year, y = value), size = 1.3, alpha = 0.8) +
+    geom_smooth(data = climate_ann, aes(x = year, y = value),
+                method = 'loess', span = 0.2) +
     facet_grid(variable~.,    scales = 'free_y', labeller = label_parsed) +
     ylab('') +
     xlab('Year (CE)') +
@@ -68,6 +77,6 @@ climate_ts <- function(unit.raster, pls_data, now_rast, then_rast){
           strip.text = element_text(family = 'serif', face = 'bold', size = 16),
           legend.position = "none")
     
-  ggsave(clim_plot, filename = 'figures/clim_plot.tiff', width = 8, height = 6, dpi = 150)
+  ggsave(clim_plot, filename = 'figures/clim_plot.tiff', width = 5, height = 3.7, dpi = 150)
   list(modern = modern, past = past, climate = climate_ann, plot = clim_plot)
 }
