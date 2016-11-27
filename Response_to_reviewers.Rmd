@@ -38,7 +38,7 @@ This Goring et al. paper is now accepted.  We have added the following paragraph
 
 > Line 179: Which PRISM data are the authors using, AN or LT. The LT data, for which one has to pay, uses only longer weather station records, which tends toward more reliable temporal trends. This seems like it would be important for the current study. Additionally, it would be good for the authors to at least acknowledge that increasingly sparse data early in the PRSIM record (i.e., late 19th and early 20th centuries) could contribute to greater uncertainties in historical vs. contemporary records. This might make historical climate relationships more difficult to identify.
 
-We use the PRISM LT data.  This has been clarified in the paper.  NEED TO ADD DATA SPARSENESS.
+We use the PRISM LT data.  This has been clarified in the paper.
 
 > Line 195: Since the author’s use the abbreviation “PDF”, it would improve clarity to refer to “univariate probability density functions”.
 
@@ -96,7 +96,7 @@ We have replaced instances of "northern" with north-central.
 
 We have added the sentences: *These climate variables were chosen because of their relative importance as demonstrated in prior research [@iverson1998predicting] and their use in past climate reconstruction [@maiorano2013building].  Recent statistical advances have opened the possibility of obtaining temperature and precipitation estimates from historical observations as early as the 1830s [@tiptoninreview], however the behaviour of uncertainties for derived variables such as potential evapo-transpiration, which ranked highly in previous work [@iverson1998predicting] are not currently known.*
 
-Add Woodward - moisture availability - 
+**JWW to add Woodward - moisture availability -**
 
 > 183-185   First, it is a serious stretch to use 1895-1919 climate to represent tree/climate relationships during 1830-1910.  The verbal statement (without statistical analysis) that the dendro-based PDSI did not change over that period is not very convincing.  Moreover, the analysis specifically should be done on the climate predictors used in the niche modeling.  Also, evaluate to what extent does this PDSI index represent trends in Tmin and the other predictors used?
 
@@ -124,7 +124,7 @@ We note that this is not an excersise in creating SDMs, a point we will return t
 
 The normals for the region, beginning with a normal ending 1980 and continuing to a normal ending 2014, give a total range of 0.35^o^C for $T_{max}$, 0.84^o^C for $T_{min}$, 1.15^o^C for $T_{diff}$ and 20mm for $P_{ann}$.  These estimates are all lower that the variance within any one of the normals (1.5^o^C, 3.0^o^C, 3.1^o^C and 78mm) respectively, but, as pointed out in Baker *et al*. (2016; doi:10.1111/gcb.13273) uncertainty in the underlying estimates are often overlooked.  Given the variability within windows, and the relatively young age of most stands in WI, MN and MI (FIA data shows mean ages of 52, 56 and 49 years respectively), we believe that the choice of normal is acceptable.  Having said that, we examined the importance using both shifts in PLS era, and shifts in the modern climate normal.  The largest effect is in $t_{max}$, since the most recent normals all show a significant increase in $t_{max}$.
 
-We have added the sentence: *"Recent climate change"*
+We have added the sentence: *"The Modern climate data uses a climate normal that encompases the period of observation  (2000 to 2015) for the FIA data used in this study."*
 
 ![](figures/boxplot_corrected_all.png)
 
@@ -200,12 +200,11 @@ We believe that the issue of stability or extending the dist-clim relationship i
 
 > 3) One of the objectives in this manuscript was to investigate the effects of climate change, land use change, and pathogen outbreaks on distribution changes (L125-126). However, the pathogen outbreaks were nearly ignored in the title and methods, results, and discussion sections.
 
-We agree.  The impact of pathogen outbreaks are significant for *Ulmus*, and (outside the current range) for *Castanea*, however, given the current data sources, they are difficult to properly assess.  We have reduced their importance in the manuscript, but continue to acknowledge them as a factor in changing distributions.
-
+We agree.  The impact of pathogen outbreaks are significant for *Ulmus*, and (outside the current range) for *Castanea*, however, given the current data sources, they are difficult to properly assess.  We have reduced their importance in the manuscript, but continue to acknowledge them as a factor in changing distributions in the Discussion and in the Introduction.
 
 > Most importantly, the way that the authors included the effects of land use change in data analyses (let’s forget pathogen outbreaks for now) was not justified. Thus, I was not convinced the data analyses were robust to answer the question about the effects of climate change, land use change, and pathogen outbreaks on distribution changes. Although the authors argued the land use effects were represented as the difference between VHCH, VMCH. Why? 
 
-Previous authors have clearly indicated that EuroAmerican settlement in the north-central United States can be almost entirely attributed to human agency.  In responding to Reviewer 2 we make the same point, and make this point below.  EuroAmerican Settlement is associated with a suite of land use changes, including logging, associated slash fires, and large scale conversion of forested landscape to agriculture.  Thus, VH, from the PLSS forest survey (ignoring climate data for now), represents forest structure and distribution in the absence of settlement impacts.  VM represents a modern landscape, sampled over the last decade as part of the FIA program.  Distribution loss is almost entirely attributable to anthropogenic agency, either loss of forested land (oak-hickory forest lost 5x10^6^ ha of coverage since settlement due to agricultural conversion, as pointed out in the response to Reviewer 2), thus we feel confident in ascribing change from VC -> VM to land use.  We believe that changes in the introduction and discussion, strengthening the argument for widespread vegetation change help resolve this issue.
+Previous authors have clearly indicated that EuroAmerican settlement in the north-central United States can be almost entirely attributed to human agency.  In responding to Reviewer 2, we make the same point, and make this point again below.  EuroAmerican Settlement is associated with a suite of land use changes, including logging, associated slash fires, and large scale conversion of forested landscape to agriculture.  Thus, VH, from the PLSS forest survey (ignoring climate data for now), represents forest structure and distribution in the absence of settlement impacts.  VM represents a modern landscape, sampled over the last decade as part of the FIA program.  Distribution loss is almost entirely attributable to anthropogenic agency, either loss of forested land (oak-hickory forest lost 5x10^6^ ha of coverage since settlement due to agricultural conversion, as pointed out in the response to Reviewer 2), thus we feel confident in ascribing change from VC -> VM to land use.  We believe that changes in the introduction and discussion, strengthening the argument for widespread vegetation change help resolve this issue.
 
 To further clarify, we have modified the explanation of Figure 2 to read, in part:
 

@@ -45,7 +45,7 @@ conf_test <- function(taxa, clim_var, climtable) {
                                  climate == clim_var & 
                                  taxon == taxa &
                                  base == "FIA") %>% 
-    select(cell, x, y, clim) %>% 
+    select(cell, x, y, clim, data) %>% 
     left_join(coords, .) %>% distinct(cell, .keep_all = TRUE)
   
   VMCH$clim[VMCH$data == 0] <- NA
@@ -84,20 +84,24 @@ conf_test <- function(taxa, clim_var, climtable) {
 }
 
 tests <- do.call(rbind.data.frame,
-        lapply(taxa, function(x) {
-          do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = vegclim_table)}))}))
+        lapply(unique(vegclim_table$taxon), function(x) {
+          do.call(rbind.data.frame,lapply(unique(vegclim_table$climate), 
+                                          function(y) {conf_test(x, y, climtable = vegclim_table)}))}))
 
 tests_pls <- do.call(rbind.data.frame,
                            lapply(taxa, function(x) {
-                             do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = newveg)}))}))
+                             do.call(rbind.data.frame,
+                                     lapply(clim_var, function(y) {conf_test(x, y, climtable = newveg)}))}))
 
 tests_fia <- do.call(rbind.data.frame,
                            lapply(taxa, function(x) {
-                             do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = topveg)}))}))
+                             do.call(rbind.data.frame,
+                                     lapply(clim_var, function(y) {conf_test(x, y, climtable = topveg)}))}))
 
 tests_all <- do.call(rbind.data.frame,
                      lapply(taxa, function(x) {
-                       do.call(rbind.data.frame,lapply(clim_var, function(y) {conf_test(x, y, climtable = allveg)}))}))
+                       do.call(rbind.data.frame,
+                               lapply(clim_var, function(y) {conf_test(x, y, climtable = allveg)}))}))
 
 checker <- function(x) {
   # x will be the row:
