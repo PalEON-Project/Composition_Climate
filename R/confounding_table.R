@@ -24,9 +24,9 @@ conf_test <- function(taxa, clim_var, climtable) {
   # then make sure we have only distinct sets.
   
   VHCH <- climtable %>% filter(c.ref == "PLSS" & 
-                               climate == clim_var & 
-                               taxon == taxa &
-                               base == "PLSS") %>% 
+                                 climate == clim_var & 
+                                 taxon == taxa &
+                                 base == "PLSS") %>% 
     select(cell, x, y, clim, data) %>% 
     left_join(coords, .)
   
@@ -51,8 +51,8 @@ conf_test <- function(taxa, clim_var, climtable) {
   VMCH$clim[VMCH$data == 0] <- NA
   
   all_cell <- coords$cell[coords$cell %in% VHCH$cell &
-                           coords$cell %in% VHCM$cell &
-                           coords$cell %in% VMCH$cell]
+                            coords$cell %in% VHCM$cell &
+                            coords$cell %in% VMCH$cell]
   
   # Get the t estimates, we're going to use the re-calculated df from the
   # modified t-test, which is pairwise (we don't want it pairwise).
@@ -69,8 +69,8 @@ conf_test <- function(taxa, clim_var, climtable) {
   clim_df <- summary(clim_mt)$dof
   
   lu_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
-                            (VMCH %>% filter(cell %in% all_cell))$clim, 
-                            coords = (coords %>% filter(cell %in% all_cell))[,-1])
+                          (VMCH %>% filter(cell %in% all_cell))$clim, 
+                          coords = (coords %>% filter(cell %in% all_cell))[,-1])
   
   lu_df <- summary(lu_mt)$dof
   
@@ -84,19 +84,19 @@ conf_test <- function(taxa, clim_var, climtable) {
 }
 
 tests <- do.call(rbind.data.frame,
-        lapply(unique(vegclim_table$taxon), function(x) {
-          do.call(rbind.data.frame,lapply(unique(vegclim_table$climate), 
-                                          function(y) {conf_test(x, y, climtable = vegclim_table)}))}))
+                 lapply(unique(vegclim_table$taxon), function(x) {
+                   do.call(rbind.data.frame,lapply(unique(vegclim_table$climate), 
+                                                   function(y) {conf_test(x, y, climtable = vegclim_table)}))}))
 
 tests_pls <- do.call(rbind.data.frame,
-                           lapply(taxa, function(x) {
-                             do.call(rbind.data.frame,
-                                     lapply(clim_var, function(y) {conf_test(x, y, climtable = newveg)}))}))
+                     lapply(taxa, function(x) {
+                       do.call(rbind.data.frame,
+                               lapply(clim_var, function(y) {conf_test(x, y, climtable = newveg)}))}))
 
 tests_fia <- do.call(rbind.data.frame,
-                           lapply(taxa, function(x) {
-                             do.call(rbind.data.frame,
-                                     lapply(clim_var, function(y) {conf_test(x, y, climtable = topveg)}))}))
+                     lapply(taxa, function(x) {
+                       do.call(rbind.data.frame,
+                               lapply(clim_var, function(y) {conf_test(x, y, climtable = topveg)}))}))
 
 tests_all <- do.call(rbind.data.frame,
                      lapply(taxa, function(x) {
@@ -105,7 +105,7 @@ tests_all <- do.call(rbind.data.frame,
 
 checker <- function(x) {
   # x will be the row:
-
+  
   
   if (p.adjust(as.numeric(x[4]), method = "bonferroni", n = 120) < 0.05 & 
       p.adjust(as.numeric(x[6]), method = "bonferroni", n = 120) < 0.05) {
@@ -126,7 +126,7 @@ checker <- function(x) {
       # If neither element shows significant change
       return('n/a ($._c$, $._v$)')
     } else {
-      if (as.numeric(x[4]) > (0.05 / 120)) {
+      if (as.numeric(x[4]) < (0.05 / 120)) {
         # If climate change is significant, but the land use change is not significant.
         if (as.numeric(x[3]) > 0) {
           return('n/a ($+_c$, $._v$)')
