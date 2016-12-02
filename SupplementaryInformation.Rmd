@@ -13,12 +13,7 @@ To overcome this challenge, we obtained a modified estimate of degrees of freedo
 
 # Climate changes:  1895-1924 vs. 1950-1980
 
-If a 1950-1980 climate normal is used instead of 1990-2014 climate normal, then between 1895-1924 and 1950-1980, the regional climate changes are as follows: T_min increased XXoC between 1895-1924 and 1950-1980, T_max changed by XXoC, while T_diff changed by XXoC
-
-```{r}
-
-```
-
+If a 1950-1980 climate normal is used instead of 1990-2014 climate normal, then between 1895-1924 and 1950-1980, the regional climate changes are as follows: T_min increased 0.5^o^C between 1895-1924 and 1950-1980, T_max changed by 0.35^o^C, while T_diff changed by -0.15^o^C
 
 **Supplemental Table 1**:  Gain and loss of the analyzed tree genera since the pre-settlement era. The first three columns are percentages relative to the total area occupied by the taxon in the pre-settlement and modern eras. Modern and Historical indicate represent range area (100s of km2) occupied by the tree taxon for the pre-settlement or modern era. Taxa are sorted by the percent area lost (Column 3).  In this analysis, all PLS and FIA grid cells were used and a taxon was assumed have been gained/lost for a given grid cell if that grid cell had data in one time period but not the other. 
 

@@ -106,47 +106,41 @@ tests_all <- do.call(rbind.data.frame,
 checker <- function(x) {
   # x will be the row:
   
+  csig <- p.adjust(as.numeric(x[4]), method = "bonferroni", n = 120) < 0.05
   
-  if (p.adjust(as.numeric(x[4]), method = "bonferroni", n = 120) < 0.05 & 
-      p.adjust(as.numeric(x[6]), method = "bonferroni", n = 120) < 0.05) {
-    
-    # both p values are significant:
-    if ((as.numeric(x[3]) * as.numeric(x[5])) > 0) {
-      # A simple test to see if they're both positive
-      return(ifelse(as.numeric(x[3]) > 0, '$\\Box$ ($+_c$, $+_v$)', '$\\Box$ ($-_c$,$-_v$)'))
-      
-    } else {
-      # They are in different directions:
-      return(ifelse(as.numeric(x[3]) > 0, '$\\bigcirc$ ($+_c$,$-_v$)', '$\\bigcirc$ ($-_c$,$+_v$)'))
-    }
-    
+  if (csig == TRUE & as.numeric(x[3]) > 0) { clim <- "$+_c$" }
+  if (csig == TRUE & as.numeric(x[3]) < 0) { clim <- "$-_c$" }
+  if (csig == FALSE) { "$._c$" }
+  
+  veg  <- ifelse(p.adjust(as.numeric(x[6]), method = "bonferroni", n = 120) < 0.05, 
+                 ifelse(as.numeric(x[3]) > 0, "$+_v$", "$-_v$"),
+                 "$._v$")
+  
+  if (clim == "$._c$") {
+    # There's not change in climate.
+    symb <- "*ns*"
   } else {
-    # If one or the either is not significant:
-    if (as.numeric(x[4]) > (0.05 / 120) & as.numeric(x[6]) > (0.05 / 120)) {
-      # If neither element shows significant change
-      return('n/a ($._c$, $._v$)')
+    if (substr(clim, 1, 3) == substr(veg, 1, 3)) {
+      # They're equivalent and significant.
+      symb <- "$\\Box$"
     } else {
-      if (as.numeric(x[4]) < (0.05 / 120)) {
-        # If climate change is significant, but the land use change is not significant.
-        if (as.numeric(x[3]) > 0) {
-          return('n/a ($+_c$, $._v$)')
-        } else {
-          return('n/a ($-_c$, $._v$)')
-        }
+      if (veg == "$._v$") {
+        # They're not equivalent, but the veg isn't significant
+        symb <- "$-$"
       } else {
-        if (as.numeric(x[5]) > 0) {
-          return('n/a ($._c$, $+_v$)')
-        } else {
-          return('n/a ($._c$, $-_v$)')
-        }
+        # They're not equivalent, and veg is significant
+        symb <- "$\\bigcirc$"
       }
     }
   }
+
+  return(paste0(symb, " (", clim, ",", veg, ")"))
 }
 
 get_conf <- function(x) {
-  x$result <- apply(x, 1, checker)
-  dcast(x, taxa ~ clim, value.var = 'result')
+  result <- apply(x, 1, checker)
+  x$result <- as.character(result)
+  out <- reshape2::dcast(x, taxa ~ clim, value.var = 'result')
 }
 
 conf_table <- get_conf(tests)
