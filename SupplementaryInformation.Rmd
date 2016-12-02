@@ -11,9 +11,9 @@ We include the effects of autocorrelation in the t-tests using the `SpatialPack`
 
 To overcome this challenge, we obtained a modified estimate of degrees of freedom (df) that accounts for spatial autocorrelation based on Moran's I from `modified.ttest` for each of the two spatial processes. To then produce a difference of the means that is not pairwise, we obtain the corrected df from `modified.ttest`, and recalculate the p-value for the t-test using the t estimate from the `t.test`. The corresponding code is available in [`confounding_table.R`](https://github.com/PalEON-Project/Composition_Climate/blob/master/R/confounding_table.R).
 
-# Climate changes between 1895-1924 and 1950-1980  (vs. main paper analysis of 1895-1924 and 1990-2014)
+# Climate changes between 1895-1924 and 1950-1979  (vs. main paper analysis of 1895-1924 and 1990-2014)
 
-If a 1950-1980 climate normal is used instead of 1990-2014 climate normal, then between 1895-1924 and 1950-1980, the regional climate changes are as follows: ($T_{min}$) increased 0.5^o^C between 1895-1924 and 1950-1980, ($T_{max}$) increased by 0.35^o^C, while T_diff changed by -0.15^o^C
+If a 1950-1979 climate normal is used instead of 1990-2014 climate normal, then between 1895-1924 and 1950-1979, the regional climate changes are as follows: ($T_{min}$) increased 0.5^o^C between 1895-1924 and 1950-1979, ($T_{max}$) increased by 0.35^o^C, while T_diff changed by -0.15^o^C
 
 # Supplemental Tables
 **Supplemental Table 1**:  Gain and loss of the analyzed tree genera since the pre-settlement era. The first three columns (Gain, Loss, Presence) are expressed as percentages relative to the total area occupied by the taxon in the pre-settlement and modern eras. Modern and Historical indicate represent range area (units: 10^2^ km^2^) occupied by the tree taxon for the pre-settlement or modern era. Taxa are sorted by the percent area lost (Column 3).  In this analysis, all PLS and FIA grid cells were used and a taxon was assumed have been gained/lost for a given grid cell if that grid cell had data in one time period but not the other.
@@ -86,7 +86,8 @@ knitr::kable(conf_pls)
 <!-- COM: ST4: scientific names needed -->
 <!-- COM: ST4: Correct column names and formatting for climate variables.  e.g. ppt should be PAnn -->
 <!-- COM: Correct formatting for variable names in text.  I have tried to do this where I have seen them, but may have missed some variables.   -->
-**Supplemental Table 4**: As Table 1 in the main text, except that the compounding (□), confounding (-), and counteracting (○) assessments are based on a modern climate normal for 1950-1980 instead of 1990-2014. The results for ($T_{min}$), ($T_{diff}$), and ($P_{ann}$) are unchanged. For ($T_{max}$), the sign of the climate change flips from negative (cooling) to positive (warming), indicating that the apparent directionality of ($T_{max}$) change is sensitive to choice of modern climate normal.  (Note that directionality of ($T_{min}$) is unchanged, consistent with 20^th^- and 21^st^-century warming).   See also Supplemental Figures 3, 4.
+<!-- COM: For TMax, why does the sign of the vegetation change flip from negative to positive between Table 1 and this Supp Table 4?  I can understand why the sign of the climate change would alter as we play around with different climate normals, but the sign of the vegetation change should be stable.  The other climate variables seem to be unaffected.  This may be the bug you mentioned by email.   -->
+**Supplemental Table 4**: As Table 1 in the main text, except that the compounding (□), confounding (-), and counteracting (○) assessments are based on a modern climate normal for 1950-1979 instead of 1990-2014. The results for ($T_{min}$), ($T_{diff}$), and ($P_{ann}$) are unchanged. For ($T_{max}$), the sign of the climate change flips from negative (cooling) to positive (warming), indicating that the apparent directionality of ($T_{max}$) change is sensitive to choice of modern climate normal.  (Note that directionality of ($T_{min}$) is unchanged, consistent with 20^th^- and 21^st^-century warming).   See also Supplemental Figures 3, 4.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE, results = 'as-is'}
 
@@ -111,10 +112,10 @@ s2loss_melt[[2]]
 
 ![](figures/boxplot_corrected_fia.png)
 
-**Supplemental Figure 3**:  As Figure 4 in the main text, except that the modern climate normal is for 1950-1980 instead of 1990-2014. The results for ($T_{min}$) and ($P_{ann}$) are largely unchanged between this analysis and that shown in Fig. 4, indicating that the finding of tree-climate distribution shifts is robust to choice of modern cliamte normal.  However, ($T_{max}$) shows much closer overlap between the PLS and FIA periods, suggesting that the reported difference in tree-climate distributions for ($T_{max}$) is sensitive to choice of modern climate normal.
+**Supplemental Figure 3**:  As Figure 4 in the main text, except that the modern climate normal is for 1950-1979 instead of 1990-2014. The results for ($T_{min}$) and ($P_{ann}$) are largely unchanged between this analysis and that shown in Fig. 4, indicating that the finding of tree-climate distribution shifts is robust to choice of modern cliamte normal.  However, ($T_{max}$) shows much closer overlap between the PLS and FIA periods, suggesting that the reported difference in tree-climate distributions for ($T_{max}$) is sensitive to choice of modern climate normal.
 
 ![](figures/hellinger_pls.png)
 
-**Supplemental Figure 4**:  As Figure 5 in the main text, except that the modern climate normal is for 1950-1980 instead of 1990-2014.  Few differences are apparent between this figure and Figure 5, suggesting that the attribution of tree-climate distribution shifts to changes in climate versus changes in vegetation is insensitive to choice of modern climate normal.
+**Supplemental Figure 4**:  As Figure 5 in the main text, except that the modern climate normal is for 1950-1979 instead of 1990-2014.  Few differences are apparent between this figure and Figure 5, suggesting that the attribution of tree-climate distribution shifts to changes in climate versus changes in vegetation is insensitive to choice of modern climate normal.
 
 ![](figures/hellinger_fia.png)
