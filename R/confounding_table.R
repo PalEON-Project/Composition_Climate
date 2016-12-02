@@ -150,6 +150,6 @@ get_conf <- function(x) {
 }
 
 conf_table <- get_conf(tests)
-conf_pls   <- get_conf(tests_pls)
-conf_fia   <- get_conf(tests_fia)
-conf_all   <- get_conf(tests_all)
+conf_pls   <- get_conf(tests_pls); saveRDS(conf_pls, file = 'data/output/conf_pls.RDS')
+conf_fia   <- get_conf(tests_fia); saveRDS(conf_fia, file = 'data/output/conf_fia.RDS')
+conf_all   <- get_conf(tests_all); saveRDS(conf_all, file = 'data/output/conf_all.RDS')

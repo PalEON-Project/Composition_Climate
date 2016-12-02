@@ -1,0 +1,120 @@
+---
+title: "Untitled"
+author: "Simon Goring"
+date: "November 29, 2016"
+output: word_document
+---
+
+# Spatial Autocorrelation
+
+We include the effects of autocorrelation in the t-tests using the `SpatialPack` function `modified.ttest`. Unfortunately, the `modified.ttest` only performs a pairwise t-test.  Pairwise t-tests are inappropriate for these analyses, because, for the $V_{H}C_{H}$ - $V_{M}C_{H}$ comparison.  In this case, only the overlapping points would be included, and it would show zero change since climate is unchanged.
+
+To overcome this challenge, we obtained a modified estimate of degrees of freedom (df) that accounts for spatial autocorrelation based on Moran's I from `modified.ttest` for each of the two spatial processes. To then produce a difference of the means that is not pairwise, we obtain the corrected df from `modified.ttest`, and recalculate the p-value for the t-test using the t estimate from the `t.test`. The corresponding code is available in [`confounding_table.R`](https://github.com/PalEON-Project/Composition_Climate/blob/master/R/confounding_table.R).
+
+# Climate changes:  1895-1924 vs. 1950-1980
+
+If a 1950-1980 climate normal is used instead of 1990-2014 climate normal, then between 1895-1924 and 1950-1980, the regional climate changes are as follows: T_min increased XXoC between 1895-1924 and 1950-1980, T_max changed by XXoC, while T_diff changed by XXoC
+
+```{r}
+
+```
+
+
+**Supplemental Table 1**:  Gain and loss of the analyzed tree genera since the pre-settlement era. The first three columns are percentages relative to the total area occupied by the taxon in the pre-settlement and modern eras. Modern and Historical indicate represent range area (100s of km2) occupied by the tree taxon for the pre-settlement or modern era. Taxa are sorted by the percent area lost (Column 3).  In this analysis, all PLS and FIA grid cells were used and a taxon was assumed have been gained/lost for a given grid cell if that grid cell had data in one time period but not the other. 
+
+```{r, results = 'as-is', warning=FALSE, message=FALSE, echo=FALSE}
+
+loss_melt <- readRDS('data/output/loss_melt.rds')
+loss_table <- as.data.frame.matrix(table(loss_melt[[1]]$variable,
+                                         loss_melt[[1]]$value))
+loss_table <- data.frame(loss_table, 
+                         Modern = round((loss_table$Gain + loss_table$Presence) * .064, 0),
+                         Historical = round((loss_table$Loss + loss_table$Presence ) * .064, 0))
+
+loss_table[,1:3] <- round(analogue::tran(loss_table[,1:3], method = "proportion") * 100,1)
+
+
+sci_names <- c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
+               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus", 
+               "Ostrya/Carpinus", "Tilia", "Fraxinus", "Ulmus", "Quercus")
+
+rownames(loss_table) <- paste0("*", sci_names, "*")
+
+knitr::kable(loss_table)
+
+```
+
+**Supplemental Table 2**:  As Supplemental Table 1, except that in this analysis, all estimates are restricted to the subset of gridcells that had observations in both the PLS and FIA datasets.  See also Supplemental Figure 1.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, results='as-is'}
+
+if ('s2loss_table.rds' %in% list.files('data/output')) {
+  s2loss_melt <- readRDS('data/output/s2loss_table.rds')
+} else {
+  
+  s2loss_melt <- loss_plot(overlap = TRUE)
+  saveRDS(s2loss_melt, file = 'data/output/s2loss_table.rds')
+}
+
+s2loss_table <- as.data.frame.matrix(table(s2loss_melt[[1]]$variable,
+                                         s2loss_melt[[1]]$value))
+s2loss_table <- data.frame(s2loss_table, 
+                         Modern = round((s2loss_table$Gain + s2loss_table$Presence) * .064, 0),
+                         Historical = round((s2loss_table$Loss + s2loss_table$Presence ) * .064, 0))
+
+s2loss_table[,1:3] <- round(analogue::tran(s2loss_table[,1:3], method = "proportion") * 100,1)
+
+
+sci_names <- c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
+               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus", 
+               "Ostrya/Carpinus", "Tilia", "Fraxinus", "Ulmus", "Quercus")
+
+rownames(s2loss_table) <- paste0("*", sci_names, "*")
+
+knitr::kable(s2loss_table, justify = "left", style = "rmarkdown",
+                     emphasize.rownames = FALSE)
+
+```
+
+
+
+**Supplemental Table 3**:  As Table 1 in the main text, except that the compounding (□), confounding (-), and counteracting (○) assessments are based on a historical climate normal that has been adjusted to account for 19th-century temperature trends reported at early meteorological time series from US military forts (Burnette et al. 2010, Baker et al. 1985).  See Supplemental Figure 2 for more information.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, results = 'as-is'}
+
+conf_pls <- readRDS('data/output/conf_pls.RDS')
+
+knitr::kable(conf_pls)
+```
+
+**Supplemental Table 4**: As Table 1 in the main text, except that the compounding (□), confounding (-), and counteracting (○) assessments are based on a modern climate normal for 1950-1980 instead of 1990-2014.  See also Supplemental Figures 3, 4.
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, results = 'as-is'}
+
+conf_fia <- readRDS('data/output/conf_fia.RDS')
+
+knitr::kable(conf_fia)
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+s2loss_melt[[2]]
+
+```
+
+**Supplemental Figure 1**:  As Figure 3 in the main text, except that all estimates of gains, losses, and presences are restricted to the subset of gridcells that had observations in both the PLS and FIA datasets.  See also Supplemental Table 2.
+
+![](figures/boxplot_corrected_pls.png)
+
+**Supplemental Figure 2**:  As Figure 4 in the main text, but with a simple adjustment to check the effects of using 1895-1924 climate normals instead of climate normals from the middle 19th century (i.e. the time of the PLS surveys).  No gridded instrumental temperature reconstructions are available in the upper Midwest prior to 1895, but early meteorological records from US military forts indicate warming, with estimates of 19th century warming at Fort Leavenworth, Kansas of 0.10oC decade-1 in the winter and 0.07oC decade-1 in the summer (Burnette et al. 2010).  Given this and the ~50 year offset between PLS and early PRISM data, the historical climate estimates used here may be biased by approximately +0.35oC for t_max, +0.5oC for t_min, and +0.15oC for t_diff. This would imply that the reported regional increase in T_min between historical to modern periods (3.3^o^C, Fig. 1) should be further increased to 3.8oC, the reported regional decrease in T_max  (-0.8^o^C) should be reduced to -0.45oC), and slightly larger reduction in $\Delta t_{diff}$ (-4.25^o^C). Hence, using a 1895-2024 climate normal may cause our estimates of historic climate change to be too conservative for Tmin and Tdiff and too large for Tmax.  The patterns shown in Supplementary Figure 3 are qualitatively unchanged from those shown in Fig. 4.
+ 
+![](figures/boxplot_corrected_fia.png)
+
+**Supplemental Figure 3**:  As Figure 4 in the main text, except that the modern climate normal is for 1950-1980 instead of 1990-2014.
+
+![](figures/hellinger_pls.png)
+
+**Supplemental Figure 4**:  As Figure 5 in the main text, except that the modern climate normal is for 1950-1980 instead of 1990-2014.
+
+![](figures/hellinger_fia.png)

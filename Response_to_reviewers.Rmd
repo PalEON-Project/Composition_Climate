@@ -1,7 +1,4 @@
 ---
-title: "Response to Reviewers"
-author: "Simon Goring"
-date: "November 11, 2016"
 bibliography: goringetal_references.bib
 csl: ecology.csl
 output:
@@ -16,11 +13,37 @@ pandoc_args: -H margins.sty
 
 # Response to Reviewers
 
+Dear Dr. Thrall:
+
+We submit for your consideration the revised manuscript "Effect of historical land-use and climate change on tree-climate relationships in the upper Midwestern United States."
+
+We have carefully revised the manuscript in response to reviewer comments and have paid particular attention to the potential limitations associated with 1) comparing the PLS and FIA data and 2) choice of climate normal.  We completed several new analyses to test the sensitivity of our results to choice of climate normal and created a separate subsection within the Discussion assessing the robustness of our findings. 
+
+We have edited the manuscript for clarity and to respond to the other points raised by the reviewers.  We include below a point-by-point response to all reviews.  The revised version has XX  words and 6 figures and tables.  We have expanded the Supplementary Information to show several additional analyses.
+
+We thank you and especially the reviewers for their thoughtful and constructive criticism – we believe that the manuscript has greatly improved as a result.  Thank you too for extending the deadline as requested.  
+
+Sincerely,
+
+Simon Goring
+Jack Williams
+
+## Editor
+
+*Editors Comments for the Author(s): The reviews highlight the importance and novelty of the main idea - that past land-use complicates our estimates of forest community responses to climate change. However, they express concern about the way that the results are presented. There are many suggestions for clarification that should be addressed in revision. In particular, it's important to address the limitations of comparing the two data types, as this was a concern expressed by each reviewer.*
+
+Thank you.  Please see responses below.
+
+
 ## Reviewer 1:
 
-Reviewer 1 was generally positive.  I have pulled out the specific comment from the broad overview that addresses a broader limitation of the methods.  I also include line by line changes.
+> The manuscript written by Goring and Williams (“Effect of historic land-use and climate change on tree-climate relationships in the northern United States”; ELE-00978-2016) addresses an important topic in global change research: what is the relative influence of climate vs. land-use change on contemporary species distributions. The question is relevant as the degree to which the two drivers are both important indicates potentially major errors in future projections previously published using species distribution models (SDMs). The authors present quite a clever method for addressing the issue: i.e., building SDMs with both historical and contemporary vegetation and climate data. This paper provides novel perspective concerning how our understanding of the role of climate change in vegetation change is still limited. The paper is exceedingly well written and the conclusions seem well-supported by the methods and results. 
+
+We thank the reviewer for the positive feedback and constructive criticisms.  We address specific points below.
 
 > My primary critique (which I admit is relatively minor) is that I found the logic revolving around the “confounding effects” and how the results relate to that a bit difficult. In particular, there likely needs to be a bit of clarification around the concept and a justification for why treating two non-significant effects and a set of mixed effects (one significant and one not so) as equivalent within this framework. 
+
+To address this point, we’ve expanded Table 1 to indicate the individual terms (dV and dL) and their significance.  This lets the reader see for themselves what goes into 'confounding'.  We also added to the Introduction (4th paragraph) the sentence “These confounding effects may make it more difficult to detect climatic forcing of historical species distributions.”  As it turns out, in the primary analyses presented here, all instances of confounding involve a significant change in climate and no significant change in vegetation (Table 1)  
 
 > Title: Here and throughout, replace “historic” with “historical” as the former refers to an exceptional event in the past while the latter refers to something in the past.
 
@@ -218,10 +241,9 @@ We believe that our argument is valid, but may have been unclear in the framing.
 
 > The authors should use present tense not past tense in the methods and results sections.
 
-
+We have changed this throughout.  We except descriptions of methods applied in earlier papers, or in the preparation of data prior to the current study (for example, when summarizing the methods of Goring et al. 2016).
 
 > The results section was not well organized. Subtitles should be used to describe the overall distribution changes, shifts along climate change, the relative importance, and interactions. The four paragraphs of interaction subsection in the results section were not concise and like bullets.
-
 
 
 > Secondly, the materials and method section was vague and not logically articulated.

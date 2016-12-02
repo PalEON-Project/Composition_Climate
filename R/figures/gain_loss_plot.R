@@ -1,11 +1,15 @@
 #  Plotting for taxa that shows the change between historical and modern distributions.
 
-get_loss_gain <- function(unit_raster, best.taxa, pls_data, agg_dens){
+get_loss_gain <- function(unit_raster, best.taxa, pls_data, agg_dens, overlap = FALSE){
   loss.gain <- data.frame(cell = 1:ncell(unit_raster))
   
   agg_dens[is.na(agg_dens)] <- 0
   
-  for(i in 1:length(best.taxa)) {
+  if (overlap == TRUE) {
+    pls_data <- pls_data %>% filter(cell %in% agg_dens$cell)
+  }
+  
+  for (i in 1:length(best.taxa)) {
     loss.gain[,(i + 1)] <- NA
     colnames(loss.gain)[i + 1] <- best.taxa[i]
     
@@ -28,7 +32,7 @@ get_loss_gain <- function(unit_raster, best.taxa, pls_data, agg_dens){
   loss.melt
 }
 
-loss_plot <- function(){
+loss_plot <- function(overlap = FALSE){
   
   if(model_proj == '+init=epsg:4326'){
     ext <- c(-98, -83, 42, 50)
@@ -38,7 +42,7 @@ loss_plot <- function(){
     ext <- c(-100000, 1050000, 600000, 1600000)
   }
   
-  loss_melt <- get_loss_gain(unit_raster, best.taxa, pls_data, agg_dens)
+  loss_melt <- get_loss_gain(unit_raster, best.taxa, pls_data, agg_dens, overlap = overlap)
 
   loss_melt$rgb <- brewer.pal(n = 3, 'Dark2')[as.numeric(factor(loss_melt$value, 
                                                                 levels = c('Presence', 'Loss', 'Gain')))]

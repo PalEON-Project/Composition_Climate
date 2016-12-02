@@ -22,14 +22,14 @@ hellinger <- function(clim1, clim2){
   
 }
 
-hellinger_plot <- function(){
+hellinger_plot <- function(climtable = vegclim_table, filename = 'hellinger'){
   
-  vegclim_table$taxon <- mapvalues(vegclim_table$taxon, from = levels(vegclim_table$taxon),
+  climtable$taxon <- mapvalues(climtable$taxon, from = levels(climtable$taxon),
                                 to = c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
                                        "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus", 
                                        "Ostrya/Carpinus", "Tilia", "Fraxinus", "Ulmus", "Quercus"))
   
-  best.taxa <- as.character(unique(vegclim_table$taxon))
+  best.taxa <- as.character(unique(climtable$taxon))
   
   all.hellinger <- ldply(1:length(best.taxa), function(x){
         ldply(1:4, function(y){
@@ -37,7 +37,7 @@ hellinger_plot <- function(){
           tree     <- best.taxa[x]
           clim_var <- climate$name[y]
           
-          data.subset <- vegclim_table %>% filter(taxon == tree & climate %in% clim_var & data > 0)
+          data.subset <- climtable %>% filter(taxon == tree & climate %in% clim_var & data > 0)
           
           VHCH <- data.subset %>% filter(base == 'PLSS' & c.ref == 'PLSS') %>% select(clim) %>% unlist
           VHCM <- data.subset %>% filter(base == 'PLSS' & c.ref == 'FIA') %>% select(clim) %>% unlist
@@ -85,9 +85,9 @@ hellinger_plot <- function(){
              label = 'Land Use Dominates', family = 'serif',
              fontface = 'bold', size = 3)
   
-  ggsave(plot = hell_plot, filename = 'figures/hellingerplot.png', 
+  ggsave(plot = hell_plot, filename = paste0('figures/',filename,'.png'), 
          width = 6.7, height = 6, dpi = 300)
-  ggsave(plot = hell_plot, filename = 'Final_Figures/hellingerplot.pdf', 
+  ggsave(plot = hell_plot, filename = paste0('Final_Figures/',filename,'.pdf'), 
          width = 6.7, height = 6, dpi = 300)
   
   list(hell_plot, all.hellinger)
