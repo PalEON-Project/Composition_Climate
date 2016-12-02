@@ -2,7 +2,7 @@
 bibliography: goringetal_references.bib
 csl: ecology.csl
 output:
-  word_document: 
+  word_document:
     reference_docx: word_template.docx  
   pdf_document:
     pandoc_args: -V geometry:vmargin=1in -V geometry:hmargin=1in
@@ -42,7 +42,7 @@ grDevices::ps.options(fonts = 'serif')
 **Statement of Authorship**
 
 * Simon J Goring: Co-conceived paper, performed analysis, developed figures and co-wrote the paper
-* John W Williams: Co-conceived paper, and co-wrote the paper
+* John W Williams: Co-conceived paper and co-wrote the paper
 
 **Data Accessibility**
 
@@ -208,15 +208,15 @@ if ('loss_melt.rds' %in% list.files('data/output/')) {
 
 loss_table <- as.data.frame.matrix(table(loss_melt[[1]]$variable,
                                          loss_melt[[1]]$value))
-loss_table <- data.frame(loss_table, 
+loss_table <- data.frame(loss_table,
                          Modern = round((loss_table$Gain + loss_table$Presence) * .064, 0),
                          Historical = round((loss_table$Loss + loss_table$Presence ) * .064, 0))
 
 loss_table[,1:3] <- round(analogue::tran(loss_table[,1:3], method = "proportion") * 100,1)
 
 ggplot2::ggsave(plot = loss_melt[[2]], filename = "figures/Figure_panelloss.tiff",
-       dpi = 300, 
-       width = 6, 
+       dpi = 300,
+       width = 6,
        height = 3)
 ```
 
@@ -229,7 +229,7 @@ All tree genera show higher losses than gains (Supplemental Table 1, Figure 3). 
 ```{r densities, warning=FALSE, message=FALSE, echo=FALSE, dpi=150}
 
 sci_names <- c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
-               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus", 
+               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus",
                "Ostrya/Carpinus", "Tilia", "Fraxinus", "Ulmus", "Quercus")
 rownames(loss_table) <- paste0("*", sci_names, "*")
 
@@ -237,7 +237,7 @@ source("R/resampling_climate.R")
 vegclim_table <- resample_climate(climate, agg_dens, pls_data)
 
 source("R/figures/climate_boxplots.R")
-boxplot_clim <- clim_boxplots(clim_table = vegclim_table, 
+boxplot_clim <- clim_boxplots(clim_table = vegclim_table,
                               filename = 'boxplot_clim')
 
 # Do it with the correction for early historical:
@@ -311,7 +311,7 @@ rownames(conf_table) <- NULL
 colnames(conf_table) <- c("Taxon", "$P_{ann}$", "$T_{max}$", "$T_{diff}$", "$T_{min}$")
 
 conf_table[,1] <- c("Larix", "Pinus", "Picea", "Abies", "Tsuga",
-               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus", 
+               "Thuja/Juniperus", "Populus", "Acer", "Betula", "Fagus",
                "Ostrya/Carpinus", "Tilia", "Fraxinus", "Ulmus", "Quercus")
 
 knitr::kable(conf_table)
@@ -358,7 +358,7 @@ Historical datasets and multitemporal studies such as this one add to our abilit
 
 Acknowledgements
 ---------------------
-The authors would like to thanks the large number of individuals who have worked to first, undertake the Public Lands System Survey, to bring the original survey data together, to digitize and standardize much of the survey results, and finally, to assist in interpreting and compiling the data in its present form. In particular, we thank David Mladenoff, Charlie Cogbill, Ed Schools, and the PalEON Settlement Vegetation working group. The authors than Andria Dawson and PalEON participants for helpful comments in the drafting of this manuscript. This material is based upon work carried out by the PalEON Project (http://paleonproject.org), under NSF Award Numbers 1241868 and 1065656.  Maps were made using data from Natural Earth (http://naturalearth.com).
+The authors would like to thank the large number of individuals who have worked to first, undertake the Public Lands System Survey, to bring the original survey data together, to digitize and standardize much of the survey results, and finally, to assist in interpreting and compiling the data in its present form. In particular, we thank David Mladenoff, Charlie Cogbill, Ed Schools, and the PalEON Settlement Vegetation working group. The authors than Andria Dawson and PalEON participants for helpful comments in the drafting of this manuscript. This material is based upon work carried out by the PalEON Project (http://paleonproject.org), under NSF Award Numbers 1241868 and 1065656.  Maps were made using data from Natural Earth (http://naturalearth.com).
 
 References
 ---------------
