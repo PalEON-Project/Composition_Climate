@@ -13,40 +13,42 @@
 taxa <- unique(vegclim_table$taxon)
 clim_var <- unique(vegclim_table$climate)
 
-conf_test <- function(taxa, clim_var, climtable) {
+conf_test <- function(taxa, clim_var, climtable, overlap = FALSE) {
 
   require(dplyr)
   require(SpatialPack)
   
   coords <- climtable %>% select(cell, x, y) %>% distinct
   
+  big_join <- coords %>% full_join(climtable, by = c("cell", "x", "y"))
+  
   # Get all values, join to coords so we have the same number of cells across all datasets
   # then make sure we have only distinct sets.
   
-  VHCH <- climtable %>% filter(c.ref == "PLSS" & 
-                                 climate == clim_var & 
-                                 taxon == taxa &
-                                 base == "PLSS") %>% 
-    select(cell, x, y, clim, data) %>% 
-    left_join(coords, .)
+  VHCH <- climtable %>% 
+    filter(c.ref == "PLSS" & 
+             climate == clim_var & 
+             taxon == taxa &
+             base == "PLSS" & data > 0) %>% 
+    select(cell, x, y, clim, data) %>% right_join(coords, by = c("cell", "x", "y"))
   
   VHCH$clim[VHCH$data == 0] <- NA
   
-  VHCM <- climtable %>% filter(c.ref == "FIA" & 
-                                 climate == clim_var & 
-                                 taxon == taxa &
-                                 base == "PLSS") %>% 
-    select(cell, x, y, clim, data) %>% 
-    left_join(coords, .) %>% distinct(cell, .keep_all = TRUE)
+  VHCM <- climtable %>% 
+    filter(c.ref == "FIA" & 
+             climate == clim_var & 
+             taxon == taxa &
+             base == "PLSS" & data > 0) %>% 
+    select(cell, x, y, clim, data) %>% right_join(coords, by = c("cell", "x", "y"))
   
   VHCM$clim[VHCM$data == 0] <- NA
   
-  VMCH <- climtable %>% filter(c.ref == "PLSS" & 
-                                 climate == clim_var & 
-                                 taxon == taxa &
-                                 base == "FIA") %>% 
-    select(cell, x, y, clim, data) %>% 
-    left_join(coords, .) %>% distinct(cell, .keep_all = TRUE)
+  VMCH <- climtable %>% 
+    filter(c.ref == "PLSS" & 
+             climate == clim_var & 
+             taxon == taxa &
+             base == "FIA" & data > 0) %>% 
+    select(cell, x, y, clim, data) %>% right_join(coords, by = c("cell", "x", "y"))
   
   VMCH$clim[VMCH$data == 0] <- NA
   
@@ -56,30 +58,50 @@ conf_test <- function(taxa, clim_var, climtable) {
   
   # Get the t estimates, we're going to use the re-calculated df from the
   # modified t-test, which is pairwise (we don't want it pairwise).
-  clim_t  <- t.test((VHCH %>% filter(cell %in% all_cell))$clim, 
-                    (VHCM %>% filter(cell %in% all_cell))$clim)
+  if (overlap == FALSE) {
+    clim_t  <- t.test(VHCH$clim, 
+                      VHCM$clim)
+    lu_t    <- t.test(VHCH$clim, 
+                      VMCH$clim)
+    
+    clim_mt <- modified.ttest(VHCH$clim, 
+                              VHCM$clim, 
+                              coords = coords[,-1])
+    
+    lu_mt <- modified.ttest(VHCH$clim, 
+                            VMCH$clim, 
+                            coords = coords[,-1])
+    
+    
+  } else {
+    
+    clim_t  <- t.test((VHCH %>% filter(cell %in% all_cell))$clim, 
+                      (VHCM %>% filter(cell %in% all_cell))$clim)
+    
+    lu_t    <- t.test((VHCH %>% filter(cell %in% all_cell))$clim, 
+                      (VMCH %>% filter(cell %in% all_cell))$clim)
+
+    clim_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
+                              (VHCM %>% filter(cell %in% all_cell))$clim, 
+                              coords = (coords %>% filter(cell %in% all_cell))[,-1])
   
-  lu_t    <- t.test((VHCH %>% filter(cell %in% all_cell))$clim, 
-                    (VMCH %>% filter(cell %in% all_cell))$clim)
-  
-  clim_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
-                            (VHCM %>% filter(cell %in% all_cell))$clim, 
+    lu_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
+                            (VMCH %>% filter(cell %in% all_cell))$clim, 
                             coords = (coords %>% filter(cell %in% all_cell))[,-1])
+    
+  }
   
   clim_df <- summary(clim_mt)$dof
-  
-  lu_mt <- modified.ttest((VHCH %>% filter(cell %in% all_cell))$clim, 
-                          (VMCH %>% filter(cell %in% all_cell))$clim, 
-                          coords = (coords %>% filter(cell %in% all_cell))[,-1])
-  
   lu_df <- summary(lu_mt)$dof
   
   # We want to return the t-test p value & estimate
   data.frame(taxa = taxa, clim = clim_var,
              clim_est = diff(clim_t$estimate), 
              clim_p = 2 * pt(abs(clim_t$statistic), clim_df, lower.tail = FALSE),
-             lu_est = diff(lu_t$estimate),   
-             lu_p   = 2 * pt(abs(lu_t$statistic),     lu_df, lower.tail = FALSE))
+             lu_est = diff(lu_t$estimate),
+             lu_p   = 2 * pt(abs(lu_t$statistic), lu_df, lower.tail = FALSE),
+             clim_unp = clim_t$p.value,
+             lu_unp   = lu_t$p.value)
   
 }
 
@@ -110,7 +132,7 @@ checker <- function(x) {
   
   if (csig == TRUE & as.numeric(x[3]) > 0) { clim <- "$+_c$" }
   if (csig == TRUE & as.numeric(x[3]) < 0) { clim <- "$-_c$" }
-  if (csig == FALSE) { "$._c$" }
+  if (csig == FALSE) { clim <- "$._c$" }
   
   veg  <- ifelse(p.adjust(as.numeric(x[6]), method = "bonferroni", n = 120) < 0.05, 
                  ifelse(as.numeric(x[3]) > 0, "$+_v$", "$-_v$"),
@@ -118,7 +140,7 @@ checker <- function(x) {
   
   if (clim == "$._c$") {
     # There's not change in climate.
-    symb <- "*ns*"
+    symb <- "$-$"
   } else {
     if (substr(clim, 1, 3) == substr(veg, 1, 3)) {
       # They're equivalent and significant.
