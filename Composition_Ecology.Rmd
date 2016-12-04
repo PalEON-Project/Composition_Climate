@@ -356,9 +356,8 @@ Our results are generally insensitive to the choice of climatic normal, except f
 
 Historical datasets and multitemporal studies such as this one add to our ability to understand the stability and dynamic of species-climate distributions and their adaptive potential in the face of climate change.  land-use over the past two centuries and on-going legacies, combined with the likelihood that tree distributions are lagging recent climate changes, create the strong likelihood that tree-climate distributions have shifted and that current tree-climate distributions are not representative of pre-settlement conditions.  The main conclusions of this study are robust to changes in vegetation sampling design over time and choice of historic and modern climatic normals, although both concerns are important and deserve further study.  Given the importance of modern distributional datasets for predicting species range shifts, compounding interactions between historical climate and land-use change may result in the impression of narrower climatic tolerances than actually exist, leading to underestimates of species resilience. Both empirical and process-based vegetation models need to combine, whenever possible, both contemporary and historical information on tree distributions, tree-climate relationships, and their respective shifts through time.
 
-Acknowledgements
----------------------
+# Acknowledgements
+
 The authors would like to thanks the large number of individuals who have worked to first, undertake the Public Lands System Survey, to bring the original survey data together, to digitize and standardize much of the survey results, and finally, to assist in interpreting and compiling the data in its present form. In particular, we thank David Mladenoff, Charlie Cogbill, Ed Schools, and the PalEON Settlement Vegetation working group. The authors than Andria Dawson and PalEON participants for helpful comments in the drafting of this manuscript. This material is based upon work carried out by the PalEON Project (http://paleonproject.org), under NSF Award Numbers 1241868 and 1065656.  Maps were made using data from Natural Earth (http://naturalearth.com).
 
-References
----------------
+# References

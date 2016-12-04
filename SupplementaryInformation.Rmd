@@ -1,8 +1,7 @@
 ---
-title: "Untitled"
-author: "Simon Goring"
-date: "November 29, 2016"
-output: word_document
+output:
+  word_document: 
+    reference_docx: word_template.docx  
 ---
 
 # Spatial Autocorrelation
